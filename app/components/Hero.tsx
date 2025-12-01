@@ -6,9 +6,10 @@ import { useLanguage } from '../context/LanguageContext';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Outfit } from 'next/font/google';
 
+// Aseguramos tener los pesos necesarios para el estilo elegante
 const font = Outfit({ 
   subsets: ['latin'], 
-  weight: ['100', '200', '300', '400', '500'] 
+  weight: ['100', '200', '300', '400', '500', '800', '900'] 
 })
 
 const associations = [
@@ -42,7 +43,7 @@ export default function HeroProfessional() {
       transition: { 
         duration: 1.2, 
         delay: custom * 0.15, 
-        ease: [0.25, 1, 0.5, 1] as const // Corrección TypeScript aplicada
+        ease: [0.25, 1, 0.5, 1] as const 
       }
     })
   };
@@ -51,14 +52,31 @@ export default function HeroProfessional() {
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      // CAMBIOS DE ESPACIADO: pt-36 lg:pt-44 para bajar todo
       className={`relative min-h-screen w-full flex flex-col justify-center bg-[#001540] overflow-hidden ${font.className} pt-36 lg:pt-44 pb-32`}
     >
       {/* 1. FONDO ATMOSFÉRICO (Azul Marino Profundo) */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Gradiente radial más rico */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
         
+        {/* --- 2. FONDO DE LA "N" GIGANTE (VERSIÓN DEFINIDA, ELEGANTE Y "ACOSTADA") --- */}
+        <motion.div
+            initial={{ x: "10%" }}
+            animate={{ x: "-300%" }}
+            transition={{ 
+                duration: 80,
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop"
+            }}
+            className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center opacity-[0.015] select-none pointer-events-none"
+        >
+            {/* CAMBIOS: Letra N, y añadido 'transform -skew-x-12' para inclinarla más */}
+            <span className={`text-[160vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12 ${font.className}`}>
+                N
+            </span>
+        </motion.div>
+
         {/* Luces ambientales */}
         <motion.div 
           animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -146,7 +164,8 @@ export default function HeroProfessional() {
                 {/* --- EFECTO WOW: RAYO DE LUZ (& Accidentes) --- */}
                 <span className="block overflow-hidden perspective-[400px]">
                   <motion.div custom={2} variants={textRevealVariant} initial="hidden" animate="visible" className="flex items-center gap-4 relative">
-                    <span className="text-3xl md:text-5xl font-thin text-sky-400/60 align-middle">&</span>
+                    {/* CAMBIO: Color dorado para el & */}
+                    <span className="text-3xl md:text-5xl font-thin text-[#B2904D] align-middle">&</span>
                     <span className="font-light relative w-fit">
                         <span className="text-white drop-shadow-2xl">
                           {language === 'es' ? 'Accidentes' : 'Accidents'}
@@ -184,7 +203,8 @@ export default function HeroProfessional() {
               <div className="group">
                 <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 group-hover:to-sky-400 transition-all duration-500">
                   <span className="text-5xl lg:text-6xl font-extralight tracking-tighter">50,000</span>
-                  <span className="text-4xl font-thin text-sky-400 ml-1 group-hover:rotate-12 transition-transform">+</span>
+                  {/* CAMBIO: Color dorado para el + */}
+                  <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
                 </div>
                 <p className="text-xs text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
                   {language === 'es' ? 'Casos Ganados' : 'Cases Won'}
@@ -194,7 +214,8 @@ export default function HeroProfessional() {
               <div className="group">
                 <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 group-hover:to-sky-400 transition-all duration-500">
                   <span className="text-5xl lg:text-6xl font-extralight tracking-tighter">35</span>
-                  <span className="text-4xl font-thin text-sky-400 ml-1 group-hover:rotate-12 transition-transform">+</span>
+                  {/* CAMBIO: Color dorado para el + */}
+                  <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
                 </div>
                 <p className="text-xs text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
                   {language === 'es' ? 'Años de Experiencia' : 'Years Experience'}
@@ -207,7 +228,6 @@ export default function HeroProfessional() {
       </div>
 
       {/* FOOTER: MARQUEE ASOCIACIONES (REGRESO ABAJO, LENTO Y LIMPIO) */}
-      {/* Separado del contenido principal con margin-top implícito por el layout */}
       <div className="absolute bottom-0 left-0 right-0 z-30 w-full border-t border-white/5 bg-transparent pt-8 pb-8">
         <div className="relative w-full overflow-hidden mask-linear-fade">
            {/* Máscaras laterales para suavizar la entrada/salida */}
@@ -215,21 +235,20 @@ export default function HeroProfessional() {
            <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#001540] to-transparent z-20" />
            
            <motion.div 
-             className="flex items-center gap-32 whitespace-nowrap pl-16" // GAP-32 para buena separación
-             // Velocidad muy lenta (duration: 60)
+             className="flex items-center gap-32 whitespace-nowrap pl-16" 
              animate={{ x: ["0%", "-50%"] }}
              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
            >
              {[...associations, ...associations, ...associations].map((assoc, idx) => (
                <div key={idx} className="flex items-center justify-center group opacity-40 hover:opacity-100 transition-opacity duration-500">
                   <div className="relative h-20 w-auto flex-shrink-0 filter grayscale brightness-[1.5] contrast-[1.2] group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-500">
-                     <Image 
+                      <Image 
                         src={assoc.logo} 
                         alt={assoc.name} 
-                        height={80} // Altura ajustada
+                        height={80} 
                         width={180} 
                         className="h-full w-auto object-contain drop-shadow-lg"
-                     />
+                      />
                   </div>
                </div>
              ))}

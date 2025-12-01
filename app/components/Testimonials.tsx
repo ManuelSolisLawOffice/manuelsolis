@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { Star, Play, X } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Star, Play, X, Quote } from 'lucide-react'
 import Image from 'next/image'
 import { useLanguage } from '../context/LanguageContext'
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
@@ -56,7 +56,7 @@ function VideoModal({ videoId, onClose }: VideoModalProps) {
           className="absolute top-6 right-6 z-20 group"
           aria-label="Cerrar video"
         >
-          <div className="p-3 bg-white/10 hover:bg-[#B2904D] backdrop-blur-md rounded-full text-white transition-all duration-300">
+          <div className="p-3 bg-white/10 hover:bg-[#B2904D] backdrop-blur-md rounded-full text-white transition-all duration-300 border border-white/20">
             <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
           </div>
         </button>
@@ -112,7 +112,7 @@ export default function Testimonials() {
         onMouseMove={handleMouseMove}
         className={`relative min-h-screen flex flex-col justify-center w-full bg-[#001540] overflow-hidden ${font.className} py-32 lg:py-0`}
     >
-      {/* --- FONDO VIVO (WOW FACTOR) --- */}
+      {/* --- FONDO VIVO CON PROFUNDIDAD (WOW FACTOR) --- */}
       <motion.div style={{ y: yBg }} className="absolute inset-0 z-0 pointer-events-none">
         {/* Fondo Base */}
         <div className="absolute inset-0 bg-[#001540]" />
@@ -121,11 +121,11 @@ export default function Testimonials() {
         <motion.div 
             animate={{ 
                 scale: [1, 1.2, 1], 
-                opacity: [0.3, 0.5, 0.3],
+                opacity: [0.2, 0.4, 0.2],
                 x: [0, 30, 0]
             }}
             transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] bg-blue-600/20 rounded-full blur-[180px]" 
+            className="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] bg-blue-600/10 rounded-full blur-[180px]" 
         />
 
         {/* Orbe 2: Dorado sutil moviéndose en contra */}
@@ -140,8 +140,16 @@ export default function Testimonials() {
             className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-[#B2904D]/10 rounded-full blur-[200px]" 
         />
         
-        {/* Partículas flotantes (Generadas dinámicamente o simuladas) */}
-        <div className="absolute inset-0 opacity-30 bg-[url('/noise.png')] mix-blend-overlay"></div>
+        {/* Partículas flotantes */}
+        <div className="absolute inset-0 opacity-20 bg-[url('/noise.png')] mix-blend-overlay"></div>
+
+        {/* --- EFECTO DE PROFUNDIDAD (MÁSCARAS SUPERIOR E INFERIOR) --- */}
+        {/* Máscara Superior: Fundido desde la sección anterior */}
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-80" />
+        
+        {/* Máscara Inferior: Fundido hacia la siguiente sección */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-80" />
+
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -160,8 +168,8 @@ export default function Testimonials() {
                 {/* Decoración de círculo giratorio detrás */}
                 <motion.div 
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="absolute -inset-10 border border-white/5 rounded-full z-0 border-dashed opacity-50 hidden lg:block"
+                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                    className="absolute -inset-16 border border-white/5 rounded-full z-0 border-dashed opacity-40 hidden lg:block"
                 />
 
                 <motion.div 
@@ -176,7 +184,7 @@ export default function Testimonials() {
                         onClick={() => setIsVideoOpen(true)}
                         className="relative w-full aspect-video rounded-[2rem] overflow-hidden 
                                    border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl 
-                                   cursor-pointer group-hover:shadow-[#B2904D]/20 group-hover:border-[#B2904D]/40
+                                   cursor-pointer group-hover:shadow-[#B2904D]/30 group-hover:border-[#B2904D]/50
                                    transition-all duration-500 transform-gpu"
                     >
                         {/* Imagen con Zoom suave */}
@@ -184,38 +192,41 @@ export default function Testimonials() {
                             src={current.videoThumbnail}
                             alt={current.name}
                             fill
-                            className="object-cover transition-transform duration-[2s] group-hover:scale-110"
+                            className="object-cover transition-transform duration-[2s] group-hover:scale-105 opacity-90 group-hover:opacity-100"
                         />
                         
                         {/* Overlay cinematográfico */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#001540] via-[#001540]/20 to-transparent opacity-80" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#001540] via-[#001540]/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
                         {/* Botón Play "Wow" */}
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="relative flex items-center justify-center">
+                            <div className="relative flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                 {/* Ondas expansivas */}
                                 <motion.div 
-                                    animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+                                    animate={{ scale: [1, 2], opacity: [0.3, 0] }}
                                     transition={{ duration: 2, repeat: Infinity }}
-                                    className="absolute w-20 h-20 bg-white/20 rounded-full"
+                                    className="absolute w-24 h-24 bg-[#B2904D]/40 rounded-full"
                                 />
                                 <motion.div 
-                                    animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                                    animate={{ scale: [1, 1.5], opacity: [0.4, 0] }}
                                     transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                                    className="absolute w-20 h-20 bg-white/20 rounded-full"
+                                    className="absolute w-24 h-24 bg-[#B2904D]/40 rounded-full"
                                 />
                                 
                                 {/* El botón real */}
-                                <div className="relative w-24 h-24 bg-[#B2904D]/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
-                                    <Play className="w-10 h-10 text-white ml-1 fill-white" />
+                                <div className="relative w-24 h-24 bg-[#B2904D] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(178,144,77,0.5)] z-10 border-2 border-white/20 backdrop-blur-md">
+                                    <Play className="w-10 h-10 text-[#001540] ml-1 fill-[#001540]" />
                                 </div>
                             </div>
                         </div>
 
                         {/* Texto flotante dentro del video */}
                         <div className="absolute bottom-8 left-8 z-20">
-                             <p className="text-white/60 text-sm uppercase tracking-widest mb-1">Historia de Éxito</p>
-                             <p className="text-white text-xl font-medium">{current.name}</p>
+                             <div className="flex items-center gap-2 mb-2">
+                                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                                <p className="text-white/80 text-xs uppercase tracking-widest font-bold">Historia de Éxito</p>
+                             </div>
+                             <p className="text-white text-2xl font-medium tracking-tight">{current.name}</p>
                         </div>
                     </div>
                 </motion.div>
@@ -225,24 +236,24 @@ export default function Testimonials() {
             {/* --- COLUMNA TEXTO (DERECHA) --- */}
             <motion.div 
                 style={{ x: xText, y: yText }}
-                className="lg:col-span-5 relative space-y-12"
+                className="lg:col-span-5 relative space-y-10 pl-0 lg:pl-10"
             >
-                 {/* Título de Sección integrado aquí para flujo */}
+                 {/* Título de Sección */}
                  <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                  >
-                     <div className="flex items-center gap-4 mb-6">
-                        <span className="h-[1px] w-12 bg-[#B2904D]"></span>
-                        <span className="text-[#B2904D] uppercase tracking-[0.2em] text-sm font-semibold">Testimonios</span>
-                     </div>
-                     <h2 className="text-5xl lg:text-7xl font-thin text-white leading-none">
-                        Stories <br />
-                        <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-white">
-                           of Impact
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="h-[2px] w-12 bg-[#B2904D]"></span>
+                        <span className="text-[#B2904D] uppercase tracking-[0.25em] text-xs font-bold">Testimonios Reales</span>
+                      </div>
+                      <h2 className="text-5xl lg:text-7xl font-thin text-white leading-[0.9]">
+                        Voces de <br />
+                        <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-white via-[#ffeebb] to-[#B2904D]">
+                           Esperanza
                         </span>
-                     </h2>
+                      </h2>
                  </motion.div>
 
                  {/* Cita Principal */}
@@ -251,13 +262,12 @@ export default function Testimonials() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2, duration: 0.8 }}
-                    className="relative"
+                    className="relative pl-8 border-l-2 border-white/10"
                  >
-                    {/* Comillas gigantes de fondo */}
-                    <span className="absolute -top-12 -left-8 text-9xl text-white/5 font-serif">“</span>
+                    <Quote className="absolute -top-6 -left-6 text-[#B2904D]/20 w-16 h-16 rotate-180" />
                     
-                    <p className="text-2xl lg:text-3xl font-light text-white leading-relaxed relative z-10">
-                       {current.comment}
+                    <p className="text-2xl lg:text-3xl font-light text-blue-50 leading-relaxed relative z-10 italic">
+                        "{current.comment}"
                     </p>
                  </motion.div>
 
@@ -267,9 +277,9 @@ export default function Testimonials() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 }}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-6 pt-4"
                  >
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5">
                         {[...Array(5)].map((_, i) => (
                            <motion.div
                               key={i}
@@ -281,9 +291,10 @@ export default function Testimonials() {
                            </motion.div>
                         ))}
                     </div>
-                    <div>
-                        <p className="text-white text-lg">{current.case}</p>
-                        <p className="text-blue-300/60 text-sm">Cliente Verificado</p>
+                    
+                    <div className="bg-white/5 rounded-xl p-4 border border-white/10 inline-block w-fit backdrop-blur-sm">
+                        <p className="text-white text-lg font-medium">{current.case}</p>
+                        <p className="text-[#B2904D] text-sm uppercase tracking-wide font-bold mt-1">Caso Ganado</p>
                     </div>
                  </motion.div>
 

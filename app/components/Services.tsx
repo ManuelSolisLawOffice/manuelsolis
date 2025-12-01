@@ -2,21 +2,30 @@
 
 import Link from 'next/link'
 import { useRef } from 'react';
-import { motion, Variants, useMotionValue, useSpring, useTransform } from 'framer-motion'; 
+import { motion, Variants, useScroll, useTransform } from 'framer-motion'; 
 import { useLanguage } from '../context/LanguageContext'
 import { Outfit } from 'next/font/google';
 
-// 1. Configuración de Fuente (Igual que About)
+// 1. Configuración de Fuente
 const font = Outfit({ 
   subsets: ['latin'], 
-  weight: ['100', '200', '300', '400', '500', '600'] 
+  weight: ['100', '200', '300', '400', '500', '600', '800', '900'] 
 })
 
 export default function Services() {
   const { language } = useLanguage();
   const containerRef = useRef(null);
 
-  // --- VARIANTS (Igual que About para consistencia) ---
+  // --- LÓGICA DE PARALLAX PARA EL FONDO ---
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  // Movimiento vertical suave para los elementos de fondo
+  const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  // --- VARIANTS ---
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -86,14 +95,61 @@ export default function Services() {
     <section 
         id="servicios" 
         ref={containerRef}
-        className={`relative py-32 lg:py-40 w-full bg-[#001540] overflow-hidden ${font.className}`}
+        className={`relative pt-24 pb-32 w-full bg-[#001540] overflow-hidden ${font.className}`}
     >
-      {/* --- FONDO ATMOSFÉRICO (Igual a About) --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[#001540]" />
-        {/* Luces ajustadas para esta sección */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[150px] translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#B2904D]/5 rounded-full blur-[120px] -translate-x-1/3 translate-y-1/3" />
+      {/* --- FONDO ATMOSFÉRICO (Estilo Hero) --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Base */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
+        
+        {/* --- La "S" Gigante en Movimiento (Derecha a Izquierda) --- */}
+        <motion.div
+            style={{ y: yBg }} 
+            animate={{ x: ["100%", "-100%"] }} 
+            transition={{ 
+                duration: 90, 
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop"
+            }}
+            className="absolute top-20 right-0 flex items-center justify-center opacity-[0.025] select-none pointer-events-none"
+        >
+            <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
+                S
+            </span>
+        </motion.div>
+
+        {/* --- La "M" Gigante en Movimiento (Arriba a Abajo) --- */}
+        <motion.div
+            // Quitamos el style={{ y: yBg }} para que no interfiera el scroll con la animación infinita vertical
+            animate={{ y: ["-120vh", "120vh"] }} // Movimiento vertical completo (de arriba a abajo)
+            transition={{ 
+                duration: 80, // Lento y majestuoso
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop"
+            }}
+            // Posicionada a la izquierda
+            className="absolute top-0 left-[-10%] flex items-center justify-center opacity-[0.025] select-none pointer-events-none"
+        >
+            <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
+                M
+            </span>
+        </motion.div>
+
+        {/* Luces Ambientales */}
+        <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[150px] translate-x-1/3 -translate-y-1/3" 
+        />
+        <motion.div 
+            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#B2904D]/10 rounded-full blur-[120px] -translate-x-1/3 translate-y-1/3" 
+        />
+        
+        {/* Ruido */}
         <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
       </div>
 
@@ -105,10 +161,10 @@ export default function Services() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="mb-20 text-center"
+            className="mb-16 text-center"
           >
-            {/* Pill decorativa (Versión Dark Glass) */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+            {/* Pill decorativa */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6 shadow-[0_0_15px_rgba(178,144,77,0.1)]">
               <span className="text-[10px] md:text-xs font-bold tracking-[0.25em] text-blue-200/70 uppercase">
                 {language === 'es' ? 'EXPERIENCIA COMPROBADA' : 'PROVEN EXPERIENCE'}
               </span>
@@ -141,11 +197,11 @@ export default function Services() {
               <motion.div key={index} variants={fadeInUp} className="block h-full">
                 <Link
                   href={service.href} 
-                  className="block h-full group" 
+                  className="block h-full group perspective-[1000px]" 
                 >
-                  <div className="relative h-full p-8 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-md 
-                                transition-all duration-500 hover:bg-white/10 hover:border-[#B2904D]/30 hover:-translate-y-2
-                                flex flex-col justify-between overflow-hidden shadow-lg hover:shadow-[#B2904D]/10">
+                  <div className="relative h-full p-8 rounded-[2rem] bg-[#000a20]/40 border border-white/10 backdrop-blur-md 
+                                  transition-all duration-500 hover:bg-white/10 hover:border-[#B2904D]/40 hover:-translate-y-2
+                                  flex flex-col justify-between overflow-hidden shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(178,144,77,0.2)]">
                     
                     {/* Brillo interno al hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -153,9 +209,9 @@ export default function Services() {
                     <div className="relative z-10">
                         <div className="flex items-center mb-6 pb-4 border-b border-white/10 group-hover:border-[#B2904D]/30 transition-colors duration-500">
                             {/* Barra vertical decorativa dorada (Glow effect) */}
-                            <div className="w-1 h-8 bg-[#B2904D] rounded-full mr-5 group-hover:h-12 group-hover:shadow-[0_0_15px_rgba(178,144,77,0.6)] transition-all duration-500"></div>
+                            <div className="w-1 h-8 bg-[#B2904D] rounded-full mr-5 group-hover:h-12 group-hover:shadow-[0_0_15px_rgba(178,144,77,0.8)] transition-all duration-500"></div>
                             
-                            <h3 className="text-3xl font-light text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#B2904D] transition-all duration-300">
+                            <h3 className="text-3xl font-light text-white group-hover:text-white transition-all duration-300">
                                 {service.title}
                             </h3>
                         </div>
@@ -164,7 +220,7 @@ export default function Services() {
                         <div>
                             <ul className="space-y-3">
                                 {service.items.slice(0, 4).map((item: string, idx: number) => ( 
-                                    <li key={idx} className="flex items-start text-blue-100/70 group-hover:text-blue-50 transition-colors duration-300">
+                                    <li key={idx} className="flex items-start text-blue-100/60 group-hover:text-blue-50 transition-colors duration-300">
                                         {/* Pequeño punto dorado */}
                                         <div className="w-1 h-1 bg-[#B2904D]/50 rounded-full mt-2.5 mr-3 flex-shrink-0 group-hover:bg-[#B2904D] transition-colors"></div>
                                         <span className="font-light text-sm leading-relaxed">
