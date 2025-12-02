@@ -11,7 +11,7 @@ import { ArrowRight } from 'lucide-react'
 // 1. Configuración de Fuente
 const font = Outfit({ 
   subsets: ['latin'], 
-  weight: ['100', '200', '300', '400', '500', '600'] 
+  weight: ['100', '200', '300', '400', '500', '600', '800', '900'] 
 })
 
 export default function Team() {
@@ -43,6 +43,9 @@ export default function Team() {
   });
   
   const yContent = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  // Movimiento vertical suave para los elementos de fondo
+  const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
 
   return (
     <section 
@@ -52,21 +55,81 @@ export default function Team() {
       className={`relative py-32 lg:py-48 w-full bg-[#001540] overflow-hidden ${font.className}`}
     >
       {/* --- FONDO ATMOSFÉRICO VIVO --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[#001540]" />
         
+        {/* --- GUIONES GIGANTES DE FONDO --- */}
+
+        {/* 1. Guion EXTRA ARRIBA (Nuevo) - Derecha a Izquierda */}
+        <motion.div
+            style={{ y: yBg }} 
+            animate={{ x: ["100%", "-100%"] }} 
+            transition={{ 
+                duration: 45, // Más rápido
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop",
+                delay: -15 // Ya empezó hace 15 segundos (se ve inmediatamente)
+            }}
+            // Opacidad subida a 0.07 y posición negativa top
+            className="absolute -top-40 right-0 flex items-center justify-center opacity-[0.07] select-none pointer-events-none"
+        >
+            <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
+                -
+            </span>
+        </motion.div>
+
+        {/* 2. Guion ARRIBA (Original) - Derecha a Izquierda */}
+        <motion.div
+            style={{ y: yBg }} 
+            animate={{ x: ["100%", "-100%"] }} 
+            transition={{ 
+                duration: 55, // Más rápido que antes
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop",
+                delay: -25 // Empieza a mitad de camino
+            }}
+            // Opacidad subida a 0.07
+            className="absolute top-10 right-0 flex items-center justify-center opacity-[0.07] select-none pointer-events-none"
+        >
+            <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
+                -
+            </span>
+        </motion.div>
+
+        {/* 3. Guion ABAJO (Original) - Izquierda a Derecha */}
+        <motion.div
+            style={{ y: yBg }}
+            animate={{ x: ["-100%", "100%"] }} 
+            transition={{ 
+                duration: 60, // Más rápido que antes
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop",
+                delay: -20 // Empieza a mitad de camino
+            }}
+            // Opacidad subida a 0.07
+            className="absolute bottom-10 left-0 flex items-center justify-center opacity-[0.07] select-none pointer-events-none"
+        >
+            <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
+                -
+            </span>
+        </motion.div>
+
+
         {/* Orbe Dorado (Derecha Arriba) */}
         <motion.div 
-            animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#B2904D]/10 rounded-full blur-[150px] translate-x-1/3 -translate-y-1/3" 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#B2904D]/10 rounded-full blur-[150px] translate-x-1/3 -translate-y-1/3" 
         />
         
         {/* Orbe Azul (Izquierda Abajo) */}
         <motion.div 
-            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute bottom-0 left-0 w-[900px] h-[900px] bg-blue-600/10 rounded-full blur-[180px] -translate-x-1/3 translate-y-1/3" 
+          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-0 left-0 w-[900px] h-[900px] bg-blue-600/10 rounded-full blur-[180px] -translate-x-1/3 translate-y-1/3" 
         />
         
         {/* Ruido de textura */}

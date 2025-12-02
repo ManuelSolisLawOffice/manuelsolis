@@ -3,16 +3,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  X, Play, Quote, Star, 
-  ShieldCheck, ArrowRight, CheckCircle, 
-  MessageSquare
+  X, Play, Star, 
+  ArrowRight, MessageSquare
 } from 'lucide-react';
 import Image from 'next/image';
 import Header from '../../components/Header'; 
 import Footer from '../../components/Footer'; 
 import ContactForm from '../../components/ContactForm';
 import { useLanguage } from '../../context/LanguageContext';
+import { Outfit } from 'next/font/google';
 
+// --- FUENTE ---
+const font = Outfit({ 
+  subsets: ['latin'], 
+  weight: ['100', '200', '300', '400', '500', '800', '900'] 
+});
+
+// --- DATA ---
 const testimonials = [
   {
     id: 'alma-alvarado',
@@ -168,6 +175,7 @@ const testimonials = [
 
 export default function TestimonialsPage() {
   const { language } = useLanguage();
+  // CORRECCIÓN TYPESCRIPT: Especificar el tipo del estado
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedTestimonial = testimonials.find(t => t.id === selectedId);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -180,6 +188,7 @@ export default function TestimonialsPage() {
     }
   }, [selectedId]);
 
+  // CORRECCIÓN TYPESCRIPT: Añadir tipo 'any' (o más específico) para evitar error implícito
   const getText = (obj: any) => {
     if (typeof obj === 'string') return obj;
     return obj[language] || obj.es || obj;
@@ -201,50 +210,84 @@ export default function TestimonialsPage() {
     modal: {
       badge: { es: 'Testimonio', en: 'Testimonial' },
       button: { es: 'Solicitar Consulta', en: 'Request Consultation' }
-    },
-    form: {
-      title: { es: 'Inicie su Consulta', en: 'Start Your Consultation' }
     }
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#002342] font-sans selection:bg-[#B2904D] selection:text-white overflow-x-hidden">
+    <div className={`relative min-h-screen w-full bg-[#001540] text-white overflow-x-hidden ${font.className}`}>
       
       <Header />
 
-      {/* BACKGROUND DECORATION */}
-      <div className="absolute top-0 left-0 w-full h-[1000px] overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[5%] w-[600px] h-[600px] bg-[#B2904D]/10 rounded-full blur-[120px] opacity-60" />
-        <div className="absolute top-[10%] right-[-5%] w-[500px] h-[500px] bg-[#002342]/5 rounded-full blur-[100px]" />
+      {/* =========================================================================
+          1. FONDO ATMOSFÉRICO FIJO (CON TU CÓDIGO EXACTO)
+          Usamos 'fixed' para que cubra toda la pantalla mientras haces scroll.
+      ========================================================================= */}
+      <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
+         
+         {/* --- 2. FONDO DE LA "N" GIGANTE (Tu animación) --- */}
+         <motion.div
+            initial={{ x: "60%" }} 
+            animate={{ x: "-160%" }} 
+            transition={{ 
+              duration: 80, 
+              repeat: Infinity, 
+              ease: "linear",
+              repeatType: "loop"
+            }}
+            className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center opacity-[0.04] select-none pointer-events-none"
+         >
+            <span className={`text-[160vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12 ${font.className}`}>
+                 N/\И/\
+            </span>
+         </motion.div>
+
+         {/* Luces ambientales (Tu animación) */}
+         <motion.div 
+           animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+           className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] bg-blue-600/20 rounded-full blur-[150px]" 
+         />
+         <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-sky-800/20 rounded-full blur-[180px]" 
+         />
+         
+         <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
       </div>
 
-      {/* HERO SECTION */}
-      <section className="relative pt-44 pb-16 px-4 z-10">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div
+
+      {/* =========================================================================
+          2. CONTENIDO PRINCIPAL (z-10 para estar sobre el fondo)
+      ========================================================================= */}
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative pt-44 pb-20 px-4 z-10 text-center">
+        <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-gray-200/60 backdrop-blur-xl shadow-sm mb-8">
+            className="max-w-4xl mx-auto"
+        >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg mb-8">
                <Star size={14} className="text-[#B2904D] fill-[#B2904D]" />
-               <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{texts.hero.badge[language]}</span>
+               <span className="text-xs font-bold tracking-[0.2em] text-white/80 uppercase">{texts.hero.badge[language]}</span>
             </div>
 
-            <h1 className="text-6xl md:text-8xl font-serif font-bold text-[#002342] tracking-tight mb-6 drop-shadow-sm">
-              {texts.hero.title1[language]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] to-[#D4AF37]">{texts.hero.title2[language]}</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin text-white tracking-tight mb-8 drop-shadow-2xl">
+              {texts.hero.title1[language]} <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] to-[#F3E5AB]">{texts.hero.title2[language]}</span>
             </h1>
             
-            <p className="text-gray-500 text-xl font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-blue-100/70 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed border-t border-white/10 pt-8">
               {texts.hero.subtitle[language]}
             </p>
-          </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* GRID FLOTANTE */}
-      <section className="px-4 pb-32 relative z-10 max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* --- GRID DE TESTIMONIOS --- */}
+      <section className="px-4 pb-32 relative z-10 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           
           {testimonials.map((item, index) => (
             <motion.div
@@ -254,154 +297,150 @@ export default function TestimonialsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.05, duration: 0.6, ease: "easeOut" }}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -5 }}
               onClick={() => setSelectedId(item.id)}
-              className="group cursor-pointer h-[480px]"
+              className="group cursor-pointer h-[550px]"
             >
-              <div className="relative w-full h-full rounded-[32px] overflow-hidden bg-white border border-white/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_50px_-12px_rgba(178,144,77,0.25)] transition-all duration-500 flex flex-col">
+              <div className="relative w-full h-full rounded-[32px] overflow-hidden bg-[#000a20]/60 backdrop-blur-xl border border-[#B2904D]/40 shadow-[0_0_30px_-5px_rgba(178,144,77,0.3)] hover:shadow-[0_0_50px_-5px_rgba(178,144,77,0.5)] hover:border-[#B2904D]/70 transition-all duration-500 flex flex-col">
                 
-                {/* Imagen Superior */}
-                <div className="relative h-[280px] w-full overflow-hidden bg-gray-50">
+                {/* Fondo animado interno de la tarjeta */}
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[32px]">
+                    <motion.div 
+                        animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.2, 1] }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="absolute -top-20 -left-20 w-64 h-64 bg-[#B2904D]/20 rounded-full blur-[80px] mix-blend-screen" 
+                    />
+                     <motion.div 
+                        animate={{ x: [0, -100, 0], y: [0, 50, 0], scale: [1, 1.1, 1] }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "linear", delay: 2 }}
+                        className="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-[80px] mix-blend-screen" 
+                    />
+                </div>
+
+                {/* Imagen */}
+                <div className="relative h-[320px] w-full overflow-hidden z-10 rounded-t-[32px]">
                    <Image 
                      src={item.image} 
                      alt={item.name} 
                      fill 
-                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                     className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
                      unoptimized
                    />
-                   {/* Badge Flotante */}
-                   <div className="absolute top-5 left-5">
-                      <div className="bg-white/90 backdrop-blur-md border border-white/50 text-[#002342] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">
-                         {getText(item.category)}
+                   <div className="absolute inset-0 bg-gradient-to-t from-[#000a20] via-transparent to-transparent opacity-80" />
+                   
+                   <div className="absolute top-6 left-6">
+                      <div className="bg-[#001540]/80 backdrop-blur-md border border-[#B2904D]/30 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                          {getText(item.category)}
                       </div>
                    </div>
                    
-                   {/* Play Button Overlay */}
-                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors duration-500">
-                      <div className="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md border border-white/60 flex items-center justify-center text-white scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 shadow-lg">
-                         <Play fill="white" size={20} className="ml-1" />
+                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-500">
+                      <div className="w-20 h-20 rounded-full bg-[#B2904D]/90 backdrop-blur-md border border-white/20 flex items-center justify-center text-white scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 shadow-[0_0_30px_rgba(178,144,77,0.6)]">
+                          <Play fill="white" size={24} className="ml-1" />
                       </div>
                    </div>
                 </div>
 
-                {/* Contenido Inferior */}
-                <div className="p-8 flex flex-col justify-between flex-grow bg-white relative">
-                   <div className="absolute top-[-20px] left-0 w-full h-20 bg-gradient-to-b from-transparent to-white pointer-events-none z-10" />
-                   
-                   <div className="relative z-20">
-                     <h3 className="text-2xl font-serif font-bold text-[#002342] mb-3 group-hover:text-[#B2904D] transition-colors">
+                {/* Info Card */}
+                <div className="p-10 flex flex-col justify-between flex-grow relative z-10">
+                   <div>
+                     <h3 className="text-3xl font-thin text-white mb-3 group-hover:text-[#B2904D] transition-colors">
                        {item.name}
                      </h3>
-                     <div className="flex gap-1 mb-3">
+                     <div className="flex gap-1 mb-4">
                         {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={12} className="text-[#B2904D] fill-[#B2904D]" />
+                            <Star key={i} size={14} className="text-[#B2904D] fill-[#B2904D]" />
                         ))}
                      </div>
-                     <p className="text-gray-500 text-sm font-light italic line-clamp-2">
+                     <p className="text-blue-100/80 text-base font-light italic line-clamp-2 leading-relaxed">
                        "{getText(item.quote)}"
                      </p>
                    </div>
                    
-                   <div className="relative z-20 pt-4 flex items-center text-[#002342] text-xs font-bold uppercase tracking-wider group/btn">
+                   <div className="pt-6 flex items-center text-white/90 text-sm font-bold uppercase tracking-wider group/btn">
                       {texts.card.viewFullStory[language]}
-                      <ArrowRight size={14} className="ml-2 text-[#B2904D] group-hover/btn:translate-x-1 transition-transform" />
+                      <ArrowRight size={16} className="ml-2 text-[#B2904D] group-hover/btn:translate-x-2 transition-transform" />
                    </div>
                 </div>
 
               </div>
             </motion.div>
           ))}
-
         </div>
       </section>
 
-      {/* MODAL EXPANDIDO */}
+      {/* --- MODAL --- */}
       <AnimatePresence>
         {selectedId && selectedTestimonial && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8">
-            
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedId(null)}
-              className="absolute inset-0 bg-white/80 backdrop-blur-xl"
+              className="absolute inset-0 bg-[#000a20]/90 backdrop-blur-xl"
             />
-
             <motion.div 
               layoutId={`card-${selectedId}`}
-              className="relative w-full max-w-7xl h-[80vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10 ring-1 ring-black/5"
+              className="relative w-full max-w-7xl h-[85vh] bg-[#001540] rounded-[32px] border border-[#B2904D]/30 shadow-[0_0_50px_rgba(178,144,77,0.2)] overflow-hidden flex flex-col lg:flex-row z-10"
             >
               <button 
                 onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}
-                className="absolute top-6 right-6 z-50 bg-white/20 hover:bg-white text-white hover:text-[#002342] p-3 rounded-full backdrop-blur-md transition-all duration-300 border border-white/30"
+                className="absolute top-6 right-6 z-50 bg-black/40 hover:bg-[#B2904D] text-white p-3 rounded-full backdrop-blur-md transition-all duration-300 border border-white/10"
               >
                 <X size={24} />
               </button>
-
-              {/* Video */}
               <div className="w-full lg:w-2/3 h-full bg-black relative flex items-center justify-center">
                  <video 
-                    ref={videoRef}
-                    src={selectedTestimonial.video} 
-                    className="w-full h-full object-contain bg-black"
-                    controls
-                    autoPlay
-                    playsInline
-                    poster={selectedTestimonial.image}
+                   ref={videoRef}
+                   src={selectedTestimonial.video} 
+                   className="w-full h-full object-contain bg-black"
+                   controls
+                   autoPlay
+                   playsInline
+                   poster={selectedTestimonial.image}
                  />
               </div>
-
-              {/* Info */}
-              <div className="w-full lg:w-1/3 h-full bg-white p-10 flex flex-col relative overflow-y-auto border-l border-gray-100">
+              <div className="w-full lg:w-1/3 h-full bg-[#001540] p-12 flex flex-col relative overflow-y-auto border-l border-white/5">
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                      <span className="inline-block text-xs font-bold text-[#B2904D] uppercase tracking-widest mb-2">{texts.modal.badge[language]}</span>
-                      <h2 className="text-4xl font-serif font-bold text-[#002342] mb-6">
+                      <span className="inline-block text-sm font-bold text-[#B2904D] uppercase tracking-widest mb-4">{texts.modal.badge[language]}</span>
+                      <h2 className="text-4xl md:text-5xl font-thin text-white mb-8 leading-tight">
                         {selectedTestimonial.name}
                       </h2>
-
-                      <div className="relative pl-5 border-l-2 border-[#B2904D] mb-8">
-                         <p className="text-lg italic text-gray-600 font-medium leading-relaxed">
+                      <div className="relative pl-6 border-l-4 border-[#B2904D] mb-10 bg-white/5 p-6 rounded-r-2xl">
+                         <p className="text-xl italic text-blue-50 font-light leading-relaxed">
                            "{getText(selectedTestimonial.quote)}"
                          </p>
                       </div>
-
-                      <div className="mb-10">
-                        <p className="text-gray-500 text-sm leading-relaxed">
+                      <div className="mb-12">
+                        <p className="text-blue-100/80 text-lg leading-relaxed font-light">
                            {getText(selectedTestimonial.story)}
                         </p>
                       </div>
-
                       <div className="mt-auto">
-                         <a href="#contacto" onClick={() => setSelectedId(null)} className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-[#002342] text-white font-bold shadow-lg hover:bg-[#B2904D] transition-colors duration-300">
-                            <MessageSquare size={18} />
+                         <a href="#contacto" onClick={() => setSelectedId(null)} className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl bg-[#B2904D] text-[#001540] font-bold text-lg shadow-[0_0_30px_rgba(178,144,77,0.5)] hover:bg-white hover:text-[#001540] transition-colors duration-300">
+                            <MessageSquare size={20} />
                             {texts.modal.button[language]}
                          </a>
                       </div>
                   </motion.div>
               </div>
-
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* FORMULARIO */}
-      <section id="contacto" className="relative py-32 bg-white z-10">
-         <div className="max-w-3xl mx-auto px-4">
+      {/* --- FORMULARIO SECTION (SACO DEL CONTENEDOR, STRETCHED) --- */}
+      <section id="contacto" className="relative py-20 z-10 w-full">
+         <div className="container mx-auto px-4 lg:px-12">
             
-            <div className="text-center mb-12">
-               <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#002342]">
-                 {texts.form.title[language]}
-               </h2>
-            </div>
-
-            <div className="bg-white rounded-[2.5rem] shadow-[0_0_50px_-10px_rgba(0,0,0,0.08)] border border-gray-100 p-8 md:p-12">
-                <ContactForm />
+            {/* Formulario directo, sin título Inicie su Consulta, sin contenedor de fondo */}
+            <div className="text-white w-full">
+               <ContactForm />
             </div>
 
          </div>

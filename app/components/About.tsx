@@ -60,10 +60,10 @@ export default function About() {
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      // Se mantiene el padding base
       className={`relative py-32 lg:py-44 w-full bg-[#001540] overflow-hidden ${font.className}`}
     >
       {/* --- FONDO COMPATIBLE (CONTINUIDAD VISUAL) --- */}
+      {/* CORRECCIÓN: El motion.div solo mueve los orbes y el ruido, NO las máscaras de borde */}
       <motion.div style={{ y: yBg }} className="absolute inset-0 z-0 pointer-events-none">
         
         <div className="absolute inset-0 bg-[#001540]" />
@@ -80,13 +80,13 @@ export default function About() {
         
         <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
         
-        {/* Máscara superior (Entrada) */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-50" />
-
-        {/* Máscara inferior (Salida) */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-50" />
-
       </motion.div>
+
+      {/* --- CORRECCIÓN: MÁSCARAS FUERA DEL PARALLAX (ESTÁTICAS) --- */}
+      {/* Esto asegura que el "escalón negro" desaparezca y la transición sea siempre suave */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-50 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-50 pointer-events-none" />
+
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -171,7 +171,6 @@ export default function About() {
           {/* --- COLUMNA DERECHA: IMAGEN (Cols 6 - MÁS GRANDE) --- */}
           <motion.div 
             style={{ x, y }}
-            // CAMBIO CLAVE AQUÍ: Añadido mb-24 para dar mucho aire abajo en móvil, y lg:mb-0 para quitarlo en escritorio.
             className="lg:col-span-6 relative h-[500px] lg:h-[700px] w-full perspective-[2000px] mt-32 mb-24 lg:mt-0 lg:mb-0"
           >
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[85%] bg-blue-600/20 blur-[100px] rounded-full -z-10" />
@@ -193,25 +192,8 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#001540]/80 via-transparent to-transparent opacity-60" />
              </motion.div>
 
-             <motion.div 
-               animate={{ y: [0, -8, 0] }}
-               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute bottom-[-30px] lg:bottom-[-60px] right-6 lg:-right-6 z-20 
-                          bg-white/10 p-4 rounded-2xl border border-white/20 shadow-xl 
-                          max-w-[260px] backdrop-blur-xl"
-             >
-                <div className="flex items-start gap-3 mb-2">
-                   <div className="h-6 w-1 bg-[#B2904D] rounded-full mt-1 flex-shrink-0" />
-                   <p className="text-white/90 font-extralight italic text-sm leading-snug">
-                     "{language === 'es' ? 'La justicia no es un privilegio, es un derecho por el que luchamos.' : 'Justice is not a privilege, it is a right we fight for.'}"
-                   </p>
-                </div>
-                <div className="flex gap-0.5 pl-4">
-                   {[1,2,3,4,5].map(star => (
-                      <svg key={star} className="w-3 h-3 text-[#B2904D]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                   ))}
-                </div>
-             </motion.div>
+             {/* CORRECCIÓN: SE HA ELIMINADO EL CUADRO FLOTANTE "LABEL GRIS" AQUÍ */}
+             
           </motion.div>
 
         </div>

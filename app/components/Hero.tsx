@@ -3,10 +3,9 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '../context/LanguageContext';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion'; // Se eliminaron useSpring y useMotionValue
 import { Outfit } from 'next/font/google';
 
-// Aseguramos tener los pesos necesarios para el estilo elegante
 const font = Outfit({ 
   subsets: ['latin'], 
   weight: ['100', '200', '300', '400', '500', '800', '900'] 
@@ -24,17 +23,7 @@ export default function HeroProfessional() {
   const { t, language } = useLanguage();
   const containerRef = useRef(null);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    mouseX.set((clientX - left) / width - 0.5);
-    mouseY.set((clientY - top) / height - 0.5);
-  }
-
-  const x = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), { stiffness: 100, damping: 40 });
-  const y = useSpring(useTransform(mouseY, [-0.5, 0.5], [-15, 15]), { stiffness: 100, damping: 40 });
+  // --- CAMBIO 1: SE ELIMINÓ TODA LA LÓGICA DE MOVIMIENTO DEL MOUSE ---
 
   const textRevealVariant = {
     hidden: { y: "100%", rotateX: -20, opacity: 0 },
@@ -51,29 +40,27 @@ export default function HeroProfessional() {
   return (
     <section 
       ref={containerRef}
-      onMouseMove={handleMouseMove}
+      // CAMBIO 1: Se eliminó onMouseMove={handleMouseMove}
       className={`relative min-h-screen w-full flex flex-col justify-center bg-[#001540] overflow-hidden ${font.className} pt-36 lg:pt-44 pb-32`}
     >
-      {/* 1. FONDO ATMOSFÉRICO (Azul Marino Profundo) */}
+      {/* 1. FONDO ATMOSFÉRICO */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Gradiente radial más rico */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
         
-        {/* --- 2. FONDO DE LA "N" GIGANTE (VERSIÓN DEFINIDA, ELEGANTE Y "ACOSTADA") --- */}
+        {/* --- 2. FONDO DE LA "N" GIGANTE --- */}
         <motion.div
-            initial={{ x: "10%" }}
-            animate={{ x: "-300%" }}
+            initial={{ x: "60%" }} 
+            animate={{ x: "-160%" }} 
             transition={{ 
-                duration: 80,
-                repeat: Infinity, 
-                ease: "linear",
-                repeatType: "loop"
+              duration: 80, 
+              repeat: Infinity, 
+              ease: "linear",
+              repeatType: "loop"
             }}
-            className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center opacity-[0.015] select-none pointer-events-none"
+            className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center opacity-[0.04] select-none pointer-events-none"
         >
-            {/* CAMBIOS: Letra N, y añadido 'transform -skew-x-12' para inclinarla más */}
             <span className={`text-[160vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12 ${font.className}`}>
-                N
+                  N/\И/\
             </span>
         </motion.div>
 
@@ -84,8 +71,8 @@ export default function HeroProfessional() {
           className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] bg-blue-600/20 rounded-full blur-[150px]" 
         />
         <motion.div 
-           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-sky-800/20 rounded-full blur-[180px]" 
         />
         
@@ -93,47 +80,62 @@ export default function HeroProfessional() {
       </div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10 flex-grow flex flex-col justify-center">
-        {/* Volvemos al layout 5-7 */}
+        {/* Layout Principal */}
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           
           {/* --- IZQUIERDA: IMAGEN (Cols 5) --- */}
           <motion.div 
-            style={{ x, y }} 
+            // CAMBIO 1: Se eliminó style={{ x, y }} para que no se mueva
             className="lg:col-span-5 relative h-[500px] lg:h-[750px] flex items-end justify-center perspective-[1000px]"
           >
-             {/* Glow azul intenso detrás */}
+            {/* Glow azul intenso detrás */}
             <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent blur-3xl rounded-full z-0 opacity-80" />
             
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 50, rotateY: 5 }}
-              animate={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }}
+              initial={{ opacity: 0, scale: 0.9, y: 50, rotateY: 5, x: 0 }}
+              // Mantenemos la escala grande y posición izquierda
+              animate={{ opacity: 1, scale: 1.75, y: -80, x: -90, rotateY: 0 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
-              className="relative z-10 w-full h-full"
+              className="relative z-10 w-full h-full origin-bottom"
             >
-               {/* ANIMACIÓN DE FLOTACIÓN SUAVE (Breathing effect) */}
-               <motion.div
-                 animate={{ y: [0, -15, 0] }}
-                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                 className="relative w-full h-full"
-               >
+               {/* Imagen FIJA */}
+               <div className="relative w-full h-full">
                  <Image
-                   src="/abogado-manuel-solis.png"
+                   src="/manuelsolisl.png"
                    alt="Abogado Manuel Solis"
                    fill
-                   className="object-contain object-bottom drop-shadow-[0_35px_60px_rgba(0,0,0,0.6)]"
+                   className="object-contain object-bottom drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]"
                    priority
                  />
-               </motion.div>
+               </div>
+            </motion.div>
+
+            {/* --- CUADRO FLOTANTE: 35+ AÑOS --- */}
+            <motion.div
+                initial={{ opacity: 0, x: 20 }} 
+                animate={{ opacity: 1, x: 0 }} 
+                transition={{ delay: 0.8, duration: 1 }}
+                className="absolute bottom-10 right-[-20px] z-40 p-6 border border-white/10 rounded-xl backdrop-blur-md bg-white/5 shadow-2xl text-right min-w-[180px]"
+            >
+                <div className="group">
+                  <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 justify-end">
+                    <span className="text-5xl font-extralight tracking-tighter">35</span> 
+                    <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
+                  </div>
+                  <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
+                    {language === 'es' ? 'Años de Experiencia' : 'Years Experience'}
+                  </p>
+                </div>
             </motion.div>
           </motion.div>
 
 
           {/* --- DERECHA: TEXTO (Cols 7) --- */}
-          <div className="lg:col-span-7 space-y-12 pl-0 lg:pl-12 relative z-20">
+          <div className="lg:col-span-7 space-y-12 pl-0 lg:pl-48 relative z-20 -mt-20">
             
             <motion.div 
               initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
-              className="absolute left-0 top-10 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-sky-500/30 to-transparent origin-top hidden lg:block" 
+              className="absolute left-20 top-10 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-sky-500/30 to-transparent origin-top hidden lg:block" 
             />
 
             <div className="relative">
@@ -144,13 +146,13 @@ export default function HeroProfessional() {
                   </motion.span>
                 </span>
                 
-                {/* --- EFECTO WOW: RAYO DE LUZ (Inmigración) --- */}
+                {/* --- Inmigración (Dorado) --- */}
                 <span className="block overflow-hidden pb-2 perspective-[400px]">
                   <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-medium relative w-fit">
-                    <span className="text-white drop-shadow-2xl">
+                    <span className="text-[#B2904D] drop-shadow-2xl">
                       {language === 'es' ? 'Inmigración' : 'Immigration'}
                     </span>
-                    {/* El rayo de luz */}
+                    {/* Rayo de luz */}
                     <motion.span 
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent bg-[length:200%_100%] bg-clip-text text-transparent mix-blend-color-dodge pointer-events-none"
                       animate={{ backgroundPosition: ["-150% 0", "150% 0"] }}
@@ -161,16 +163,15 @@ export default function HeroProfessional() {
                   </motion.span>
                 </span>
                 
-                {/* --- EFECTO WOW: RAYO DE LUZ (& Accidentes) --- */}
+                {/* --- & (Blanco) y Accidentes (Dorado) --- */}
                 <span className="block overflow-hidden perspective-[400px]">
                   <motion.div custom={2} variants={textRevealVariant} initial="hidden" animate="visible" className="flex items-center gap-4 relative">
-                    {/* CAMBIO: Color dorado para el & */}
-                    <span className="text-3xl md:text-5xl font-thin text-[#B2904D] align-middle">&</span>
+                    <span className="text-3xl md:text-5xl font-thin text-white align-middle">&</span>
                     <span className="font-light relative w-fit">
-                        <span className="text-white drop-shadow-2xl">
+                        <span className="text-[#B2904D] drop-shadow-2xl">
                           {language === 'es' ? 'Accidentes' : 'Accidents'}
                         </span>
-                        {/* El rayo de luz */}
+                        {/* Rayo de luz */}
                         <motion.span 
                           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent bg-[length:200%_100%] bg-clip-text text-transparent mix-blend-color-dodge pointer-events-none"
                           animate={{ backgroundPosition: ["-150% 0", "150% 0"] }}
@@ -190,35 +191,26 @@ export default function HeroProfessional() {
               transition={{ delay: 0.6, duration: 1 }}
               className="text-xl text-white/70 font-extralight max-w-lg leading-relaxed pl-4 border-l border-white/10"
             >
-               <span className="text-white font-normal">Manuel Solis</span>. 
-               {t.hero?.description || (language === 'es' ? ' Décadas de experiencia luchando por los derechos de nuestra comunidad.' : ' Decades of experience fighting for the rights of our community.')}
+                <span className="text-white font-normal">Manuel Solis:</span> 
+                {t.hero?.description || (language === 'es' ? ' Nuestros abogados de inmigración están aquí para asistirle. Somos la opción más confiable para resolver sus desafíos legales con éxito.' : ' Expert immigration attorneys here to assist you. We are the most reliable option to successfully resolve your legal challenges.')}
             </motion.p>
 
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-              className="flex flex-wrap items-center gap-16 pt-8 pl-4"
+              // CAMBIO 2: Se cambió pt-0 por -mt-10 para subirlo más.
+              // CAMBIO 3: Se añadió drop-shadow-[...] para el margen ligero de luz azul.
+              className="flex flex-wrap items-center gap-16 -mt-10 pl-4 drop-shadow-[0_0_15px_rgba(56,189,248,0.4)]"
             >
               <div className="group">
+                {/* 50,000 Grande */}
                 <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 group-hover:to-sky-400 transition-all duration-500">
-                  <span className="text-5xl lg:text-6xl font-extralight tracking-tighter">50,000</span>
-                  {/* CAMBIO: Color dorado para el + */}
-                  <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
+                  <span className="text-7xl lg:text-9xl font-bold tracking-tighter">50,000</span>
+                  <span className="text-5xl font-thin text-[#B2904D] ml-2 group-hover:rotate-12 transition-transform">+</span>
                 </div>
-                <p className="text-xs text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
+                <p className="text-sm text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
                   {language === 'es' ? 'Casos Ganados' : 'Cases Won'}
-                </p>
-              </div>
-
-              <div className="group">
-                <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 group-hover:to-sky-400 transition-all duration-500">
-                  <span className="text-5xl lg:text-6xl font-extralight tracking-tighter">35</span>
-                  {/* CAMBIO: Color dorado para el + */}
-                  <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
-                </div>
-                <p className="text-xs text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
-                  {language === 'es' ? 'Años de Experiencia' : 'Years Experience'}
                 </p>
               </div>
             </motion.div>
@@ -227,10 +219,9 @@ export default function HeroProfessional() {
         </div>
       </div>
 
-      {/* FOOTER: MARQUEE ASOCIACIONES (REGRESO ABAJO, LENTO Y LIMPIO) */}
+      {/* FOOTER: MARQUEE ASOCIACIONES */}
       <div className="absolute bottom-0 left-0 right-0 z-30 w-full border-t border-white/5 bg-transparent pt-8 pb-8">
         <div className="relative w-full overflow-hidden mask-linear-fade">
-           {/* Máscaras laterales para suavizar la entrada/salida */}
            <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-[#001540] to-transparent z-20" />
            <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#001540] to-transparent z-20" />
            
@@ -241,15 +232,15 @@ export default function HeroProfessional() {
            >
              {[...associations, ...associations, ...associations].map((assoc, idx) => (
                <div key={idx} className="flex items-center justify-center group opacity-40 hover:opacity-100 transition-opacity duration-500">
-                  <div className="relative h-20 w-auto flex-shrink-0 filter grayscale brightness-[1.5] contrast-[1.2] group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-500">
-                      <Image 
-                        src={assoc.logo} 
-                        alt={assoc.name} 
-                        height={80} 
-                        width={180} 
-                        className="h-full w-auto object-contain drop-shadow-lg"
-                      />
-                  </div>
+                 <div className="relative h-20 w-auto flex-shrink-0 filter grayscale brightness-[1.5] contrast-[1.2] group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-500">
+                     <Image 
+                       src={assoc.logo} 
+                       alt={assoc.name} 
+                       height={80} 
+                       width={180} 
+                       className="h-full w-auto object-contain drop-shadow-lg"
+                     />
+                 </div>
                </div>
              ))}
            </motion.div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { MapPin, Phone, Clock, Mail, Globe, Navigation, Scale, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
@@ -13,14 +13,13 @@ const font = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700'] 
 });
 
-// --- COLORES DE LA PALETA (Consistentemente usados en Tailwind) ---
+// --- COLORES DE LA PALETA ---
 const PRIMARY_COLOR_DARK = '#001540';
 const ACCENT_COLOR_GOLD = '#B2904D';
 const LIGHT_BLUE_ACCENT = '#38bdf8'; // sky-400
 
-// Función auxiliar para generar URLs de Google Maps válidas
+// Función auxiliar para mapas
 const generateMapUrl = (address: string) => {
-    // Usando una URL base más estándar y segura para un enlace directo
     const encodedAddress = encodeURIComponent(address);
     return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 };
@@ -42,13 +41,14 @@ type OfficeData = {
   services: { es: string; en: string }[];
 };
 
-// --- DATOS COMPLETOS (Integrados y normalizados) ---
+// --- DATOS COMPLETOS (CORREGIDOS: TÍTULOS REALES) ---
 const officesData: OfficeData[] = [
   {
     id: 'houston-principal',
     city: 'Houston',
     state: 'TX',
-    title: { es: 'Sede Central', en: 'Headquarters' },
+    // CAMBIO: Nombre real
+    title: { es: 'Houston', en: 'Houston' },
     quote: { es: 'El centro neurálgico de nuestra firma.', en: 'The nerve center of our firm.' },
     description: { es: 'Nuestras oficinas de Houston en Navigation Boulevard son las primeras que abrimos hace más de 30 años. Aquí recibimos a más de 200 clientes a la semana.', en: 'Our Houston offices on Navigation Boulevard were the first we opened more than 30 years ago. Here we receive over 200 clients a week.' },
     address: '6657 Navigation Blvd, Houston, Texas 77011',
@@ -63,7 +63,8 @@ const officesData: OfficeData[] = [
     id: 'harlingen',
     city: 'Harlingen',
     state: 'TX',
-    title: { es: 'Valle del Río Grande', en: 'Rio Grande Valley' },
+    // CAMBIO: Nombre real
+    title: { es: 'Harlingen', en: 'Harlingen' },
     quote: { es: 'Conexión directa con la frontera.', en: 'Direct connection with the border.' },
     description: { es: 'Especializados en defensa de deportación y casos de asilo en la zona de la frontera sur.', en: 'Specializing in deportation defense and asylum cases in the southern border area.' },
     address: '320 E. Jackson St., Harlingen, Texas 78550',
@@ -78,7 +79,8 @@ const officesData: OfficeData[] = [
     id: 'houston-bellaire',
     city: 'Houston Bellaire',
     state: 'TX',
-    title: { es: 'Servicio en Chino', en: 'Chinese Service' },
+    // CAMBIO: Nombre real
+    title: { es: 'Houston Bellaire', en: 'Houston Bellaire' },
     quote: { es: 'Asistencia especializada en el oeste.', en: 'Specialized assistance in the west.' },
     description: { 
         es: 'Nuestra ubicación en Bellaire ofrece servicios con personal bilingüe en inglés, español y chino para atender a la diversa población.', 
@@ -96,7 +98,8 @@ const officesData: OfficeData[] = [
     id: 'dallas',
     city: 'Dallas',
     state: 'TX',
-    title: { es: 'Oficina Norte', en: 'North Office' },
+    // CAMBIO: Nombre real
+    title: { es: 'Dallas', en: 'Dallas' },
     quote: { es: 'Servicio ininterrumpido para usted.', en: 'Uninterrupted service for you.' },
     description: { es: 'En el corazón de Dallas, nuestras puertas están abiertas seis días a la semana. Un refugio legal para la comunidad del norte de Texas.', en: 'In the heart of Dallas, our doors are open six days a week. A legal haven for the North Texas community.' },
     address: '1120 Empire Central place, Dallas, Texas 75247',
@@ -111,7 +114,8 @@ const officesData: OfficeData[] = [
     id: 'el-paso',
     city: 'El Paso',
     state: 'TX',
-    title: { es: 'Oficina Fronteriza', en: 'Border Office' },
+    // CAMBIO: Nombre real
+    title: { es: 'El Paso', en: 'El Paso' },
     quote: { es: 'Luchando en la línea de batalla.', en: 'Fighting on the front line.' },
     description: { es: 'Sirviendo a la comunidad de El Paso y Juarez con pasión y experiencia en la ley de inmigración.', en: 'Serving the El Paso and Juarez community with passion and experience in immigration law.' },
     address: '3632 Admiral Street, El Paso, Texas 79925',
@@ -120,14 +124,14 @@ const officesData: OfficeData[] = [
     hours: { es: 'Lun - Vie 9am - 5pm', en: 'Mon - Fri 9am - 5pm' },
     mapLink: generateMapUrl('3632 Admiral Street, El Paso, Texas 79925'),
     image: '/offices/elpaso.jpg',
-    // **CORRECCIÓN DE SINTAXIS APLICADA AQUÍ**
     services: [{ es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'CRIMINAL', en: 'CRIMINAL' }],
   },
   {
     id: 'los-angeles',
     city: 'Los Angeles',
     state: 'CA',
-    title: { es: 'Costa Oeste', en: 'West Coast' },
+    // CAMBIO: Nombre real
+    title: { es: 'Los Angeles', en: 'Los Angeles' },
     quote: { es: 'Defensa sin fronteras.', en: 'Defense without borders.' },
     description: { es: 'Desde Pico Rivera servimos a toda California. Especialistas en casos complejos de deportación y visas de trabajo.', en: 'Serving all of California from Pico Rivera. Specialists in complex deportation cases and work visas.' },
     address: '8337 Telegraph Rd, Unit 115, Pico Rivera, California 90660',
@@ -142,7 +146,8 @@ const officesData: OfficeData[] = [
     id: 'chicago',
     city: 'Chicago',
     state: 'IL',
-    title: { es: 'Gran Ciudad', en: 'Windy City' },
+    // CAMBIO: Nombre real (ya estaba, se mantiene)
+    title: { es: 'Chicago', en: 'Chicago' }, 
     quote: { es: 'Justicia para el medio oeste.', en: 'Justice for the Midwest.' },
     description: { es: 'Atendemos casos de Inmigración, familia, criminal y accidentes en nuestro edificio propio en Cicero.', en: 'We handle Immigration, family, criminal, and accident cases in our own building in Cicero.' },
     address: '6000 West Cermak Road, Cicero, Illinois 60804',
@@ -157,7 +162,8 @@ const officesData: OfficeData[] = [
     id: 'denver',
     city: 'Denver',
     state: 'CO',
-    title: { es: 'Montañas Rocosas', en: 'Rocky Mountains' },
+    // CAMBIO: Nombre real
+    title: { es: 'Denver', en: 'Denver' },
     quote: { es: 'Protección para Colorado.', en: 'Protection for Colorado.' },
     description: { es: 'Nuestra oficina en Denver extiende nuestros servicios al área de las Montañas Rocosas, enfocados en defensa migratoria.', en: 'Our Denver office extends our services to the Rocky Mountain area, focused on immigration defense.' },
     address: '5400 Ward Road, Building IV, Arvada, Colorado 80002',
@@ -172,7 +178,8 @@ const officesData: OfficeData[] = [
     id: 'memphis',
     city: 'Memphis',
     state: 'TN',
-    title: { es: 'Valle del Mississippi', en: 'Mississippi Valley' },
+    // CAMBIO: Nombre real
+    title: { es: 'Memphis', en: 'Memphis' },
     quote: { es: 'Servicio en el corazón de Tennessee.', en: 'Service in the heart of Tennessee.' },
     description: { es: 'Desde Memphis, servimos a la comunidad en Tennessee y estados circundantes, ofreciendo experiencia en casos de lesiones personales.', en: 'From Memphis, we serve the community in Tennessee and surrounding states, offering expertise in personal injury cases.' },
     address: '3385 Airways Boulevard, Suite 320, Memphis, Tennessee 38116',
@@ -187,7 +194,6 @@ const officesData: OfficeData[] = [
     ...office,
     id: office.id || office.city.toLowerCase().replace(/\s/g, '-')
 }));
-
 
 // --- MINI COMPONENTE: ACCIÓN HUD ---
 const ActionHUD = ({ label, value, icon: Icon, href }: { label: string, value: string, icon: React.ElementType, href: string }) => {
@@ -225,6 +231,24 @@ export default function FuturisticOffices() {
   
   const [activeId, setActiveId] = useState(officesData[0].id);
   const activeOffice = officesData.find(o => o.id === activeId) || officesData[0];
+  const [isOfficeOpen, setIsOfficeOpen] = useState(false);
+
+  // --- LÓGICA DE STATUS ---
+  useEffect(() => {
+    const checkTime = () => {
+        const now = new Date();
+        const hour = now.getHours();
+        // Abierto de 9 AM (9) a 7 PM (19)
+        if (hour >= 9 && hour < 19) {
+            setIsOfficeOpen(true);
+        } else {
+            setIsOfficeOpen(false);
+        }
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 60000); // Revisar cada minuto
+    return () => clearInterval(interval);
+  }, []);
 
   // --- PARALLAX 3D EFFECT VARIABLES ---
   const containerRef = useRef<HTMLDivElement>(null);
@@ -257,7 +281,7 @@ export default function FuturisticOffices() {
         {/* Gradiente de profundidad */}
         <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/50 via-[${PRIMARY_COLOR_DARK}] to-[#000a20]`} />
         
-        {/* Orbes flotantes (movimiento ambiental) */}
+        {/* Orbes flotantes */}
         <motion.div 
           animate={{ x: [0, 50, 0], y: [0, -50, 0], opacity: [0.3, 0.6, 0.3] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
@@ -271,6 +295,13 @@ export default function FuturisticOffices() {
         {/* Textura de ruido */}
         <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
       </div>
+
+      {/* --- MÁSCARAS ESTILO ESCALÓN (Negro Degradado) --- */}
+      {/* Arriba */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-80 pointer-events-none" />
+      {/* Abajo */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-80 pointer-events-none" />
+
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
         
@@ -373,13 +404,14 @@ export default function FuturisticOffices() {
                    />
                    <div className="absolute inset-0 bg-gradient-to-t from-[#000a20] via-transparent to-transparent opacity-90" />
                    
-                   {/* HUD TOP CORNER: BUFFER/STATUS */}
+                   {/* HUD TOP CORNER: STATUS (ACTIVO / OFFLINE) */}
                    <div className="absolute top-6 right-6 z-20 p-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg">
-                        <p className={`text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 text-[${ACCENT_COLOR_GOLD}]`}>
-                            STATUS <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                        <p className={`text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 ${isOfficeOpen ? 'text-green-400' : 'text-red-400'}`}>
+                            STATUS 
+                            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isOfficeOpen ? 'bg-green-500' : 'bg-red-500'}`} />
                         </p>
                         <motion.p 
-                            className="text-white text-lg font-mono"
+                            className="text-white text-lg font-mono mt-1"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
@@ -391,7 +423,7 @@ export default function FuturisticOffices() {
                             >
                                 [ {activeOffice.state} ]
                             </motion.span>
-                             BUFFER OK
+                             {' '} {isOfficeOpen ? 'ACTIVE' : 'OFFLINE'}
                         </motion.p>
                    </div>
                    
@@ -411,41 +443,41 @@ export default function FuturisticOffices() {
                    
                    {/* DESCRIPTION & SERVICES GRID */}
                    <div className="grid lg:grid-cols-3 gap-8 border-b border-white/10 pb-8">
-                      <div className="lg:col-span-2">
-                        <h4 className="text-xl font-thin text-white mb-3">{language === 'es' ? 'Contexto de Operación' : 'Operation Context'}</h4>
-                        <p className="text-blue-100/70 text-base leading-relaxed text-justify border-l-2 border-white/10 pl-4">
-                          {gT(activeOffice.description)}
-                        </p>
-                      </div>
+                     <div className="lg:col-span-2">
+                       <h4 className="text-xl font-thin text-white mb-3">{language === 'es' ? 'Contexto de Operación' : 'Operation Context'}</h4>
+                       <p className="text-blue-100/70 text-base leading-relaxed text-justify border-l-2 border-white/10 pl-4">
+                         {gT(activeOffice.description)}
+                       </p>
+                     </div>
 
-                      <div className={`bg-white/5 rounded-2xl p-6 border border-white/10`}>
-                          <h4 className={`text-white font-bold text-sm mb-4 uppercase tracking-widest flex items-center gap-2`}>
-                             <Scale size={14} className={`text-[${ACCENT_COLOR_GOLD}]`} /> {language === 'es' ? 'Áreas Legales' : 'Legal Sectors'}
-                          </h4>
-                          <ul className="space-y-3">
-                              {activeOffice.services.map((service, idx) => (
-                                  <motion.li 
-                                    key={idx} 
-                                    initial={{ opacity: 0, x: -10 }} 
-                                    animate={{ opacity: 1, x: 0 }} 
-                                    transition={{ duration: 0.3, delay: 0.1 * idx }}
-                                    className="flex items-center gap-2 text-blue-100/80 text-sm"
-                                  >
-                                      <ArrowUpRight size={14} className={`text-[${LIGHT_BLUE_ACCENT}]`} />
-                                      {gT(service)}
-                                  </motion.li>
-                              ))}
-                          </ul>
-                      </div>
+                     <div className={`bg-white/5 rounded-2xl p-6 border border-white/10`}>
+                         <h4 className={`text-white font-bold text-sm mb-4 uppercase tracking-widest flex items-center gap-2`}>
+                            <Scale size={14} className={`text-[${ACCENT_COLOR_GOLD}]`} /> {language === 'es' ? 'Áreas Legales' : 'Legal Sectors'}
+                         </h4>
+                         <ul className="space-y-3">
+                             {activeOffice.services.map((service, idx) => (
+                                 <motion.li 
+                                   key={idx} 
+                                   initial={{ opacity: 0, x: -10 }} 
+                                   animate={{ opacity: 1, x: 0 }} 
+                                   transition={{ duration: 0.3, delay: 0.1 * idx }}
+                                   className="flex items-center gap-2 text-blue-100/80 text-sm"
+                                 >
+                                     <ArrowUpRight size={14} className={`text-[${LIGHT_BLUE_ACCENT}]`} />
+                                     {gT(service)}
+                                 </motion.li>
+                             ))}
+                         </ul>
+                     </div>
                    </div>
                    
                    {/* CONTACT ACTIONS GRID (The HUD) */}
                    <div className="space-y-6">
-                      <h4 className="text-xl font-thin text-white mb-4 flex items-center gap-3">
+                     <h4 className="text-xl font-thin text-white mb-4 flex items-center gap-3">
                          <motion.div 
-                            animate={{ rotate: [0, 360] }}
-                            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                            className={`w-4 h-4 rounded-full border border-dashed border-[${ACCENT_COLOR_GOLD}]`}
+                           animate={{ rotate: [0, 360] }}
+                           transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                           className={`w-4 h-4 rounded-full border border-dashed border-[${ACCENT_COLOR_GOLD}]`}
                          />
                          <span className={`text-[${ACCENT_COLOR_GOLD}] font-medium`}>{language === 'es' ? 'Protocolo' : 'Protocol'}</span> {language === 'es' ? 'de Acceso' : 'Access'}
                       </h4>

@@ -44,20 +44,36 @@ export default function Footer() {
   };
 
   return (
-    <footer className={`relative bg-[${PRIMARY_DARK}] text-white overflow-hidden ${font.className}`}>
+    <footer className={`relative bg-[#001540] text-white overflow-hidden ${font.className}`}>
       
-      {/* 1. DECORACIÓN DE FONDO */}
+      {/* 1. DECORACIÓN DE FONDO MEJORADA */}
+      
+      {/* Ruido sutil para textura */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)' }}></div>
+
       {/* Borde superior brillante */}
-      <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[${ACCENT_GOLD}] to-transparent opacity-50`} />
-      {/* Glow ambiental superior */}
-      <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-32 bg-[${ACCENT_GOLD}]/10 blur-[80px] pointer-events-none`} />
+      <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B2904D] to-transparent opacity-50`} />
+      
+      {/* Glow ambiental superior ANIMADO */}
+      <motion.div 
+        animate={{ 
+          opacity: [0.15, 0.3, 0.15],
+          scale: [1, 1.1, 1]
+        }}
+        transition={{ 
+          duration: 8, 
+          repeat: Infinity, 
+          ease: "easeInOut" 
+        }}
+        className={`absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-64 bg-[#B2904D]/20 blur-[100px] pointer-events-none rounded-full`} 
+      />
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         
         {/* LOGO & SOCIALS */}
         <div className="flex flex-col items-center mb-16">
           <Link href={`/${language}`} className="inline-block mb-10 group relative">
-            <div className={`absolute -inset-4 bg-[${ACCENT_GOLD}]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            <div className={`absolute -inset-4 bg-[#B2904D]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
             <Image
               src="/logo-manuel-solis.png"
               alt="Logo Manuel Solis"
@@ -83,7 +99,7 @@ export default function Footer() {
                     flex items-center justify-center w-12 h-12 rounded-full 
                     bg-white/5 border border-white/10 backdrop-blur-sm
                     text-white transition-all duration-300
-                    hover:bg-[${ACCENT_GOLD}] hover:border-[${ACCENT_GOLD}] hover:text-[${PRIMARY_DARK}] hover:shadow-[0_0_15px_rgba(178,144,77,0.6)]
+                    hover:bg-[#B2904D] hover:border-[#B2904D] hover:text-[#001540] hover:shadow-[0_0_15px_rgba(178,144,77,0.6)]
                   `}
                 >
                   <IconComponent className="w-5 h-5" />
@@ -94,7 +110,7 @@ export default function Footer() {
         </div>
 
         {/* NAVIGATION LINKS (GRID) */}
-        <nav className="mb-16 border-t border-white/10 border-b py-10">
+        <nav className="mb-12 border-t border-white/10 border-b py-10">
           <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 md:gap-12">
             {footerLinks.map((link) => (
               <li key={link.name}>
@@ -104,23 +120,33 @@ export default function Footer() {
                 >
                   {link.name}
                   {/* Underline animado */}
-                  <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-[${ACCENT_GOLD}] transition-all duration-300 group-hover:w-full`} />
+                  <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-[#B2904D] transition-all duration-300 group-hover:w-full`} />
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
 
+        {/* --- TEXTO LEGAL SMS (NUEVO) --- */}
+        <div className="max-w-4xl mx-auto text-center mb-12 opacity-60">
+            <p className="text-[10px] md:text-xs leading-relaxed font-light tracking-wide text-blue-100">
+                {language === 'es' 
+                    ? "Acepto recibir mensajes de texto de marketing y otros mensajes del Law Office of Manuel Solis al número proporcionado. Pueden aplicarse tarifas de mensajes y datos. El consentimiento no es una condición para recibir servicios. Para más información, por favor revise nuestra Política de Privacidad."
+                    : "I agree to receive marketing text messages and other messages from the Law Office of Manuel Solis at the number provided. Message and data rates may apply. Consent is not a condition of receiving services. For more information, please review our Privacy Policy."
+                }
+            </p>
+        </div>
+
         {/* BOTTOM SECTION */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-blue-200/40">
           
           {/* Categorías (Links secundarios) */}
           <div className="flex flex-wrap justify-center gap-4">
-             <Link href={`/${language}/category/proteccion-legal-para-migrantes`} className="hover:text-[${ACCENT_GOLD}] transition-colors">
+             <Link href={`/${language}/category/proteccion-legal-para-migrantes`} className="hover:text-[#B2904D] transition-colors">
                {language === 'es' ? 'Protección legal' : 'Legal Protection'}
              </Link>
              <span>|</span>
-             <Link href={`/${language}/category/derechos-de-migrantes`} className="hover:text-[${ACCENT_GOLD}] transition-colors">
+             <Link href={`/${language}/category/derechos-de-migrantes`} className="hover:text-[#B2904D] transition-colors">
                {language === 'es' ? 'Derechos de migrantes' : 'Migrant Rights'}
              </Link>
           </div>
@@ -140,7 +166,7 @@ export default function Footer() {
         onClick={scrollToTop}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className={`absolute bottom-8 right-8 w-10 h-10 rounded-full bg-[${ACCENT_GOLD}]/10 border border-[${ACCENT_GOLD}]/30 text-[${ACCENT_GOLD}] flex items-center justify-center hover:bg-[${ACCENT_GOLD}] hover:text-[${PRIMARY_DARK}] transition-all duration-300 backdrop-blur-md hidden md:flex`}
+        className={`absolute bottom-8 right-8 w-10 h-10 rounded-full bg-[#B2904D]/10 border border-[#B2904D]/30 text-[#B2904D] flex items-center justify-center hover:bg-[#B2904D] hover:text-[#001540] transition-all duration-300 backdrop-blur-md hidden md:flex`}
       >
         <ArrowUp size={18} />
       </motion.button>

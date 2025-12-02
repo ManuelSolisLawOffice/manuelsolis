@@ -107,12 +107,13 @@ export default function Services() {
             style={{ y: yBg }} 
             animate={{ x: ["100%", "-100%"] }} 
             transition={{ 
-                duration: 90, 
+                duration: 80, 
                 repeat: Infinity, 
                 ease: "linear",
                 repeatType: "loop"
             }}
-            className="absolute top-20 right-0 flex items-center justify-center opacity-[0.025] select-none pointer-events-none"
+            // CAMBIO: Opacidad subida de 0.025 a 0.06
+            className="absolute top-20 right-0 flex items-center justify-center opacity-[0.06] select-none pointer-events-none"
         >
             <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
                 S
@@ -121,16 +122,16 @@ export default function Services() {
 
         {/* --- La "M" Gigante en Movimiento (Arriba a Abajo) --- */}
         <motion.div
-            // Quitamos el style={{ y: yBg }} para que no interfiera el scroll con la animación infinita vertical
-            animate={{ y: ["-120vh", "120vh"] }} // Movimiento vertical completo (de arriba a abajo)
+            animate={{ y: ["-120vh", "120vh"] }} // Movimiento vertical completo
             transition={{ 
-                duration: 80, // Lento y majestuoso
+                duration: 80, 
                 repeat: Infinity, 
                 ease: "linear",
-                repeatType: "loop"
+                repeatType: "loop",
+                delay: -15 // CAMBIO: Delay negativo para que empiece ya visible (adelanta la animación)
             }}
-            // Posicionada a la izquierda
-            className="absolute top-0 left-[-10%] flex items-center justify-center opacity-[0.025] select-none pointer-events-none"
+            // CAMBIO: Opacidad subida de 0.025 a 0.06
+            className="absolute top-0 left-[-10%] flex items-center justify-center opacity-[0.06] select-none pointer-events-none"
         >
             <span className={`text-[120vh] leading-none font-extrabold italic text-white tracking-tighter mix-blend-overlay transform -skew-x-12`}>
                 M

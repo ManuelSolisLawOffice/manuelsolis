@@ -5,63 +5,94 @@ import Footer from '../../../components/Footer'
 import ContactForm from '../../../components/ContactForm' 
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
-import { useLanguage } from '../../../context/LanguageContext' // IMPORTACIÓN REQUERIDA
+import { useLanguage } from '../../../context/LanguageContext'
+import { motion, AnimatePresence } from 'framer-motion'; 
+import { Outfit } from 'next/font/google';
 
-// --- DEFINICIÓN DE TIPOS ADAPTADA ---
+// --- FUENTE Y COLORES ---
+const font = Outfit({ 
+  subsets: ['latin'], 
+  weight: ['100', '300', '400', '500', '700'] 
+})
 
+// --- TIPOS ---
 interface FaqItemBilingual {
   title: { es: string; en: string };
   content: { es: string; en: string };
 }
 
-// --- FUNCIÓN AUXILIAR PARA OBTENER EL TEXTO TRADUCIDO ---
+// --- UTILIDAD: PARSEAR MARKDOWN A HTML ---
+const parseContent = (text: string) => {
+  let parsed = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  parsed = parsed.replace(/\n/g, '<br />');
+  return parsed;
+};
 
-/**
- * Función genérica para obtener el texto correcto de un objeto bilingüe.
- * @param obj El objeto con propiedades 'es' y 'en' (o un string simple).
- * @param lang El idioma actual ('es' o 'en').
- */
 const getText = (obj: any, lang: 'es' | 'en'): string => {
   if (typeof obj === 'string') return obj;
   return obj[lang] || obj.es;
 };
 
-// --- COMPONENTE REUTILIZABLE PARA EL ACORDEÓN (ADAPTADO) ---
-
+// --- COMPONENTE ACORDEÓN ---
 function Accordion({ item, lang }: { item: FaqItemBilingual, lang: 'es' | 'en' }) {
   const [isOpen, setIsOpen] = useState(false);
   const title = getText(item.title, lang);
-  const content = getText(item.content, lang);
+  const rawContent = getText(item.content, lang);
+  const contentHtml = parseContent(rawContent);
 
   return (
-    <div className="border-b border-gray-200">
+    <div className="group mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-4 text-left flex items-center justify-between text-lg font-semibold text-gray-800 hover:text-[#B2904D] transition-colors duration-200"
+        className={`
+          w-full px-6 py-5 flex items-center justify-between text-left transition-all duration-300 rounded-xl
+          ${isOpen 
+            ? 'bg-white/10 shadow-[0_0_20px_rgba(255,255,255,0.15)] border-white/30' 
+            : 'bg-white/5 hover:bg-white/10 border-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+          }
+          border backdrop-blur-md
+        `}
       >
-        <span>{title}</span>
-        <div className="flex items-center gap-2">
-          {isOpen ? (
-            <ChevronUp className="w-5 h-5 text-[#B2904D]" />
-          ) : (
-            <ChevronDown className="w-5 h-5 text-gray-500" />
-          )}
+        <span className={`text-lg font-light tracking-wide ${isOpen ? 'text-[#B2904D] font-medium' : 'text-white'}`}>
+          {title}
+        </span>
+        <div className={`p-2 rounded-full transition-all duration-300 ${isOpen ? 'bg-[#B2904D] text-[#001540]' : 'bg-white/5 text-white'}`}>
+          {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </div>
       </button>
 
-      {isOpen && (
-        <div 
-          className="px-4 py-4 bg-gray-50 text-gray-700 text-base leading-relaxed"
-          // Utiliza dangerouslySetInnerHTML para renderizar el HTML dentro del contenido.
-          dangerouslySetInnerHTML={{ __html: content }} 
-        />
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div 
+              className="px-6 py-6 text-blue-100/80 text-base font-light leading-relaxed bg-black/20 rounded-b-xl mx-2 border-x border-b border-white/5 shadow-inner"
+              dangerouslySetInnerHTML={{ __html: contentHtml }} 
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-// --- TEXTOS DE LA INTERFAZ FIJA ---
+// --- COMPONENTE TÍTULO DE SECCIÓN (CORREGIDO: Definido fuera del componente principal) ---
+const SectionTitle = ({ title }: { title: string }) => (
+  <div className="mb-8 flex items-center gap-4">
+     <div className="h-px bg-gradient-to-r from-transparent via-[#B2904D] to-transparent w-full opacity-50"></div>
+     <h2 className="text-2xl md:text-3xl font-light text-white whitespace-nowrap drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+       {title}
+     </h2>
+     <div className="h-px bg-gradient-to-r from-transparent via-[#B2904D] to-transparent w-full opacity-50"></div>
+  </div>
+);
 
+// --- TEXTOS UI ---
 const interfaceTexts = {
   hero: {
     title: { es: 'PREGUNTAS FRECUENTES', en: 'FREQUENTLY ASKED QUESTIONS' },
@@ -74,16 +105,9 @@ const interfaceTexts = {
     immigrationLaw: { es: 'Ley de Inmigración', en: 'Immigration Law' },
     insuranceLaw: { es: 'Ley de Seguros', en: 'Insurance Law' },
   },
-  contact: {
-    title1: { es: 'SOLICITE SU', en: 'REQUEST YOUR' },
-    title2: { es: 'CONSULTA', en: 'CONSULTATION' },
-    subtitle: { es: 'Llene este formulario y le llamaremos en unos 10 minutos en horas de trabajo. También puede llamarnos y estaremos encantados de contestar sus preguntas.', en: 'Fill out this form, and we will call you back in about 10 minutes during business hours. You can also call us, and we will be happy to answer your questions.' },
-  }
 };
 
-
-// --- DATOS DE PREGUNTAS FRECUENTES BILINGÜES ---
-
+// --- DATA ---
 const faqDataBilingual = {
   civilLaw: [
     {
@@ -244,7 +268,7 @@ const faqDataBilingual = {
     },
     {
       title: { es: "El ajustador del seguro dice que mis cosas se pueden limpiar o reparar y que no es necesario reemplazarlas. ¿Cómo puedo saber si eso es cierto?", en: "The insurance adjuster says my things can be cleaned or repaired and don't need to be replaced. How can I tell if that's true?" },
-      content: { es: "Puede que no sea cierto. Busque la opinión de una empresa de restauración de buena reputación o un profesional calificado. Si la pérdida está relacionada con un incendio, el daño por calor, humo y agua puede ser significativo si los artículos no se consumieron totalmente en el incendio. El olor a humo es difícil de eliminar y es una simplificación excesiva y conveniente para el ajustador con el fin de que afirme o espere que se limpien los artículos dañados. En las Oficinas del Abogado Manuel Solís, le ofrecemos una **inspección GRATUITA** de los daños que ha sufrido para poder así negociar en su nombre con el ajustador de su compañía de seguros y que no le engañen.", en: "It may not be true. Seek the opinion of a reputable **restoration company** or a qualified professional. If the loss is fire-related, heat, smoke, and water damage can be significant if items were not totally consumed in the fire. Smoke odor is difficult to eliminate and it is an oversimplification and convenient for the adjuster to claim or expect damaged items to be cleaned. At the Law Offices of Attorney Manuel Solís, we offer a **FREE inspection** of the damages you have suffered so we can negotiate on your behalf with your insurance company's adjuster and ensure you are not misled." },
+      content: { es: "Puede que no sea cierto. Busque la opinión de una empresa de restauración de buena reputación o un profesional calificado. Si la pérdida está relacionada con un incendio, el daño por calor, humo y agua puede ser significativo si los artículos no se consumieron totalmente en el incendio. El olor a humo es difícil de eliminar y es una simplificación excesiva y conveniente para el ajustador con el fin de que afirme o espere que se limpien los artículos dañados. En las Oficinas del Abogado Manuel Solís, le ofrecemos una **inspección GRATUITA** de los daños que ha sufrido para poder así negociar en su nombre con el ajustador de su compañía de seguros y que no le engañen.", en: "It may not be true. Seek the opinion of a reputable **restoration company** or a qualified professional. If the loss is fire-related, heat, smoke, and water damage can be significant if items were not totally consumed in the fire. Smoke odor is difficult to eliminate and it is an oversimplification and convenient for the adjuster to claim or expect damaged items to be cleaned. In the Law Offices of Attorney Manuel Solís, we offer a **FREE inspection** of the damages you have suffered so we can negotiate on your behalf with your insurance company's adjuster and ensure you are not misled." },
     },
     {
       title: { es: "Se me ha inundado la casa y mi seguro dice que no me cubre los daños. ¿Qué debo hacer?", en: "My house has been flooded, and my insurance says it doesn't cover the damages. What should I do?" },
@@ -258,7 +282,6 @@ export default function PreguntasFrecuentesPage() {
   const { language } = useLanguage();
   const lang = language as 'es' | 'en';
   
-  // Función t (translate) para textos fijos de interfaz
   const t = (key: string): string => {
     const parts = key.split('.');
     let current: any = interfaceTexts;
@@ -273,126 +296,128 @@ export default function PreguntasFrecuentesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className={`relative min-h-screen w-full bg-[#001540] text-white overflow-x-hidden ${font.className}`}>
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(/apretondemanos.png)',
-          }}
-        />
-        
-        <div className="absolute inset-0 bg-black/30"></div>
+      {/* =========================================================================
+          FONDO ATMOSFÉRICO (Z-0) - OPTIMIZADO PARA NO BUGUEAR EL SCROLL
+      ========================================================================= */}
+      <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
+         
+         {/* Ruido sutil */}
+         <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
-              {t('hero.title')}
-            </h1>
-            <p className="text-xl text-white/90 animate-fade-in-delay">
-              {t('hero.subtitle')}
-            </p>
-          </div>
-        </div>
+         {/* Animaciones de Luz (Simplificadas para rendimiento) */}
+         <motion.div 
+           animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+           className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-blue-600/10 rounded-full blur-[120px]" 
+         />
+         <motion.div 
+            animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.2, 1] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-sky-800/10 rounded-full blur-[150px]" 
+         />
+         
+         {/* N Gigante (Opacidad muy baja para no molestar) */}
+         <div className="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none select-none overflow-hidden">
+            <span className="text-[120vh] font-black italic text-white tracking-tighter transform -skew-x-12">
+               N/\
+            </span>
+         </div>
+      </div>
+      
+      {/* =========================================================================
+          CONTENIDO (Z-10)
+      ========================================================================= */}
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative pt-44 pb-16 z-10 text-center px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto"
+        >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-thin text-white mb-6 drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+            {t('hero.title').split(' ').map((word, index) => (
+              <React.Fragment key={index}>
+                  {word === 'FRECUENTES' || word === 'QUESTIONS' ? <span className='font-bold text-[#B2904D]'>{word}</span> : word}
+                  {' '}
+              </React.Fragment>
+            ))}
+          </h1>
+          <div className="w-24 h-1 bg-[#B2904D] mx-auto rounded-full shadow-[0_0_15px_#B2904D] mb-8" />
+          <p className="text-xl text-blue-100/70 font-light max-w-2xl mx-auto">
+            {t('hero.subtitle')}
+          </p>
+        </motion.div>
       </section>
       
-      {/* --- FAQ Content Sections --- */}
-      <div className="container mx-auto px-4 py-16">
+      {/* --- SECCIONES DE ACORDEÓN --- */}
+      <div className="container mx-auto px-4 py-12 relative z-10 max-w-4xl">
         
-        {/* Ley Civil / Civil Law */}
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-4 border-[#B2904D] pb-2">
-            {t('sections.civilLaw')}
-          </h2>
-          <div className="space-y-4 rounded-xl border border-gray-100 shadow-lg p-4">
-            {faqDataBilingual.civilLaw.map((item, index) => (
-              <Accordion key={index} item={item} lang={lang} />
-            ))}
-          </div>
-        </div>
-        
-        <hr className="my-10" />
-
-        {/* Ley Criminal / Criminal Law */}
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-4 border-[#B2904D] pb-2">
-            {t('sections.criminalLaw')}
-          </h2>
-          <div className="space-y-4 rounded-xl border border-gray-100 shadow-lg p-4">
-            {faqDataBilingual.criminalLaw.map((item, index) => (
-              <Accordion key={index} item={item} lang={lang} />
-            ))}
-          </div>
+        {/* LEY CIVIL */}
+        <div className="mb-16">
+          <SectionTitle title={t('sections.civilLaw')} />
+          {faqDataBilingual.civilLaw.map((item, index) => (
+            <Accordion key={index} item={item} lang={lang} />
+          ))}
         </div>
 
-        <hr className="my-10" />
-
-        {/* Ley Familiar / Family Law */}
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-4 border-[#B2904D] pb-2">
-            {t('sections.familyLaw')}
-          </h2>
-          <div className="space-y-4 rounded-xl border border-gray-100 shadow-lg p-4">
-            {faqDataBilingual.familyLaw.map((item, index) => (
-              <Accordion key={index} item={item} lang={lang} />
-            ))}
-          </div>
+        {/* LEY CRIMINAL */}
+        <div className="mb-16">
+          <SectionTitle title={t('sections.criminalLaw')} />
+          {faqDataBilingual.criminalLaw.map((item, index) => (
+            <Accordion key={index} item={item} lang={lang} />
+          ))}
         </div>
 
-        <hr className="my-10" />
-        
-        {/* Ley de Inmigración / Immigration Law */}
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-4 border-[#B2904D] pb-2">
-            {t('sections.immigrationLaw')}
-          </h2>
-          <div className="space-y-4 rounded-xl border border-gray-100 shadow-lg p-4">
-            {faqDataBilingual.immigrationLaw.map((item, index) => (
-              <Accordion key={index} item={item} lang={lang} />
-            ))}
-          </div>
+        {/* LEY FAMILIAR */}
+        <div className="mb-16">
+          <SectionTitle title={t('sections.familyLaw')} />
+          {faqDataBilingual.familyLaw.map((item, index) => (
+            <Accordion key={index} item={item} lang={lang} />
+          ))}
         </div>
-
-        <hr className="my-10" />
         
-        {/* Ley de Seguros / Insurance Law */}
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-4 border-[#B2904D] pb-2">
-            {t('sections.insuranceLaw')}
-          </h2>
-          <div className="space-y-4 rounded-xl border border-gray-100 shadow-lg p-4">
-            {faqDataBilingual.insuranceLaw.map((item, index) => (
-              <Accordion key={index} item={item} lang={lang} />
-            ))}
-          </div>
+        {/* LEY INMIGRACIÓN */}
+        <div className="mb-16">
+          <SectionTitle title={t('sections.immigrationLaw')} />
+          {faqDataBilingual.immigrationLaw.map((item, index) => (
+            <Accordion key={index} item={item} lang={lang} />
+          ))}
+        </div>
+        
+        {/* LEY SEGUROS */}
+        <div className="mb-16">
+          <SectionTitle title={t('sections.insuranceLaw')} />
+          {faqDataBilingual.insuranceLaw.map((item, index) => (
+            <Accordion key={index} item={item} lang={lang} />
+          ))}
         </div>
 
       </div>
       
-      {/* Contact Section */}
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-                    {t('contact.title1').split(' ').map((word, index) => (
-                        <React.Fragment key={index}>
-                            {word}
-                            {' '}
-                        </React.Fragment>
-                    ))}
-                    <span className="text-[#B2904D]">{t('contact.title2')}</span>
-                </h2>
-                <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-                    {t('contact.subtitle')}
-                </p>
+      {/* --- CONTACT SECTION --- */}
+      <section className="relative py-24 z-10 border-t border-white/5 bg-gradient-to-b from-[#001540] to-[#000a20]">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+            
+            <div className="mb-12">
+              <h2 className="text-4xl md:text-5xl font-thin text-white mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]">
+                  {t('contact.title1')} <span className="font-bold text-[#B2904D] drop-shadow-[0_0_20px_rgba(178,144,77,0.5)]">{t('contact.title2')}</span>
+              </h2>
+              <p className="text-blue-100/60 font-light text-lg">
+                  {t('contact.subtitle')}
+              </p>
             </div>
             
-            <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-2xl">
-                <ContactForm /> 
+            {/* Formulario flotando limpio */}
+            <div className="relative z-20 text-left">
+               <ContactForm /> 
             </div>
+
         </div>
       </section>
 

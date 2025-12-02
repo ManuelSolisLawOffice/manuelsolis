@@ -95,6 +95,10 @@ export default function HeaderProfessional() {
           { name: 'About Us', href: `/${language}/sobre-nosotros` },
         ]
     },
+    { 
+      name: language === 'es' ? 'Clientes' : 'Clients',
+      href: `/${language}/clientes`,
+    },
   ];
 
   const toggleLang = (lang: 'es' | 'en') => {

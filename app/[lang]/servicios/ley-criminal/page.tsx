@@ -1,43 +1,74 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, Variants } from 'framer-motion';
 import {
   X,
   PhoneCall,
   ArrowRight,
-  Car, 
-  Scale, 
-  FileText, 
-  MessageSquare,
-  Zap, 
-  CheckCircle2, 
+  Car, // Usado para DWI
+  Scale, // Usado para Prostitución/Solicitación y Proceso
+  FileText, // Usado para Hurto/Robo y Proceso
+  MessageSquare, // Usado para Violencia Doméstica
+  Zap, // Usado para Asalto
+  CheckCircle2, // Usado para Proceso
   Star,
+  Globe, 
 } from 'lucide-react';
 
+import Image from 'next/image';
+import { Outfit } from 'next/font/google';
+
+// --- IMPORTACIONES DE COMPONENTES (RUTAS CORREGIDAS) ---
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import ContactForm from '../../../components/ContactForm';
 import { useLanguage } from '../../../context/LanguageContext';
 
-// --- FUNCIÓN AUXILIAR PARA OBTENER EL TEXTO TRADUCIDO ---
+// --- COLORES DE LA PLANTILLA DE DISEÑO (OSCURA) ---
+const PRIMARY_DARK = '#001540';
+const ACCENT_GOLD = '#B2904D';
+
+const font = Outfit({ 
+  subsets: ['latin'], 
+  weight: ['100', '200', '300', '400', '500', '700', '900'] 
+});
+
+// --- FUNCIÓN AUXILIAR ---
 const getText = (obj: any, lang: 'es' | 'en'): string => {
   if (typeof obj === 'string') return obj;
   return obj[lang] || obj.es;
 };
 
-// --- ESTRUCTURA DE DATOS BILINGÜES ---
+// --- TIPADO PARA DATA ---
+interface ContentDetail { es: string; en: string; }
+interface CaseContent {
+    intro: ContentDetail;
+    description: ContentDetail;
+    subTitle?: ContentDetail;
+    subPoints?: ContentDetail[];
+    solution?: ContentDetail;
+}
+interface CaseItem {
+    id: string;
+    title: ContentDetail;
+    subtitle: ContentDetail;
+    icon: React.ElementType;
+    position: string;
+    content: CaseContent;
+}
 
+// =========================================================================
+// --- DATOS DE LEY CRIMINAL (Traducciones Corregidas) ---
+// =========================================================================
 const texts = {
-  // --- DATOS PRINCIPALES DE CASOS (LEY CRIMINAL) ---
   mainCases: [
     {
       id: 'violencia_domestica',
       title: { es: "Violencia Doméstica", en: "Domestic Violence" },
       subtitle: { es: "Delitos Emotivos y Complejos", en: "Emotional and Complex Offenses" },
       icon: MessageSquare,
-      gradient: "from-red-500/10 via-orange-500/10 to-red-600/10",
-      position: "col-span-3 lg:col-span-2 h-[450px]", 
+      position: "col-span-3 lg:col-span-2 h-[450px]",
       content: {
         intro: { es: "¿Está acusado de violencia doméstica?", en: "Are you accused of domestic violence?" },
         description: { es: "Los casos de violencia doméstica se encuentran entre los delitos penales más emotivos y complejos. Si usted y un familiar tienen una relación hostil, es fácil terminar en problemas legales. A menudo resulta en un arresto basado en versiones diferentes del mismo evento.", en: "Domestic violence cases are among the most emotional and complex criminal offenses. If you and a family member have a hostile relationship, it's easy to end up in legal trouble. It often results in an arrest based on different versions of the same event." },
@@ -56,7 +87,6 @@ const texts = {
       title: { es: "Asalto y Agresión", en: "Assault and Battery" },
       subtitle: { es: "Violencia Física o Amenaza de Daño", en: "Physical Violence or Threat of Harm" },
       icon: Zap, 
-      gradient: "from-blue-500/10 via-cyan-500/10 to-blue-600/10",
       position: "col-span-3 lg:col-span-1 h-[450px]", 
       content: {
         intro: { es: "¿Ha sido acusado de asalto o agresión?", en: "Have you been charged with assault or battery?" },
@@ -69,17 +99,16 @@ const texts = {
       title: { es: "DWI - Manejo en Estado de Ebriedad", en: "DWI - Driving While Intoxicated" },
       subtitle: { es: "Conducir Bajo la Influencia (DUI)", en: "Driving Under the Influence (DUI)" },
       icon: Car, 
-      gradient: "from-purple-500/10 via-pink-500/10 to-purple-600/10",
       position: "col-span-3 lg:col-span-1 h-[450px]", 
       content: {
-        intro: { es: "¿Necesita un abogado después de ser sorprendido conduciendo bajo la influencia?", en: "Need an attorney after being caught driving under the influence?" },
+        intro: { es: "¿Necesita un abogado después de ser sorprendido conduciendo bajo la influencia?", in: "Need an attorney after being caught driving under the influence?" },
         description: { es: "El límite legal de contenido de alcohol en la sangre es típicamente 0.08%, pero puede ser detenido por sospecha de consumo de drogas o alcohol, independientemente de la cantidad exacta.", en: "The legal limit for blood alcohol content is typically 0.08%, but you can be arrested for suspicion of drug or alcohol consumption, regardless of the exact amount." },
         subTitle: { es: "Graves Consecuencias Incluyen:", en: "Serious Consequences Include:" },
         subPoints: [
           { es: "Un registro de antecedentes penales.", en: "A criminal record." },
           { es: "Suspensión o revocación de su licencia de conducir.", en: "Suspension or revocation of your driver's license." },
-          { es: "Sentencia de cárcel y multas elevadas.", en: "Jail sentence and high fines." },
-          { es: "Programas de tratamiento requeridos y aumento del costo del seguro.", en: "Required treatment programs and increased insurance cost." },
+          { es: "Sentencia de cárcel y multas elevadas.", in: "Jail sentence and high fines." },
+          { es: "Programas de tratamiento requeridos y aumento del costo del seguro.", in: "Required treatment programs and increased insurance cost." },
         ],
         solution: { es: "Nuestros abogados de defensa criminal están aquí para brindarle el asesoramiento y la representación que necesita para luchar contra los cargos de DWI.", en: "Our criminal defense attorneys are here to provide you with the advice and representation you need to fight DWI charges." },
       }
@@ -89,7 +118,6 @@ const texts = {
       title: { es: "Hurto, Robo y Delitos Patrimoniales", en: "Theft, Robbery, and Property Crimes" },
       subtitle: { es: "Fraude, Malversación y Robo de Identidad", en: "Fraud, Embezzlement, and Identity Theft" },
       icon: FileText, 
-      gradient: "from-yellow-500/10 via-amber-500/10 to-yellow-600/10",
       position: "col-span-3 lg:col-span-1 h-[450px]", 
       content: {
         intro: { es: "¿Ha sido acusado de un delito de robo o hurto?", en: "Have you been charged with a theft or larceny offense?" },
@@ -99,7 +127,8 @@ const texts = {
           { es: "Robo en tiendas y Hurto menor.", en: "Shoplifting and petty theft." },
           { es: "Hurto y Malversación.", en: "Larceny and Embezzlement." },
           { es: "Robo de identidad y Fraude/Falsificación.", en: "Identity theft and Fraud/Forgery." },
-          { es: "Robo con cheque o emisión de cheques sin fondos.", en: "Theft by check or issuing bad checks." },
+          // TRADUCCIÓN CORREGIDA
+          { es: "Robo con cheque o emisión de cheques sin fondos.", en: "Theft by check or issuing bad checks." }, 
           { es: "Uso ilegal/no autorizado de un vehículo motorizado.", en: "Illegal/unauthorized use of a motor vehicle." },
         ],
         solution: { es: "Si lo acusan de un delito en esta lista, contáctenos ahora. Lucharemos para proteger su reputación y evitar consecuencias penales severas.", en: "If you are accused of a crime on this list, contact us now. We will fight to protect your reputation and avoid severe criminal consequences." },
@@ -110,50 +139,53 @@ const texts = {
       title: { es: "Prostitución y Solicitación", en: "Prostitution and Solicitation" },
       subtitle: { es: "Delito Grave y Sanciones Estrictas", en: "Felony Offense and Strict Penalties" },
       icon: Scale, 
-      gradient: "from-green-500/10 via-emerald-500/10 to-green-600/10",
-      position: "col-span-3 lg:col-span-3 h-[450px]",
+      position: "col-span-3 lg:col-span-2 h-[450px]",
       content: {
         intro: { es: "¿Ha sido acusado de prostitución o solicitación?", en: "Have you been charged with prostitution or solicitation?" },
         description: { es: "Las leyes han endurecido las penas, por ejemplo, en Texas, la solicitud de prostitución puede ser un delito grave. Alguien es culpable si 'la persona a sabiendas ofrece o acepta pagar una tarifa a otra persona con el fin de participar en una conducta sexual'.", en: "Laws have stiffened penalties; for example, in Texas, solicitation of prostitution can be a felony offense. Someone is guilty if 'the person knowingly offers or agrees to pay a fee to another person for the purpose of engaging in sexual conduct'." },
         solution: { es: "Según la definición, no es necesario que el dinero cambie de manos ni que se realice ningún acto sexual. Las sanciones varían ampliamente; es esencial consultar con nuestro abogado defensor penal para determinar las posibles sanciones y las opciones legales que tiene.", en: "According to the definition, no money needs to change hands or sexual act take place. Penalties vary widely; it is essential to consult with our criminal defense attorney to determine the possible penalties and the legal options you have." },
       }
     },
-  ],
+  ] as CaseItem[],
 
-  // --- PASOS DEL PROCESO ---
   processSteps: [
     { id: 1, title: { es: "Detención y Contacto", en: "Arrest and Contact" }, icon: PhoneCall, desc: { es: "Llámenos inmediatamente tras un arresto para proteger sus derechos.", en: "Call us immediately after an arrest to protect your rights." } },
     { id: 2, title: { es: "Análisis de Pruebas", en: "Evidence Analysis" }, icon: FileText, desc: { es: "Revisamos informes policiales, testimonios y toda la evidencia.", en: "We review police reports, testimonies, and all evidence." } },
     { id: 3, title: { es: "Estrategia Legal", en: "Legal Strategy" }, icon: Scale, desc: { es: "Desarrollamos una defensa sólida y exploramos todas las opciones.", en: "We develop a solid defense and explore all options." } },
-    { id: 4, title: { es: "Representación en Corte", en: "Court Representation" }, icon: CheckCircle2, desc: { es: "Lo representamos en la corte para luchar por el mejor resultado posible.", en: "We represent you in court to fight for the best possible outcome." } }, 
+    { id: 4, title: { es: "Representación en Corte", en: "Court Representation" }, icon: CheckCircle2, desc: { es: "Lo representamos en la corte para luchar por el mejor resultado posible.", in: "We represent you in court to fight for the best possible outcome." } }, 
   ],
 
-  // --- TEXTOS DE INTERFAZ FIJA ---
   interface: {
     badge: { es: "Defensa Legal Inmediata", en: "Immediate Legal Defense" },
     mainTitle: { es: "LEY CRIMINAL", en: "CRIMINAL LAW" },
-    heroSubtitle1: { es: "Desde DWI hasta hurto y asalto. Protegemos su libertad y su futuro.", en: "From DWI to theft and assault. We protect your freedom and future." },
-    heroSubtitle2: { es: "Su primera llamada debe ser a nuestro abogado defensor.", en: "Your first call should be to our defense attorney." },
+    heroTitle1: { es: "Expertos en", en: "Experts in" },
+    heroTitle2: { es: "Defensa Penal", en: "Criminal Defense" }, 
+    heroDescription: { es: "Desde DWI hasta hurto y asalto. Protegemos su libertad y su futuro. Su primera llamada debe ser a nuestro abogado defensor.", en: "From DWI to theft and assault. We protect your freedom and future. Your first call should be to our defense attorney." },
+    // Eliminado del formulario, pero lo mantengo aquí si se necesita en otro lugar:
+    // contactDescription: { es: "Complete el formulario para recibir una evaluación confidencial de su caso por parte de nuestros abogados defensores.", en: "Complete the form below to receive a confidential case evaluation from our criminal defense attorneys." }, 
+    stats: { es: "Casos Defendidos", en: "Cases Defended" },
+    casesTitle: { es: "Delitos que Defendemos", in: "Offenses We Defend" },
     ctaConsultation: { es: "Consulta Ahora", en: "Consult Now" },
     ctaCases: { es: "Ver Tipos de Casos", en: "View Case Types" },
     specialties: { es: "Nuestra Defensa", en: "Our Defense" },
-    casesTitle: { es: "Delitos que Defendemos", en: "Offenses We Defend" },
     details: { es: "Ver Detalles", en: "View Details" },
     modalClosing: { es: "Abogados defensores penales listos para proteger su libertad.", en: "Criminal defense attorneys ready to protect your freedom." },
     videoSectionBadge: { es: "Conoce a Nuestro Equipo", en: "Meet Our Team" },
-    videoSectionTitle: { es: "Abogado", en: "Attorney" },
+    videoSectionTitle: { es: "Abogado", in: "Attorney" },
     videoSectionSubtitle: { es: "Escucha directamente de nuestros socios cómo protegemos tu libertad y derechos en casos criminales.", en: "Hear directly from our partners how we protect your freedom and rights in criminal cases." },
     callNow: { es: "Llámanos Ahora Mismo", en: "Call Us Right Now" },
     processMethod: { es: "Nuestro Método", en: "Our Method" },
+    // TRADUCCIÓN CORREGIDA
     processTitle: { es: "Su Ruta Hacia la Defensa", en: "Your Path to Defense" },
     requestEvaluation: { es: "Solicitar Consulta Privada", en: "Request Private Consultation" },
-    videoAlt: { es: "Video explicativo sobre la dedicación del equipo legal.", en: "Explanation video about the legal team's dedication." }
+    videoAlt: { es: "Video explicativo sobre la dedicación del equipo legal.", in: "Explanation video about the legal team's dedication." }
   }
 };
 
 
-// --- COMPONENTE PRINCIPAL ---
-
+// =========================================================================
+// --- COMPONENTE PRINCIPAL (Diseño Oscuro) ---
+// =========================================================================
 export default function CriminalLawPage() {
   const { language } = useLanguage();
   const lang = language as 'es' | 'en';
@@ -182,9 +214,11 @@ export default function CriminalLawPage() {
 
   const selectedItem = mainCasesData.find(item => item.id === selectedId);
 
+  // Mapeo para el layout del Grid (2 columnas para Violencia Doméstica y Prostitución, 1 para el resto)
   const responsiveCases = mainCasesData.map((item, index) => {
-    if (index === 0) return { ...item, position: "col-span-3 lg:col-span-2 h-[450px]" };
-    if (index === 4) return { ...item, position: "col-span-3 lg:col-span-3 h-[450px]" };
+    // Si index 0 (Violencia Doméstica) o index 4 (Prostitución), ocupa 2 columnas.
+    if (index === 0 || index === 4) return { ...item, position: "col-span-3 lg:col-span-2 h-[450px]" };
+    // Los demás ocupan 1 columna.
     return { ...item, position: "col-span-3 lg:col-span-1 h-[450px]" };
   });
 
@@ -194,93 +228,154 @@ export default function CriminalLawPage() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [selectedId]);
 
+
+  // Animación de Revelación de Texto (Tomada de la Plantilla de Diseño)
+  const textRevealVariant: Variants = {
+    hidden: { y: "100%", rotateX: -20, opacity: 0 },
+    visible: (custom: number) => ({
+      y: 0, rotateX: 0, opacity: 1,
+      transition: { duration: 1.2, delay: custom * 0.15, ease: "easeOut" } 
+    })
+  };
+
+
   return (
-    <div className="min-h-screen flex flex-col bg-white text-[#002342] font-sans selection:bg-[#B2904D] selection:text-white overflow-x-hidden">
+    // FONDO AZUL OSCURO (PRIMARY_DARK)
+    <div className="min-h-screen flex flex-col bg-[#001540] text-white relative selection:bg-[#B2904D] selection:text-white font-sans overflow-x-hidden">
+      
       <Header />
 
-      {/* --- BACKGROUND DECORATION --- */}
-      <div className="absolute top-0 left-0 w-full h-[1000px] overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[5%] w-[600px] h-[600px] bg-[#B2904D]/10 rounded-full blur-[120px] opacity-60" />
-        <div className="absolute top-[10%] right-[-5%] w-[500px] h-[500px] bg-[#002342]/5 rounded-full blur-[100px]" />
+      {/* =========================================================================
+          1. FONDO ATMOSFÉRICO FIJO (AZUL)
+      ========================================================================= */}
+      <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#001f5f]" />
+         
+         {/* Ruido sutil */}
+         <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay" style={{ backgroundImage: 'url(/noise.png)', backgroundRepeat: 'repeat' }}></div>
+
+         {/* Animaciones de Luz (Orbes) */}
+         <motion.div 
+           animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+           className="absolute top-[-10%] right-[-5%] w-[60vw] h-[60vw] bg-blue-600/10 rounded-full blur-[120px]" 
+         />
+         <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-[-10%] left-[-5%] w-[70vw] h-[70vw] bg-sky-800/10 rounded-full blur-[150px]" 
+         />
+         
+         {/* N Gigante */}
+         <div className="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none select-none overflow-hidden">
+            <span className="text-[120vh] font-black italic text-white tracking-tighter transform -skew-x-12">
+                N/\
+            </span>
+         </div>
       </div>
 
-      {/* --- HERO SECTION --- */}
-      <section className="relative pt-60 pb-32 px-4 z-10">
-        
-        <div className="max-w-7xl mx-auto text-center relative">
-          
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-gray-200/60 backdrop-blur-xl shadow-sm mb-8"
-          >
-            <Scale size={14} className="text-[#B2904D] fill-[#B2904D]" /> 
-            <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t('badge')}</span>
-          </motion.div>
 
-          {/* Título Principal: LEY CRIMINAL */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl font-serif font-black text-[#002342] mb-6 tracking-tight leading-tight drop-shadow-sm" 
-          >
-            <motion.span 
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] to-[#D4AF37] tracking-tight"
-            >
-              {t('mainTitle')}
-            </motion.span>
-          </motion.h1>
-          
-          {/* Subtítulo */}
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-xl md:text-2xl text-gray-500 font-light max-w-4xl mx-auto leading-relaxed mb-10"
-          >
-            {t('heroSubtitle1')}<br/>
-            <span className="text-[#002342] font-semibold">{t('heroSubtitle2')}</span>
-          </motion.p>
+      {/* =========================================================================
+          2. HERO SECTION (SPLIT LAYOUT CON IMAGEN)
+      ========================================================================= */}
+      <section className="relative pt-40 pb-24 px-4 z-10 min-h-[90vh] flex flex-col justify-center">
+        <div className="container mx-auto max-w-7xl">
+           <div className="grid lg:grid-cols-12 gap-12 items-center">
+             
+             {/* --- COLUMNA IZQUIERDA: IMAGEN --- */}
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{ duration: 1.5, ease: "easeOut" }}
+               className="lg:col-span-5 relative h-[500px] lg:h-[700px] flex items-end justify-center"
+             >
+                {/* Glow azul intenso detrás */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent blur-3xl rounded-full z-0 opacity-80" />
+                
+                {/* Imagen del Abogado/Hero (Placeholder Criminal) */}
+                <div className="relative z-10 w-full h-full">
+                   <Image
+                     src="/criminal-hero.png" // PLACEHOLDER TEMPORAL PARA CRIMINAL
+                     alt="Abogado de Ley Criminal"
+                     fill
+                     className="object-contain object-bottom drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]" // Glow azul en la imagen
+                     priority
+                   />
+                </div>
 
-          {/* Botones */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
-          >
-            <motion.a 
-              href="#contacto"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="group relative px-8 py-4 bg-[#002342] text-white rounded-xl font-bold overflow-hidden shadow-lg hover:shadow-xl transition-all"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#B2904D] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative flex items-center justify-center gap-3 text-lg">
-                <PhoneCall size={20}/>
-                {t('ctaConsultation')}
-              </span>
-            </motion.a>
-            
-            <motion.a 
-              href="#casos"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-white/80 backdrop-blur-xl text-[#002342] rounded-xl font-bold border border-gray-200 hover:border-[#B2904D] transition-all shadow-md hover:shadow-lg"
-            >
-              {t('ctaCases')}
-            </motion.a>
-          </motion.div>
+                {/* Cuadro Flotante de Estadísticas (Usamos 12K como placeholder) */}
+                <motion.div
+                   initial={{ opacity: 0, x: -20 }} 
+                   animate={{ opacity: 1, x: 0 }} 
+                   transition={{ delay: 1, duration: 1 }}
+                   className="absolute bottom-10 left-[-20px] z-20 p-6 border border-white/10 rounded-2xl backdrop-blur-xl bg-white/5 shadow-2xl"
+                >
+                   <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50">
+                      <span className="text-5xl font-bold tracking-tighter">12K</span> 
+                      <span className="text-4xl font-thin text-[#B2904D] ml-1">+</span>
+                   </div>
+                   <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
+                      {t('stats')}
+                   </p>
+                </motion.div>
+             </motion.div>
+
+             {/* --- COLUMNA DERECHA: TEXTO --- */}
+             <div className="lg:col-span-7 space-y-8 pl-0 lg:pl-12 relative z-20">
+                {/* Línea decorativa */}
+                <motion.div 
+                   initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
+                   className="absolute left-0 top-10 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-[#B2904D]/50 to-transparent origin-top hidden lg:block" 
+                />
+
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#B2904D]/30 bg-[#B2904D]/10 backdrop-blur-md">
+                   <Star size={14} className="text-[#B2904D] fill-[#B2904D]" />
+                   <span className="text-[#B2904D] text-xs font-bold tracking-widest uppercase">{t('badge')}</span>
+                </div>
+
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin text-white tracking-tight leading-[0.9]">
+                   <span className="block overflow-hidden pb-2 perspective-[400px]">
+                      <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90">
+                          {t('heroTitle1')}
+                      </motion.span>
+                   </span>
+                   <span className="block overflow-hidden pb-4 perspective-[400px]">
+                      <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] via-[#F3E5AB] to-[#B2904D]">
+                          {t('heroTitle2')}
+                      </motion.span>
+                   </span>
+                </h1>
+
+                <motion.p 
+                   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
+                   className="text-xl text-blue-100/70 font-light max-w-xl leading-relaxed border-l border-white/10 pl-6"
+                >
+                   {t('heroDescription')}
+                </motion.p>
+
+                <motion.div 
+                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
+                   className="flex flex-wrap gap-4 pt-4"
+                >
+                   <a href="#contacto" className="px-8 py-4 bg-[#B2904D] hover:bg-white text-[#001540] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(178,144,77,0.4)] flex items-center gap-2 group">
+                      <PhoneCall size={20} />
+                      {t('ctaConsultation')}
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
+                   </a>
+                   <a href="#casos" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/10 flex items-center gap-2 group">
+                      {t('ctaCases')}
+                   </a>
+                </motion.div>
+             </div>
+
+           </div>
         </div>
       </section>
 
-      {/* --- GRID DE CASOS --- */}
+
+      {/* =========================================================================
+          3. GRID DE CASOS (DARK GLASSMORPHISM)
+      ========================================================================= */}
       <section className="px-4 pb-32 relative z-10 max-w-[1600px] mx-auto" id="casos">
 
         <div className="max-w-[1600px] mx-auto relative z-10">
@@ -296,13 +391,13 @@ export default function CriminalLawPage() {
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-gray-200/60 backdrop-blur-xl shadow-sm mb-8"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl shadow-sm mb-8"
             >
               <Scale size={14} className="text-[#B2904D]" />
-              <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t('specialties')}</span>
+              <span className="text-xs font-bold tracking-[0.2em] text-white/80 uppercase">{t('specialties')}</span>
             </motion.div>
             
-            <h2 className="text-4xl md:text-5xl font-serif font-black text-[#002342] mb-6">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
               {t('casesTitle')}
             </h2>
             <motion.div 
@@ -310,11 +405,10 @@ export default function CriminalLawPage() {
               whileInView={{ width: 80 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="h-1 bg-gradient-to-r from-[#B2904D] to-[#D4AF37] mx-auto rounded-full"
+              className="h-1 bg-gradient-to-r from-[#B2904D] to-[#D4AF37] mx-auto rounded-full shadow-[0_0_15px_#B2904D]"
             />
           </motion.div>
 
-          {/* Bento Grid Layout: 3 columnas, 5 elementos */}
           <div className="grid grid-cols-3 gap-6">
             {responsiveCases.map((item, index) => (
               <motion.div
@@ -331,21 +425,24 @@ export default function CriminalLawPage() {
                 onClick={() => setSelectedId(item.id)}
                 onMouseEnter={() => setHoveredCard(item.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                className={`${item.position} group relative rounded-[2.5rem] p-8 cursor-pointer bg-white/70 backdrop-blur-xl border border-gray-100 transition-all duration-300 hover:scale-[1.01] overflow-hidden 
-                                 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] 
-                                 hover:border-[#B2904D] hover:shadow-[0_30px_60px_-15px_rgba(0,35,66,0.5),_0_0_0_3px_rgba(178,144,77,0.5)]`}
+                className={`
+                  col-span-3 sm:col-span-2 ${item.position} 
+                  group relative rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 cursor-pointer 
+                  bg-white/5 backdrop-blur-md border border-white/10 transition-all duration-300 
+                  shadow-[0_10px_30px_rgba(0,0,0,0.3)] 
+                  hover:scale-[1.01] hover:border-[#B2904D]/70 
+                  hover:shadow-[0_0_40px_rgba(178,144,77,0.3)] 
+                  overflow-hidden`}
               >
                 
-                {/* Degradado Sutil de Fondo (Dorado) */}
                 <div 
-                    className={`absolute inset-0 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#B2904D]/10 to-transparent 80%`}
+                    className={`absolute inset-0 rounded-[2.5rem] opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-[#B2904D]/10 to-transparent 80%`}
                 />
                 
-                {/* Contenido/Resumen de Fondo */}
                 <div 
                     className="absolute inset-0 flex items-center justify-center p-8 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
                 >
-                    <p className="text-center text-4xl font-serif font-bold text-[#002342]/10 leading-snug">
+                    <p className="text-center text-4xl font-black text-white/5 leading-snug">
                         {gT(item.content.intro)}
                     </p>
                 </div>
@@ -353,42 +450,37 @@ export default function CriminalLawPage() {
 
                 <div className="relative z-10 h-full flex flex-col">
                   
-                  {/* Icono Principal (EL QUE DEBE QUEDARSE) */}
                   <motion.div 
                     whileHover={{ scale: 1.05 }} 
                     transition={{ duration: 0.4 }}
                     className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg transition-all 
-                                 bg-[#002342] group-hover:bg-gradient-to-br group-hover:from-[#B2904D] group-hover:to-[#D4AF37]"
+                                 bg-white/10 group-hover:bg-gradient-to-br group-hover:from-[#B2904D] group-hover:to-[#D4AF37]"
                   >
                     <item.icon size={30} strokeWidth={1.5} />
                   </motion.div>
 
-                  {/* Contenido */}
                   <div className="flex-1">
                     <motion.h3 
                       layoutId={`card-title-${item.id}`}
-                      className="text-3xl font-serif font-black mb-3 transition-colors leading-tight text-[#002342] group-hover:text-[#B2904D]"
+                      className="text-2xl md:text-3xl font-black mb-3 transition-colors leading-tight text-white group-hover:text-[#B2904D]"
                     >
                       {gT(item.title)}
                     </motion.h3>
                     
                     <motion.p 
                       layoutId={`card-subtitle-${item.id}`}
-                      className="text-sm text-gray-500 font-bold uppercase tracking-widest mb-6"
+                      className="text-xs text-white/60 font-bold uppercase tracking-widest mb-6"
                     >
                       {gT(item.subtitle)}
                     </motion.p>
                     
-                    {/* Texto Resumen */}
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p className="text-white/70 text-sm leading-relaxed mb-4 line-clamp-3">
                         {gT(item.content.description).substring(0, 150)}...
                     </p>
 
-                    {/* Separador - Dorado en hover */}
-                    <div className="h-px bg-gray-200 mb-6 transition-all group-hover:bg-[#B2904D]"></div>
+                    <div className="h-px bg-white/20 mb-6 transition-all group-hover:bg-[#B2904D] shadow-[0_0_10px_#B2904D]" />
                   </div>
 
-                  {/* CTA */}
                   <motion.div 
                     className="flex items-center justify-between mt-auto"
                     initial={{ x: -10, opacity: 0 }}
@@ -396,17 +488,17 @@ export default function CriminalLawPage() {
                     transition={{ delay: index * 0.05 + 0.3 }}
                   >
                     <span 
-                        className="font-bold flex items-center gap-2 group-hover:gap-4 transition-all text-[#002342] group-hover:text-[#B2904D]"
+                        className="font-bold flex items-center gap-2 group-hover:gap-4 transition-all text-white group-hover:text-[#B2904D]"
                     >
                       {t('details')}
                       <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform"/>
                     </span>
-                    {/* Botón Circular - Dorado en hover */}
                     <motion.div 
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md bg-[#002342]/10 group-hover:bg-[#B2904D]"
+                      whileTap={{ scale: 0.9 }}
+                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md bg-white/10 group-hover:bg-[#B2904D] text-[#002342] group-hover:text-white"
                     >
-                      <ArrowRight size={16} className="text-[#002342] group-hover:text-white transition-colors"/>
+                      <ArrowRight size={16} className="text-white/80 group-hover:text-white transition-colors"/>
                     </motion.div>
                   </motion.div>
                 </div>
@@ -417,7 +509,7 @@ export default function CriminalLawPage() {
         </div>
       </section>
 
-      {/* --- MODAL (CONTENIDO DE LEY CRIMINAL) --- */}
+      {/* --- MODAL --- */}
       <AnimatePresence>
         {selectedId && selectedItem && (
           <motion.div 
@@ -432,7 +524,7 @@ export default function CriminalLawPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedId(null)}
-              className="absolute inset-0 bg-white/80 backdrop-blur-xl"
+              className="absolute inset-0 bg-black/90 backdrop-blur-xl"
             />
 
             <motion.div
@@ -441,24 +533,21 @@ export default function CriminalLawPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="w-full max-w-7xl h-[80vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10 ring-1 ring-black/5"
+              className="w-full max-w-7xl h-[90vh] md:h-[80vh] rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10 ring-1 ring-black/5"
               onClick={(e) => e.stopPropagation()} 
             >
               
-              {/* Close Button */}
               <motion.button
                 onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="absolute top-6 right-6 z-50 bg-white/20 hover:bg-[#002342] text-[#002342] hover:text-white p-3 rounded-full backdrop-blur-md transition-all duration-300 border border-white/30"
+                className="absolute top-6 right-6 z-50 bg-black/40 hover:bg-[#002342] text-white p-3 rounded-full backdrop-blur-md transition-all duration-300 border border-white/20"
               >
                 <X size={24} />
               </motion.button>
 
-              {/* LEFT SIDE - Identity (Oscuro) */}
-              <div className="w-full lg:w-2/5 bg-gradient-to-br from-[#002342] via-[#003366] to-[#002342] p-10 md:p-12 flex flex-col justify-center text-white relative overflow-hidden">
+              <div className="w-full lg:w-2/5 bg-gradient-to-br from-[#002342] via-[#003366] to-[#002342] p-8 md:p-12 flex flex-col justify-center text-white relative overflow-hidden">
                 
-                {/* Large Icon Background */}
                 <motion.div 
                   className="absolute -right-20 -bottom-20 opacity-5"
                 >
@@ -477,7 +566,7 @@ export default function CriminalLawPage() {
                   
                   <motion.h3 
                     layoutId={`card-title-${selectedItem.id}`}
-                    className="text-4xl font-serif font-black mb-3 leading-tight"
+                    className="text-4xl font-black mb-3 leading-tight"
                   >
                     {gT(selectedItem.title)}
                   </motion.h3>
@@ -502,25 +591,24 @@ export default function CriminalLawPage() {
                 </div>
               </div>
 
-              {/* RIGHT SIDE - Content (Blanco Limpio) */}
-              <div className="w-full lg:w-3/5 p-10 md:p-12 overflow-y-auto bg-white">
+              {/* DERECHA - Contenido del Modal (Tema Oscuro) */}
+              <div className="w-full lg:w-3/5 p-8 md:p-12 overflow-y-auto bg-[#001540] text-white">
                 
-                {/* Header */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   className="mb-8"
                 >
-                  <h4 className="text-3xl font-serif font-black text-[#002342] mb-4 leading-snug">
+                  <motion.h4 className="text-2xl md:text-3xl font-black text-white mb-4 leading-snug">
                     {gT(selectedItem.content.intro)}
-                  </h4>
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  </motion.h4>
+                  <p className="text-lg text-blue-100/70 leading-relaxed">
                     {gT(selectedItem.content.description)}
                   </p>
                 </motion.div>
 
-                {/* Contenido Dinámico (Sub-Puntos) */}
+                {/* Sub-Puntos (Condiciones, Sanciones, etc.) */}
                 {selectedItem.content.subPoints && selectedItem.content.subTitle && (
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
@@ -528,12 +616,12 @@ export default function CriminalLawPage() {
                       transition={{ delay: 0.5 }}
                       className="space-y-6"
                     >
-                      <div className="bg-gray-50 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm">
-                        <h5 className="font-black text-[#002342] mb-5 flex items-center gap-3 text-xl">
+                      <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 shadow-sm">
+                        <h5 className="font-black text-white mb-5 flex items-center gap-3 text-xl">
                           <div 
-                            className="w-10 h-10 rounded-lg flex items-center justify-center shadow-md bg-[#002342]" 
+                            className="w-10 h-10 rounded-lg flex items-center justify-center shadow-md bg-white/10" 
                           >
-                            <selectedItem.icon size={20} className="text-white"/> 
+                            <Scale size={20} className="text-white"/> 
                           </div>
                           {gT(selectedItem.content.subTitle)}
                         </h5>
@@ -544,7 +632,7 @@ export default function CriminalLawPage() {
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: 0.6 + i * 0.05 }}
-                              className="flex items-start gap-3 text-gray-600 bg-white p-3 rounded-lg border border-gray-100 shadow-xs"
+                              className="flex items-start gap-3 text-white/70 bg-black/20 p-3 rounded-lg border border-white/10 shadow-xs"
                             >
                               <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0 bg-[#B2904D]"></div> 
                               <span className="text-sm font-medium">{gT(point)}</span>
@@ -556,15 +644,15 @@ export default function CriminalLawPage() {
                 )}
 
 
-                {/* Solution */}
+                {/* Solution (Final) */}
                 {selectedItem.content.solution && (
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
-                    className="mt-8 bg-gray-100 p-6 rounded-2xl border border-gray-200 shadow-sm"
+                    className="mt-8 bg-white/5 p-6 rounded-2xl border border-white/10 shadow-sm"
                   >
-                    <p className="text-gray-700 leading-relaxed font-medium text-base">
+                    <p className="text-white/80 leading-relaxed font-medium text-base">
                       {gT(selectedItem.content.solution)}
                     </p>
                   </motion.div>
@@ -575,14 +663,14 @@ export default function CriminalLawPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 }}
-                  className="mt-10 pt-6 border-t border-gray-100"
+                  className="mt-10 pt-6 border-t border-white/10"
                 >
                   <motion.a 
                     href="#contacto" 
                     onClick={() => setSelectedId(null)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group w-full py-4 bg-[#002342] text-white rounded-xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-[#B2904D] transition-all"
+                    className="group w-full py-4 bg-[#B2904D] text-[#002342] rounded-xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-white transition-all"
                   >
                     <span className="relative flex items-center gap-3 text-lg">
                       <PhoneCall size={20}/>
@@ -598,8 +686,10 @@ export default function CriminalLawPage() {
       </AnimatePresence>
 
       {/* --- VIDEO SECTION --- */}
-      <section className="py-32 relative overflow-hidden bg-gray-50"> 
+      <section className="py-32 relative overflow-hidden bg-[#001540]"> 
         
+        <div className="absolute inset-0 bg-[#001540] opacity-90" />
+
         <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -608,24 +698,22 @@ export default function CriminalLawPage() {
             transition={{ duration: 0.8 }}
             className="order-2 lg:order-1"
           >
-            {/* Badge */}
             <motion.div
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-gray-200/60 backdrop-blur-xl shadow-sm mb-8"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl shadow-sm mb-8"
             >
               <div className="w-2 h-2 bg-[#B2904D] rounded-full animate-pulse"></div>
-              <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t('videoSectionBadge')}</span>
+              <span className="text-xs font-bold tracking-[0.2em] text-white uppercase">{t('videoSectionBadge')}</span>
             </motion.div>
             
-            {/* H2 */}
-            <h2 className="text-4xl font-serif font-black text-[#002342] mb-6 leading-tight">
+            <h2 className="text-4xl font-black text-white mb-6 leading-tight">
               {t('videoSectionTitle')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] to-[#D4AF37]">Juan Solís</span>
             </h2>
             
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-xl text-blue-100/70 mb-8 leading-relaxed">
               {t('videoSectionSubtitle')}
             </p>
             
@@ -633,9 +721,9 @@ export default function CriminalLawPage() {
               href="tel:+18664200405"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="group inline-flex items-center gap-4 bg-[#002342] text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-[#B2904D] transition-all"
+              className="group inline-flex items-center gap-4 bg-[#B2904D] text-[#001540] px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-white transition-all"
             >
-              <div className="relative w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+              <div className="relative w-10 h-10 bg-black/10 rounded-lg flex items-center justify-center">
                 <PhoneCall size={20} />
               </div>
               <span className="relative">{t('callNow')}</span>
@@ -647,7 +735,7 @@ export default function CriminalLawPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="order-1 lg:order-2 relative group p-6 bg-white/70 backdrop-blur-xl rounded-[2.5rem] shadow-xl border border-white/80"
+            className="order-1 lg:order-2 relative group p-6 bg-white/10 backdrop-blur-xl rounded-[2.5rem] shadow-xl border border-white/10"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-xl bg-black aspect-video"> 
               <motion.div 
@@ -674,7 +762,7 @@ export default function CriminalLawPage() {
       </section>
 
       {/* --- PROCESS SECTION --- */}
-      <section className="py-32 relative overflow-hidden bg-[#002342]">
+      <section className="py-32 relative overflow-hidden bg-[#001540]">
         
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <motion.div 
@@ -683,7 +771,6 @@ export default function CriminalLawPage() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            {/* Badge */}
             <motion.div
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
@@ -695,14 +782,13 @@ export default function CriminalLawPage() {
               <span className="text-xs font-bold tracking-[0.2em] text-white uppercase">{t('processMethod')}</span>
             </motion.div>
             
-            {/* H2 */}
-            <h2 className="text-4xl font-serif font-black text-white mb-6">{t('processTitle')}</h2>
+            <h2 className="text-4xl font-black text-white mb-6">{t('processTitle')}</h2>
             <motion.div 
               initial={{ width: 0 }}
               whileInView={{ width: 80 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="h-1 bg-gradient-to-r from-[#B2904D] to-transparent mx-auto rounded-full"
+              className="h-1 bg-gradient-to-r from-[#B2904D] to-transparent mx-auto rounded-full shadow-[0_0_15px_#B2904D]"
             />
           </motion.div>
 
@@ -719,7 +805,6 @@ export default function CriminalLawPage() {
               >
                 <div className="bg-white/10 backdrop-blur-xl p-8 rounded-[2rem] border border-white/20 hover:bg-white/20 hover:border-[#B2904D]/50 transition-all duration-300 h-full shadow-lg">
                   
-                  {/* Step Number */}
                   <motion.div 
                     initial={{ scale: 0, rotate: -180 }}
                     whileInView={{ scale: 1, rotate: 0 }}
@@ -730,19 +815,17 @@ export default function CriminalLawPage() {
                     {step.id}
                   </motion.div>
 
-                  {/* Icono */}
                   <motion.div 
                     className="w-14 h-14 bg-white/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#B2904D] transition-all"
                   >
                     <step.icon size={26} className="text-white"/>
                   </motion.div>
 
-                  <h3 className="font-serif font-bold text-xl text-white mb-3">{gT(step.title)}</h3>
+                  <h3 className="font-black text-xl text-white mb-3">{gT(step.title)}</h3>
                   <p className="text-white/70 text-sm leading-relaxed">{gT(step.desc)}</p>
                 </div>
 
-                {/* Connecting Line */}
-                {index < processStepsData.length - 1 && (
+                {index < texts.processSteps.length - 1 && (
                   <motion.div 
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
@@ -757,20 +840,25 @@ export default function CriminalLawPage() {
         </div>
       </section>
 
-      {/* --- CONTACT FORM --- */}
-      <section id="contacto" className="relative py-32 z-10 bg-gradient-to-r from-[#B2904D] to-[#D4AF37]">
+      {/* =========================================================================
+          4. CONTACT FORM - Eliminado el texto de encabezado
+      ========================================================================= */}
+      <section id="contacto" className="relative py-32 z-10">
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="max-w-4xl mx-auto px-4 relative z-10">
           
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative z-10" 
+            className="relative z-10 p-8 md:p-12 bg-white/5 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white/10" 
           >
-            <ContactForm /> 
-            
+             <div className="text-white"> 
+               {/* Se eliminan el h2 y p que contenían el texto solicitado */}
+               <ContactForm /> 
+             </div>
+           
           </motion.div>
         </div>
       </section>

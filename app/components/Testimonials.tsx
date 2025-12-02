@@ -19,18 +19,6 @@ interface VideoModalProps {
 
 const FALLBACK_THUMBNAIL = '/testimonials/Residencia_Octavio.png';
 
-const testimonials = [
-  {
-    id: 1,
-    name: 'Octavio Varela',
-    case: 'Residencia Permanente',
-    rating: 5,
-    comment: 'Feliz, sentí que todo lo que perdí cuando ingresé al país, se me devolvió y con un regalo',
-    videoThumbnail: FALLBACK_THUMBNAIL, 
-    videoId: 'cTJ9M5PT-S4', 
-  },
-]
-
 // --- COMPONENTE MODAL ---
 function VideoModal({ videoId, onClose }: VideoModalProps) {
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1`;
@@ -76,9 +64,28 @@ function VideoModal({ videoId, onClose }: VideoModalProps) {
 // --- COMPONENTE PRINCIPAL ---
 export default function Testimonials() {
   const { language } = useLanguage();
-  const current = testimonials[0]; 
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const containerRef = useRef(null);
+
+  // --- DATOS DE TESTIMONIOS (CON TRADUCCIÓN) ---
+  const testimonialsData = {
+    es: {
+      name: 'Octavio Varela',
+      case: 'Residencia Permanente',
+      comment: 'Feliz, sentí que todo lo que perdí cuando ingresé al país, se me devolvió y con un regalo',
+      videoThumbnail: FALLBACK_THUMBNAIL, 
+      videoId: 'cTJ9M5PT-S4', 
+    },
+    en: {
+      name: 'Octavio Varela',
+      case: 'Permanent Residency',
+      comment: 'Happy, I felt that everything I lost when I entered the country was returned to me, and with a gift.',
+      videoThumbnail: FALLBACK_THUMBNAIL, 
+      videoId: 'cTJ9M5PT-S4', 
+    }
+  };
+
+  const current = language === 'es' ? testimonialsData.es : testimonialsData.en;
 
   // --- 1. LÓGICA DE MOVIMIENTO DE MOUSE (Magnetic Effect) ---
   const mouseX = useMotionValue(0);
@@ -113,6 +120,7 @@ export default function Testimonials() {
         className={`relative min-h-screen flex flex-col justify-center w-full bg-[#001540] overflow-hidden ${font.className} py-32 lg:py-0`}
     >
       {/* --- FONDO VIVO CON PROFUNDIDAD (WOW FACTOR) --- */}
+      {/* NOTA: Las máscaras se sacaron de aquí para evitar el efecto de escalón */}
       <motion.div style={{ y: yBg }} className="absolute inset-0 z-0 pointer-events-none">
         {/* Fondo Base */}
         <div className="absolute inset-0 bg-[#001540]" />
@@ -143,14 +151,13 @@ export default function Testimonials() {
         {/* Partículas flotantes */}
         <div className="absolute inset-0 opacity-20 bg-[url('/noise.png')] mix-blend-overlay"></div>
 
-        {/* --- EFECTO DE PROFUNDIDAD (MÁSCARAS SUPERIOR E INFERIOR) --- */}
-        {/* Máscara Superior: Fundido desde la sección anterior */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-80" />
-        
-        {/* Máscara Inferior: Fundido hacia la siguiente sección */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-80" />
-
       </motion.div>
+
+      {/* --- CORRECCIÓN: MÁSCARAS ESTÁTICAS (FUERA DEL PARALLAX) --- */}
+      {/* Esto arregla el "escalón negro" o la etiqueta mal puesta al hacer scroll */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#000a20] to-transparent z-10 opacity-80 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#000a20] to-transparent z-10 opacity-80 pointer-events-none" />
+
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
@@ -220,11 +227,13 @@ export default function Testimonials() {
                             </div>
                         </div>
 
-                        {/* Texto flotante dentro del video */}
+                        {/* Texto flotante dentro del video (TRADUCIDO) */}
                         <div className="absolute bottom-8 left-8 z-20">
                              <div className="flex items-center gap-2 mb-2">
                                 <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                                <p className="text-white/80 text-xs uppercase tracking-widest font-bold">Historia de Éxito</p>
+                                <p className="text-white/80 text-xs uppercase tracking-widest font-bold">
+                                    {language === 'es' ? 'Historia de Éxito' : 'Success Story'}
+                                </p>
                              </div>
                              <p className="text-white text-2xl font-medium tracking-tight">{current.name}</p>
                         </div>
@@ -238,7 +247,7 @@ export default function Testimonials() {
                 style={{ x: xText, y: yText }}
                 className="lg:col-span-5 relative space-y-10 pl-0 lg:pl-10"
             >
-                 {/* Título de Sección */}
+                 {/* Título de Sección (TRADUCIDO) */}
                  <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -246,12 +255,14 @@ export default function Testimonials() {
                  >
                       <div className="flex items-center gap-3 mb-4">
                         <span className="h-[2px] w-12 bg-[#B2904D]"></span>
-                        <span className="text-[#B2904D] uppercase tracking-[0.25em] text-xs font-bold">Testimonios Reales</span>
+                        <span className="text-[#B2904D] uppercase tracking-[0.25em] text-xs font-bold">
+                            {language === 'es' ? 'Testimonios Reales' : 'Real Testimonials'}
+                        </span>
                       </div>
                       <h2 className="text-5xl lg:text-7xl font-thin text-white leading-[0.9]">
-                        Voces de <br />
+                        {language === 'es' ? 'Voces de' : 'Voices of'} <br />
                         <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-white via-[#ffeebb] to-[#B2904D]">
-                           Esperanza
+                           {language === 'es' ? 'Esperanza' : 'Hope'}
                         </span>
                       </h2>
                  </motion.div>
@@ -271,7 +282,7 @@ export default function Testimonials() {
                     </p>
                  </motion.div>
 
-                 {/* Detalles y Estrellas */}
+                 {/* Detalles y Estrellas (TRADUCIDO) */}
                  <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -294,7 +305,9 @@ export default function Testimonials() {
                     
                     <div className="bg-white/5 rounded-xl p-4 border border-white/10 inline-block w-fit backdrop-blur-sm">
                         <p className="text-white text-lg font-medium">{current.case}</p>
-                        <p className="text-[#B2904D] text-sm uppercase tracking-wide font-bold mt-1">Caso Ganado</p>
+                        <p className="text-[#B2904D] text-sm uppercase tracking-wide font-bold mt-1">
+                            {language === 'es' ? 'Caso Ganado' : 'Case Won'}
+                        </p>
                     </div>
                  </motion.div>
 
