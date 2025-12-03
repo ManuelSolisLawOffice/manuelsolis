@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
 import { LanguageProvider } from '../context/LanguageContext';
 import WhatsAppButton from '../components/WhatsAppButton';
+import AIChatButton from '../components/AIChatButton';
 import { translations, Language } from '../lib/translations';
 import Script from 'next/script';
-
-// --- CORRECCIÓN FINAL DEL IMPORT CSS ---
-// Al estar en 'app/[lang]/layout.tsx', subimos un nivel (..) para encontrar 'app/globals.css'
 import '../globals.css'; 
-
-// --- DEFINICIONES DE TIPOS ---
 
 interface LayoutParams {
   lang: Language; 
@@ -19,12 +15,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-// --- GENERATE METADATA ---
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
-  
-  // Validación de seguridad por si acaso llega algo que no es idioma
   const currentLang = (lang === 'es' || lang === 'en') ? (lang as Language) : 'es';
   const t = translations[currentLang];
   
@@ -80,11 +72,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// --- LAYOUT PRINCIPAL ---
-
 export default async function LangLayout({ children, params }: Props) {
   const { lang } = await params;
-  // Validación/Casteo
   const currentLang = (lang === 'es' || lang === 'en') ? (lang as Language) : 'es';
   const t = translations[currentLang];
   
@@ -179,6 +168,7 @@ export default async function LangLayout({ children, params }: Props) {
         <LanguageProvider initialLanguage={currentLang}>
           {children}
           <WhatsAppButton />
+          <AIChatButton />
         </LanguageProvider>
       </body>
     </html>

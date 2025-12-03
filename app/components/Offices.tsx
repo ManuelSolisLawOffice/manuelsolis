@@ -41,13 +41,12 @@ type OfficeData = {
   services: { es: string; en: string }[];
 };
 
-// --- DATOS COMPLETOS (CORREGIDOS: TÍTULOS REALES) ---
+// --- DATOS COMPLETOS (IMÁGENES ACTUALIZADAS A .PNG) ---
 const officesData: OfficeData[] = [
   {
     id: 'houston-principal',
     city: 'Houston',
     state: 'TX',
-    // CAMBIO: Nombre real
     title: { es: 'Houston', en: 'Houston' },
     quote: { es: 'El centro neurálgico de nuestra firma.', en: 'The nerve center of our firm.' },
     description: { es: 'Nuestras oficinas de Houston en Navigation Boulevard son las primeras que abrimos hace más de 30 años. Aquí recibimos a más de 200 clientes a la semana.', en: 'Our Houston offices on Navigation Boulevard were the first we opened more than 30 years ago. Here we receive over 200 clients a week.' },
@@ -56,14 +55,13 @@ const officesData: OfficeData[] = [
     email: 'houston@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 7pm | Sáb 9am - 4pm', en: 'Mon - Fri 9am - 7pm | Sat 9am - 4pm' },
     mapLink: generateMapUrl('6657 Navigation Blvd, Houston, Texas 77011'),
-    image: '/offices/houston.jpg',
+    image: '/offices/Houston.png',
     services: [ { es: 'ACCIDENTES', en: 'ACCIDENTS' }, { es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'CRIMINAL', en: 'CRIMINAL' } ],
   },
   {
     id: 'harlingen',
     city: 'Harlingen',
     state: 'TX',
-    // CAMBIO: Nombre real
     title: { es: 'Harlingen', en: 'Harlingen' },
     quote: { es: 'Conexión directa con la frontera.', en: 'Direct connection with the border.' },
     description: { es: 'Especializados en defensa de deportación y casos de asilo en la zona de la frontera sur.', en: 'Specializing in deportation defense and asylum cases in the southern border area.' },
@@ -72,14 +70,13 @@ const officesData: OfficeData[] = [
     email: 'harlingen@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm', en: 'Mon - Fri 9am - 6pm' },
     mapLink: generateMapUrl('320 E. Jackson St., Harlingen, Texas 78550'),
-    image: '/offices/harlingen.jpg',
+    image: '/offices/Harlingen.png',
     services: [ { es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'DEPORTACIÓN', en: 'DEPORTATION' } ],
   },
   {
     id: 'houston-bellaire',
     city: 'Houston Bellaire',
     state: 'TX',
-    // CAMBIO: Nombre real
     title: { es: 'Houston Bellaire', en: 'Houston Bellaire' },
     quote: { es: 'Asistencia especializada en el oeste.', en: 'Specialized assistance in the west.' },
     description: { 
@@ -91,14 +88,13 @@ const officesData: OfficeData[] = [
     email: 'bellaire@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm', en: 'Mon - Fri 9am - 6pm' },
     mapLink: generateMapUrl('9600 Bellaire Blvd, Suite 237, Houston, TX 77036'),
-    image: '/offices/houston-bellaire.jpg',
+    image: '/offices/Houston.png',
     services: [ { es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'FAMILIA', en: 'FAMILY' } ],
   },
   {
     id: 'dallas',
     city: 'Dallas',
     state: 'TX',
-    // CAMBIO: Nombre real
     title: { es: 'Dallas', en: 'Dallas' },
     quote: { es: 'Servicio ininterrumpido para usted.', en: 'Uninterrupted service for you.' },
     description: { es: 'En el corazón de Dallas, nuestras puertas están abiertas seis días a la semana. Un refugio legal para la comunidad del norte de Texas.', en: 'In the heart of Dallas, our doors are open six days a week. A legal haven for the North Texas community.' },
@@ -107,14 +103,13 @@ const officesData: OfficeData[] = [
     email: 'dallas@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm | Sáb 8am - 3pm', en: 'Mon - Fri 9am - 6pm | Sat 8am - 3pm' },
     mapLink: generateMapUrl('1120 Empire Central place, Dallas, Texas 75247'),
-    image: '/offices/dallas.jpg',
+    image: '/offices/Dallas.png',
     services: [{ es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'SEGUROS', en: 'INSURANCE' }],
   },
   {
     id: 'el-paso',
     city: 'El Paso',
     state: 'TX',
-    // CAMBIO: Nombre real
     title: { es: 'El Paso', en: 'El Paso' },
     quote: { es: 'Luchando en la línea de batalla.', en: 'Fighting on the front line.' },
     description: { es: 'Sirviendo a la comunidad de El Paso y Juarez con pasión y experiencia en la ley de inmigración.', en: 'Serving the El Paso and Juarez community with passion and experience in immigration law.' },
@@ -123,14 +118,13 @@ const officesData: OfficeData[] = [
     email: 'elpaso@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 5pm', en: 'Mon - Fri 9am - 5pm' },
     mapLink: generateMapUrl('3632 Admiral Street, El Paso, Texas 79925'),
-    image: '/offices/elpaso.jpg',
+    image: '/offices/El paso.png',
     services: [{ es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'CRIMINAL', en: 'CRIMINAL' }],
   },
   {
     id: 'los-angeles',
     city: 'Los Angeles',
     state: 'CA',
-    // CAMBIO: Nombre real
     title: { es: 'Los Angeles', en: 'Los Angeles' },
     quote: { es: 'Defensa sin fronteras.', en: 'Defense without borders.' },
     description: { es: 'Desde Pico Rivera servimos a toda California. Especialistas en casos complejos de deportación y visas de trabajo.', en: 'Serving all of California from Pico Rivera. Specialists in complex deportation cases and work visas.' },
@@ -139,14 +133,13 @@ const officesData: OfficeData[] = [
     email: 'losangeles@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm | Sáb 8am - 2pm', en: 'Mon - Fri 9am - 6pm | Sat 8am - 2pm' },
     mapLink: generateMapUrl('8337 Telegraph Rd, Unit 115, Pico Rivera, California 90660'),
-    image: '/offices/losangeles.jpg',
+    image: '/offices/Los Angeles.png',
     services: [{ es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'ACCIDENTES', en: 'ACCIDENTS' }],
   },
   {
     id: 'chicago',
     city: 'Chicago',
     state: 'IL',
-    // CAMBIO: Nombre real (ya estaba, se mantiene)
     title: { es: 'Chicago', en: 'Chicago' }, 
     quote: { es: 'Justicia para el medio oeste.', en: 'Justice for the Midwest.' },
     description: { es: 'Atendemos casos de Inmigración, familia, criminal y accidentes en nuestro edificio propio en Cicero.', en: 'We handle Immigration, family, criminal, and accident cases in our own building in Cicero.' },
@@ -155,14 +148,13 @@ const officesData: OfficeData[] = [
     email: 'chicago@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm | Sáb 8am - 4pm', en: 'Mon - Fri 9am - 6pm | Sat 8am - 4pm' },
     mapLink: generateMapUrl('6000 West Cermak Road, Cicero, Illinois 60804'),
-    image: '/offices/chicago.jpg',
+    image: '/offices/Chicago.png',
     services: [{ es: 'CRIMINAL', en: 'CRIMINAL' }, { es: 'FAMILIA', en: 'FAMILY' }],
   },
   {
     id: 'denver',
     city: 'Denver',
     state: 'CO',
-    // CAMBIO: Nombre real
     title: { es: 'Denver', en: 'Denver' },
     quote: { es: 'Protección para Colorado.', en: 'Protection for Colorado.' },
     description: { es: 'Nuestra oficina en Denver extiende nuestros servicios al área de las Montañas Rocosas, enfocados en defensa migratoria.', en: 'Our Denver office extends our services to the Rocky Mountain area, focused on immigration defense.' },
@@ -171,14 +163,13 @@ const officesData: OfficeData[] = [
     email: 'denver@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 6pm', en: 'Mon - Fri 9am - 6pm' },
     mapLink: generateMapUrl('5400 Ward Road, Building IV, Arvada, Colorado 80002'),
-    image: '/offices/denver.jpg',
+    image: '/offices/Denver.png',
     services: [{ es: 'INMIGRACIÓN', en: 'IMMIGRATION' }, { es: 'ACCIDENTES', en: 'ACCIDENTS' }],
   },
   {
     id: 'memphis',
     city: 'Memphis',
     state: 'TN',
-    // CAMBIO: Nombre real
     title: { es: 'Memphis', en: 'Memphis' },
     quote: { es: 'Servicio en el corazón de Tennessee.', en: 'Service in the heart of Tennessee.' },
     description: { es: 'Desde Memphis, servimos a la comunidad en Tennessee y estados circundantes, ofreciendo experiencia en casos de lesiones personales.', en: 'From Memphis, we serve the community in Tennessee and surrounding states, offering expertise in personal injury cases.' },
@@ -187,7 +178,7 @@ const officesData: OfficeData[] = [
     email: 'memphis@manuelsolis.com',
     hours: { es: 'Lun - Vie 9am - 5pm', en: 'Mon - Fri 9am - 5pm' },
     mapLink: generateMapUrl('3385 Airways Boulevard, Suite 320, Memphis, Tennessee 38116'),
-    image: '/offices/memphis.jpg',
+    image: '/offices/Memphis.png',
     services: [{ es: 'ACCIDENTES', en: 'ACCIDENTS' }, { es: 'SEGUROS', en: 'INSURANCE' }],
   },
 ].sort((a, b) => a.city.localeCompare(b.city)).map(office => ({

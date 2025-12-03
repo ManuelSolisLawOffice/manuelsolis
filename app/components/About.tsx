@@ -184,10 +184,10 @@ export default function About() {
                className="relative z-10 w-full h-full rounded-[2rem] overflow-hidden shadow-2xl shadow-black/40 border border-white/5"
              >
                 <Image
-                  src="/home-image.jpg"
+                  src="/Familia.png"
                   alt="Equipo Legal Manuel Solis"
                   fill
-                  className="object-cover scale-105 hover:scale-110 transition-transform duration-[1.8s]"
+                  className="object-cover object-[18%_50%] scale-105 hover:scale-110 transition-transform duration-[1.8s]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#001540]/80 via-transparent to-transparent opacity-60" />
              </motion.div>

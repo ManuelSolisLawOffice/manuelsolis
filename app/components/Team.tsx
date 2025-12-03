@@ -223,18 +223,19 @@ export default function Team() {
           >
              {/* Glow detrás de la imagen */}
              <motion.div 
-                animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.9, 1, 0.9] }}
-                transition={{ duration: 5, repeat: Infinity }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-500/20 blur-[80px] rounded-full -z-10" 
+               animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.9, 1, 0.9] }}
+               transition={{ duration: 5, repeat: Infinity }}
+               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-500/20 blur-[80px] rounded-full -z-10" 
              />
 
              {/* Contenedor Principal Imagen */}
              <motion.div 
-                style={{ x: xImg, y: yImg }}
-                className="relative z-10 w-full h-[500px] lg:h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 bg-[#001540]"
+               style={{ x: xImg, y: yImg }}
+               className="relative z-10 w-full h-[500px] lg:h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 bg-[#001540]"
              >
+                {/* AQUÍ ESTÁ EL CAMBIO: Se reemplazó la imagen anterior por MSTeam.png */}
                 <Image
-                  src="/abogados-equipo.jpg"
+                  src="/MSTeam.png"
                   alt="Equipo de abogados Manuel Solis"
                   fill
                   className="object-cover scale-110" // Escala inicial para permitir movimiento sin bordes blancos
@@ -249,8 +250,8 @@ export default function Team() {
 
              {/* BADGE FLOTANTE 3D (Se mueve opuesto a la imagen) */}
              <motion.div 
-                style={{ x: xBadge, y: yBadge }}
-                className="absolute -bottom-10 -left-6 lg:-left-12 z-20"
+               style={{ x: xBadge, y: yBadge }}
+               className="absolute -bottom-10 -left-6 lg:-left-12 z-20"
              >
                 <div className="relative p-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] overflow-hidden group">
                     {/* Brillo interno rotando */}
