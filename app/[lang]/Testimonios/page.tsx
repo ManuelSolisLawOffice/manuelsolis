@@ -19,166 +19,110 @@ const font = Outfit({
   weight: ['100', '200', '300', '400', '500', '800', '900'] 
 });
 
-// --- DATA ---
+// --- DATA CON LOS 6 VIDEOS DE YOUTUBE ---
 const testimonials = [
   {
-    id: 'alma-alvarado',
-    name: 'Alma Alvarado',
-    category: { es: 'Accidentes', en: 'Accidents' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2023/12/d7695fc0fb2a14bad98487f70444d63c.png',
-    video: 'https://SolisPullZone.b-cdn.net/alma-alvarado.mp4',
+    id: 'video-01',
+    name: 'Video Testimonio 1',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV01.png',
+    video: 'https://www.youtube.com/embed/dtKRXVMxcHU',
+    youtubeId: 'dtKRXVMxcHU',
     quote: {
-      es: "Recuperé la tranquilidad después de mi accidente.",
-      en: "I recovered my peace of mind after my accident."
+      es: "Historias reales de nuestros clientes.",
+      en: "Real stories from our clients."
     },
     story: {
-      es: "Después de un grave accidente, Alma se sentía perdida. Nuestro equipo intervino para asegurar la compensación máxima.",
-      en: "After a serious accident, Alma felt lost. Our team stepped in to secure maximum compensation."
+      es: "Descubre cómo ayudamos a nuestros clientes a alcanzar sus objetivos legales.",
+      en: "Discover how we help our clients achieve their legal goals."
     }
   },
   {
-    id: 'alma-garcia',
-    name: 'Alma García',
-    category: { es: 'Inmigración', en: 'Immigration' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2023/12/866963ca424e7b42258ff5da5f5f0426.png',
-    video: 'https://SolisPullZone.b-cdn.net/alma-garcia-testimonial.mp4',
+    id: 'video-02',
+    name: 'Video Testimonio 2',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV02.png',
+    video: 'https://www.youtube.com/embed/y5BwL3Owhzg',
+    youtubeId: 'y5BwL3Owhzg',
     quote: {
-      es: "Gracias al equipo pude alcanzar el resultado que anhelaba.",
-      en: "Thanks to the team, I was able to achieve the result I longed for."
+      es: "Experiencias que transforman vidas.",
+      en: "Experiences that transform lives."
     },
     story: {
-      es: "Alma soñaba con regularizar su estatus. Gracias a la experiencia del equipo legal, pudo enfrentar el proceso con éxito.",
-      en: "Alma dreamed of regularizing her status. Thanks to the legal team's experience, she was able to face the process successfully."
+      es: "Conoce más sobre los resultados exitosos que hemos logrado.",
+      en: "Learn more about the successful results we have achieved."
     }
   },
   {
-    id: 'carlos-zuniga',
-    name: 'Carlos Zúñiga',
-    category: { es: 'Ley Criminal', en: 'Criminal Law' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2023/12/ad195c8834bedc323ce1960b0f43a331.png',
-    video: 'https://SolisPullZone.b-cdn.net/carlos-zuniga-testimonial.mp4',
+    id: 'video-03',
+    name: 'Video Testimonio 3',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV03.png',
+    video: 'https://www.youtube.com/embed/wZ7uJ0mHZjk',
+    youtubeId: 'wZ7uJ0mHZjk',
     quote: {
-      es: "Pelearon por mis derechos cuando nadie más quería escucharme.",
-      en: "They fought for my rights when no one else would listen to me."
+      es: "Compromiso y dedicación en cada caso.",
+      en: "Commitment and dedication in every case."
     },
     story: {
-      es: "Carlos enfrentaba cargos que amenazaban su libertad. La defensa estratégica logró desestimar los cargos más graves.",
-      en: "Carlos faced charges that threatened his freedom. Strategic defense managed to dismiss the most serious charges."
+      es: "Testimonios que reflejan nuestro trabajo y pasión por ayudar.",
+      en: "Testimonials that reflect our work and passion to help."
     }
   },
   {
-    id: 'cecilia-limon',
-    name: 'Cecilia Limón',
-    category: { es: 'Familia', en: 'Family' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2024/01/cecilia-limon.jpg',
-    video: 'https://SolisPullZone.b-cdn.net/cecilia-limon.mp4',
+    id: 'video-04',
+    name: 'Video Testimonio 4',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV04.png',
+    video: 'https://www.youtube.com/embed/QXOZHRpSjSA',
+    youtubeId: 'QXOZHRpSjSA',
     quote: {
-      es: "Unieron a mi familia de nuevo.",
-      en: "They reunited my family."
+      es: "Resultados que hablan por sí mismos.",
+      en: "Results that speak for themselves."
     },
     story: {
-      es: "Cecilia buscaba la reunificación familiar. Logramos aprobar su caso mediante una petición familiar compleja.",
-      en: "Cecilia sought family reunification. We managed to approve her case through a complex family petition."
+      es: "Cada cliente tiene una historia única de éxito con nuestro equipo.",
+      en: "Each client has a unique success story with our team."
     }
   },
   {
-    id: 'dagoberto-limon',
-    name: 'Dagoberto Limón',
-    category: { es: 'Inmigración', en: 'Immigration' },
-    image: 'https://SolisPullZone.b-cdn.net/dagoberto-limon.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/dagoberto-limon.mp4',
+    id: 'video-05',
+    name: 'Video Testimonio 5',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV05.png',
+    video: 'https://www.youtube.com/embed/kT9ZXCFW5KM',
+    youtubeId: 'kT9ZXCFW5KM',
     quote: {
-      es: "El proceso fue claro y rápido.",
-      en: "The process was clear and fast."
+      es: "Confianza y profesionalismo garantizado.",
+      en: "Trust and professionalism guaranteed."
     },
     story: {
-      es: "Dagoberto pensó que su caso estaba perdido. Nuestros expertos encontraron una vía legal que otros habían pasado por alto.",
-      en: "Dagoberto thought his case was lost. Our experts found a legal path that others had overlooked."
+      es: "Mira cómo hemos ayudado a familias a lograr sus sueños.",
+      en: "See how we have helped families achieve their dreams."
     }
   },
   {
-    id: 'doris-licona',
-    name: 'Doris Licona',
-    category: { es: 'Visa U', en: 'U Visa' },
-    image: 'https://SolisPullZone.b-cdn.net/images/doris-licona.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/doris-licona-testimonial.mp4',
+    id: 'video-06',
+    name: 'Video Testimonio 6',
+    category: { es: 'Testimonio', en: 'Testimonial' },
+    image: '/testimonials/YV06.png',
+    video: 'https://www.youtube.com/embed/cTJ9M5PT-S4',
+    youtubeId: 'cTJ9M5PT-S4',
     quote: {
-      es: "Me ayudaron después de ser víctima de un crimen.",
-      en: "They helped me after being a crime victim."
+      es: "Casos de éxito que nos inspiran.",
+      en: "Success cases that inspire us."
     },
     story: {
-      es: "Como víctima de un crimen, Doris tenía miedo. La guiamos y tramitamos su Visa U exitosamente.",
-      en: "As a crime victim, Doris was afraid. We guided her and successfully processed her U Visa."
-    }
-  },
-  {
-    id: 'juana-edith',
-    name: 'Juana Edith Pérez',
-    category: { es: 'Residencia', en: 'Residency' },
-    image: 'https://SolisPullZone.b-cdn.net/images/juana-edith-perez.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/juana-edith-perez-testimonial.mp4',
-    quote: {
-      es: "Un servicio honesto y transparente.",
-      en: "Honest and transparent service."
-    },
-    story: {
-      es: "Juana Edith destaca la honestidad con la que se manejó su caso, permitiéndole planificar su futuro con seguridad.",
-      en: "Juana Edith highlights the honesty with which her case was handled, allowing her to plan her future with confidence."
-    }
-  },
-  {
-    id: 'leonardo-aguirre',
-    name: 'Leonardo Aguirre',
-    category: { es: 'Permiso de Trabajo', en: 'Work Permit' },
-    image: 'https://SolisPullZone.b-cdn.net/images/leonardo-aguirre.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/leonardo-aguirre-testimonial.mp4',
-    quote: {
-      es: "Ahora puedo trabajar legalmente.",
-      en: "Now I can work legally."
-    },
-    story: {
-      es: "Obtener su permiso de trabajo cambió la vida de Leonardo, abriéndole puertas a mejores oportunidades laborales.",
-      en: "Obtaining his work permit changed Leonardo's life, opening doors to better job opportunities."
-    }
-  },
-  {
-    id: 'norma-mendoza',
-    name: 'Norma Mendoza',
-    category: { es: 'Ciudadanía', en: 'Citizenship' },
-    image: 'https://SolisPullZone.b-cdn.net/images/norma-mendoza.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/norma-mendoza.mp4',
-    quote: {
-      es: "El sueño americano hecho realidad.",
-      en: "The American dream come true."
-    },
-    story: {
-      es: "Norma completó su proceso de naturalización con nuestra guía, convirtiéndose orgullosamente en ciudadana.",
-      en: "Norma completed her naturalization process with our guidance, proudly becoming a citizen."
-    }
-  },
-  {
-    id: 'xiomara-zamora',
-    name: 'Xiomara Zamora',
-    category: { es: 'Inmigración', en: 'Immigration' },
-    image: 'https://SolisPullZone.b-cdn.net/images/xiomara-zamora.jpeg',
-    video: 'https://SolisPullZone.b-cdn.net/xiomara-zamora-testimonial.mp4',
-    quote: {
-      es: "No se rindieron con mi caso.",
-      en: "They didn't give up on my case."
-    },
-    story: {
-      es: "A pesar de las dificultades iniciales, el equipo legal persistió hasta encontrar la solución adecuada.",
-      en: "Despite initial difficulties, the legal team persisted until finding the right solution."
+      es: "Testimonios reales de personas que confiaron en nosotros.",
+      en: "Real testimonials from people who trusted us."
     }
   }
 ];
 
 export default function TestimonialsPage() {
   const { language } = useLanguage();
-  // CORRECCIÓN TYPESCRIPT: Especificar el tipo del estado
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedTestimonial = testimonials.find(t => t.id === selectedId);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (selectedId) {
@@ -188,7 +132,6 @@ export default function TestimonialsPage() {
     }
   }, [selectedId]);
 
-  // CORRECCIÓN TYPESCRIPT: Añadir tipo 'any' (o más específico) para evitar error implícito
   const getText = (obj: any) => {
     if (typeof obj === 'string') return obj;
     return obj[language] || obj.es || obj;
@@ -219,13 +162,11 @@ export default function TestimonialsPage() {
       <Header />
 
       {/* =========================================================================
-          1. FONDO ATMOSFÉRICO FIJO (CON TU CÓDIGO EXACTO)
-          Usamos 'fixed' para que cubra toda la pantalla mientras haces scroll.
+          1. FONDO ATMOSFÉRICO FIJO
       ========================================================================= */}
       <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#002868] via-[#001540] to-[#000a20]" />
          
-         {/* --- 2. FONDO DE LA "N" GIGANTE (Tu animación) --- */}
          <motion.div
             initial={{ x: "60%" }} 
             animate={{ x: "-160%" }} 
@@ -242,7 +183,6 @@ export default function TestimonialsPage() {
             </span>
          </motion.div>
 
-         {/* Luces ambientales (Tu animación) */}
          <motion.div 
            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
@@ -259,10 +199,8 @@ export default function TestimonialsPage() {
 
 
       {/* =========================================================================
-          2. CONTENIDO PRINCIPAL (z-10 para estar sobre el fondo)
+          2. HERO SECTION
       ========================================================================= */}
-      
-      {/* --- HERO SECTION --- */}
       <section className="relative pt-44 pb-20 px-4 z-10 text-center">
         <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -285,7 +223,9 @@ export default function TestimonialsPage() {
         </motion.div>
       </section>
 
-      {/* --- GRID DE TESTIMONIOS --- */}
+      {/* =========================================================================
+          3. GRID DE TESTIMONIOS CON BOTÓN DE PLAY ELEGANTE
+      ========================================================================= */}
       <section className="px-4 pb-32 relative z-10 max-w-[1200px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           
@@ -317,27 +257,45 @@ export default function TestimonialsPage() {
                     />
                 </div>
 
-                {/* Imagen */}
+                {/* Imagen de Portada */}
                 <div className="relative h-[320px] w-full overflow-hidden z-10 rounded-t-[32px]">
                    <Image 
                      src={item.image} 
                      alt={item.name} 
                      fill 
                      className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
-                     unoptimized
                    />
                    <div className="absolute inset-0 bg-gradient-to-t from-[#000a20] via-transparent to-transparent opacity-80" />
                    
+                   {/* Badge de categoría */}
                    <div className="absolute top-6 left-6">
                       <div className="bg-[#001540]/80 backdrop-blur-md border border-[#B2904D]/30 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
                           {getText(item.category)}
                       </div>
                    </div>
                    
+                   {/* BOTÓN DE PLAY MEJORADO CON GLASSMORPHISM */}
                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-500">
-                      <div className="w-20 h-20 rounded-full bg-[#B2904D]/90 backdrop-blur-md border border-white/20 flex items-center justify-center text-white scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 shadow-[0_0_30px_rgba(178,144,77,0.6)]">
-                          <Play fill="white" size={24} className="ml-1" />
-                      </div>
+                      <motion.div 
+                        initial={{ scale: 1 }}
+                        whileHover={{ scale: 1.1 }}
+                        className="relative"
+                      >
+                        {/* Anillo exterior con efecto glow */}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#B2904D] to-[#D4AF37] blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                        
+                        {/* Botón principal con glassmorphism */}
+                        <div className="relative w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/30 flex items-center justify-center text-white scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                          {/* Gradiente interno sutil */}
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent" />
+                          
+                          {/* Icono de Play */}
+                          <Play fill="white" size={28} className="ml-1 relative z-10 drop-shadow-lg" />
+                          
+                          {/* Brillo superior */}
+                          <div className="absolute top-2 left-2 right-2 h-6 bg-white/20 rounded-full blur-md" />
+                        </div>
+                      </motion.div>
                    </div>
                 </div>
 
@@ -369,7 +327,9 @@ export default function TestimonialsPage() {
         </div>
       </section>
 
-      {/* --- MODAL --- */}
+      {/* =========================================================================
+          4. MODAL CON YOUTUBE EMBED
+      ========================================================================= */}
       <AnimatePresence>
         {selectedId && selectedTestimonial && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8">
@@ -390,17 +350,18 @@ export default function TestimonialsPage() {
               >
                 <X size={24} />
               </button>
+              
+              {/* Video de YouTube Embed */}
               <div className="w-full lg:w-2/3 h-full bg-black relative flex items-center justify-center">
-                 <video 
-                   ref={videoRef}
-                   src={selectedTestimonial.video} 
-                   className="w-full h-full object-contain bg-black"
-                   controls
-                   autoPlay
-                   playsInline
-                   poster={selectedTestimonial.image}
+                 <iframe 
+                   src={`${selectedTestimonial.video}?autoplay=1`}
+                   className="w-full h-full"
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                   allowFullScreen
                  />
               </div>
+              
+              {/* Panel lateral con información */}
               <div className="w-full lg:w-1/3 h-full bg-[#001540] p-12 flex flex-col relative overflow-y-auto border-l border-white/5">
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
@@ -434,15 +395,14 @@ export default function TestimonialsPage() {
         )}
       </AnimatePresence>
 
-      {/* --- FORMULARIO SECTION (SACO DEL CONTENEDOR, STRETCHED) --- */}
+      {/* =========================================================================
+          5. FORMULARIO DE CONTACTO
+      ========================================================================= */}
       <section id="contacto" className="relative py-20 z-10 w-full">
          <div className="container mx-auto px-4 lg:px-12">
-            
-            {/* Formulario directo, sin título Inicie su Consulta, sin contenedor de fondo */}
             <div className="text-white w-full">
                <ContactForm />
             </div>
-
          </div>
       </section>
 

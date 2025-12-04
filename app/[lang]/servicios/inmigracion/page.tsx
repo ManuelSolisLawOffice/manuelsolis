@@ -177,7 +177,9 @@ const texts = {
   interface: {
     badge: { es: "Especialistas en Inmigración", en: "Immigration Specialists" },
     title1: { es: "Construyendo su", en: "Building Your" },
-    title2: { es: "Futuro en EE.UU.", en: "Future in the USA" },    stats: { es: "Familias Unidas", en: "Families Reunited" },
+    title2: { es: "Futuro en EE.UU.", en: "Future in the USA" },    
+    heroDescription: { es: "Representación experta en todos los aspectos de ley de inmigración para proteger su futuro en Estados Unidos.", en: "Expert representation in all aspects of immigration law to protect your future in the United States." },
+    stats: { es: "Familias Unidas", en: "Families Reunited" },
     casesTitle: { es: "Áreas de Práctica", en: "Practice Areas" },
     ctaConsultation: { es: "Consulta Ahora", en: "Consult Now" },
     ctaCases: { es: "Ver Tipos de Casos", en: "View Case Types" },
@@ -190,6 +192,7 @@ const texts = {
     callNow: { es: "Llámanos Ahora Mismo", en: "Call Us Right Now" },
     processMethod: { es: "Nuestro Método", en: "Our Method" },
     processTitle: { es: "Tu Ruta Hacia el Estatus Legal", in: "Your Path to Legal Status" },
+    requestEvaluation: { es: "Solicitar Evaluación", en: "Request Evaluation" },
     videoAlt: { es: "Video explicativo sobre la dedicación del equipo legal.", in: "Explanation video about the legal team's dedication." }
   }
 };
@@ -249,16 +252,6 @@ export default function ImmigrationPage() {
   };
 
 
-  // MARQUEE (ASOCIACIONES) - Igual que Hero
-  const associations = [
-    { name: 'American Bar Association', logo: 'https://3cbymunqi03dlsyk.public.blob.vercel-storage.com/ABA.png' },
-    { name: 'Rama Judicial de Puerto Rico', logo: 'https://3cbymunqi03dlsyk.public.blob.vercel-storage.com/puertorico.png' },
-    { name: 'State Bar of New Mexico', logo: 'https://3cbymunqi03dlsyk.public.blob.vercel-storage.com/sts-br-nm.png' },
-    { name: 'Illinois State Bar Association', logo: 'https://3cbymunqi03dlsyk.public.blob.vercel-storage.com/isba.png' },
-    { name: 'The Chicago Bar Association', logo: 'https://3cbymunqi03dlsyk.public.blob.vercel-storage.com/CBA-A.png' },
-  ];
-
-
   return (
     // FONDO AZUL OSCURO
     <div className="min-h-screen flex flex-col bg-[#001540] text-white relative selection:bg-[#B2904D] selection:text-white font-sans overflow-x-hidden">
@@ -296,31 +289,33 @@ export default function ImmigrationPage() {
 
 
       {/* =========================================================================
-          2. HERO SECTION (SPLIT LAYOUT CON IMAGEN)
+          2. HERO SECTION (SPLIT LAYOUT CON IMAGEN) - POSICIÓN MEDIA
       ========================================================================= */}
-      <section className="relative pt-40 pb-24 px-4 z-10 min-h-[90vh] flex flex-col justify-center">
+      <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 px-4 z-10 min-h-[85vh] md:min-h-[90vh] flex flex-col justify-center">
         <div className="container mx-auto max-w-7xl">
-           <div className="grid lg:grid-cols-12 gap-12 items-center">
+           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
               
-              {/* --- COLUMNA IZQUIERDA: IMAGEN (HeroProfessional Style) --- */}
+              {/* --- COLUMNA IZQUIERDA: IMAGEN (HeroProfessional Style) - POSICIÓN MEDIA --- */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                className="lg:col-span-5 relative h-[500px] lg:h-[700px] flex items-end justify-center"
+                className="lg:col-span-5 relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center"
               >
                  {/* Glow azul intenso detrás */}
                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent blur-3xl rounded-full z-0 opacity-80" />
                  
-                 {/* Imagen del Abogado/Hero */}
-                 <div className="relative z-10 w-full h-full">
-                    <Image
-                      src="/immigration-hero.png" // NOMBRE TEMPORAL
-                      alt="Abogado de Inmigración"
-                      fill
-                      className="object-contain object-bottom drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]" // Glow azul en la imagen
-                      priority
-                    />
+                 {/* Imagen del Abogado/Hero - POSICIÓN MEDIA */}
+                 <div className="relative z-10 w-full h-full flex items-center justify-center">
+                    <div className="relative w-full h-full">
+                       <Image
+                         src="/immigration-hero.png" // NOMBRE TEMPORAL
+                         alt="Abogado de Inmigración"
+                         fill
+                         className="object-contain object-center drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]" // Glow azul en la imagen
+                         priority
+                       />
+                    </div>
                  </div>
 
                  {/* Cuadro Flotante de Estadísticas (20k Familias) */}
@@ -328,11 +323,11 @@ export default function ImmigrationPage() {
                     initial={{ opacity: 0, x: -20 }} 
                     animate={{ opacity: 1, x: 0 }} 
                     transition={{ delay: 1, duration: 1 }}
-                    className="absolute bottom-10 left-[-20px] z-20 p-6 border border-white/10 rounded-2xl backdrop-blur-xl bg-white/5 shadow-2xl"
+                    className="absolute bottom-4 md:bottom-10 left-0 md:left-[-20px] z-20 p-4 md:p-6 border border-white/10 rounded-2xl backdrop-blur-xl bg-white/5 shadow-2xl"
                  >
                     <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50">
-                       <span className="text-5xl font-bold tracking-tighter">20k</span> 
-                       <span className="text-4xl font-thin text-[#B2904D] ml-1">+</span>
+                       <span className="text-4xl md:text-5xl font-bold tracking-tighter">20k</span> 
+                       <span className="text-3xl md:text-4xl font-thin text-[#B2904D] ml-1">+</span>
                     </div>
                     <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
                        {t('stats')}
@@ -341,7 +336,7 @@ export default function ImmigrationPage() {
               </motion.div>
 
               {/* --- COLUMNA DERECHA: TEXTO --- */}
-              <div className="lg:col-span-7 space-y-8 pl-0 lg:pl-12 relative z-20">
+              <div className="lg:col-span-7 space-y-6 md:space-y-8 pl-0 lg:pl-12 relative z-20">
                  {/* Línea decorativa */}
                  <motion.div 
                    initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
@@ -353,7 +348,7 @@ export default function ImmigrationPage() {
                     <span className="text-[#B2904D] text-xs font-bold tracking-widest uppercase">{t('badge')}</span>
                  </div>
 
-                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin text-white tracking-tight leading-[0.9]">
+                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin text-white tracking-tight leading-[0.9]">
                     <span className="block overflow-hidden pb-2 perspective-[400px]">
                        <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90">
                           {t('title1')}
@@ -368,7 +363,7 @@ export default function ImmigrationPage() {
 
                  <motion.p 
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-                    className="text-xl text-blue-100/70 font-light max-w-xl leading-relaxed border-l border-white/10 pl-6"
+                    className="text-lg md:text-xl text-blue-100/70 font-light max-w-xl leading-relaxed border-l border-white/10 pl-4 md:pl-6"
                  >
                     {t('heroDescription')}
                  </motion.p>
@@ -377,10 +372,10 @@ export default function ImmigrationPage() {
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
                     className="flex flex-wrap gap-4 pt-4"
                  >
-                    <a href="#contacto" className="px-8 py-4 bg-[#B2904D] hover:bg-white text-[#001540] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(178,144,77,0.4)] flex items-center gap-2 group">
-                       <PhoneCall size={20} />
+                    <a href="#contacto" className="px-6 md:px-8 py-3 md:py-4 bg-[#B2904D] hover:bg-white text-[#001540] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(178,144,77,0.4)] flex items-center gap-2 group text-sm md:text-base">
+                       <PhoneCall size={18} className="md:w-5 md:h-5" />
                        {t('ctaConsultation')}
-                       <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
+                       <ArrowRight size={16} className="md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform"/>
                     </a>
                  </motion.div>
               </div>
@@ -550,7 +545,7 @@ export default function ImmigrationPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="w-full max-w-7xl h-[90vh] md:h-[80vh] bg-white rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10 ring-1 ring-black/5"
+              className="w-full max-w-7xl h-[90vh] md:h-[80vh] rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10 ring-1 ring-black/5"
               onClick={(e) => e.stopPropagation()} 
             >
               
@@ -854,7 +849,7 @@ export default function ImmigrationPage() {
       </section>
 
       {/* --- CONTACT FORM --- */}
-      <section id="contacto" className="relative py-32 z-10">
+      <section id="contacto" className="relative py-32 z-10 bg-transparent">
         
         <div className="max-w-4xl mx-auto px-4 relative z-10">
           

@@ -363,29 +363,6 @@ const attorneys = [
     }
   },
   {
-    id: 'peyton-barrow',
-    name: 'Peyton Barrow',
-    role: { es: 'Abogado (Memphis)', en: 'Attorney (Memphis)' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Peyton-Barrow-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Abogado en la oficina de Memphis. Su enfoque es empático y orientado a resultados, ayudando a clientes a navegar el sistema de inmigración con claridad.",
-        "Autorizado para ejercer en Tennessee y enfocado en representación eficaz y transparente."
-      ],
-      en: [
-        "Attorney in the Memphis office. His approach is empathetic and results-oriented, helping clients navigate the immigration system with clarity.",
-        "Licensed to practice in Tennessee and focused on effective and transparent representation."
-      ]
-    },
-    education: ["University of Memphis (JD)"],
-    admissions: ["Tennessee Bar Association"],
-    quote: {
-      es: "Ayudar a navegar el complejo sistema de inmigración con confianza.",
-      en: "Helping to navigate the complex immigration system with confidence."
-    }
-  },
-  {
     id: 'sara-james',
     name: 'Sara James',
     role: { es: 'Abogada (Memphis)', en: 'Attorney (Memphis)' },
@@ -464,84 +441,6 @@ const attorneys = [
     }
   },
   {
-    id: 'elizabeth-ponce-mcclain',
-    name: 'Elizabeth Ponce McClain',
-    role: { es: 'Abogada', en: 'Attorney' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Elizabeth-Ponce-McClain-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Obtuvo su Licenciatura en Economía en Fordham University y su Juris Doctor en Suffolk University School of Law.",
-        "Es Mediadora Certificada y se enfoca en el bienestar integral de sus clientes, con una vocación especial por ayudar a los niños."
-      ],
-      en: [
-        "She obtained her Bachelor's degree in Economics from Fordham University and her Juris Doctor from Suffolk University School of Law.",
-        "She is a Certified Mediator and focuses on the comprehensive well-being of her clients, with a special vocation for helping children."
-      ]
-    },
-    education: [
-      "Suffolk University School of Law (JD)",
-      { es: "Fordham University (Economía)", en: "Fordham University (Economics)" }
-    ],
-    admissions: ["Texas", "Massachusetts", { es: "Distrito de Columbia", en: "District of Columbia" }],
-    quote: {
-      es: "Resolución de conflictos de manera efectiva, ética y compasiva.",
-      en: "Conflict resolution in an effective, ethical, and compassionate manner."
-    }
-  },
-  {
-    id: 'magdalena-aguilar',
-    name: 'Magdalena "Maggie" Aguilar',
-    role: { es: 'Abogada (Chicago)', en: 'Attorney (Chicago)' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Maggie-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Nació en Aguascalientes, México, y emigró a Chicago de niña. Antes de ser abogada, tuvo una exitosa carrera en marketing.",
-        "Trabajó en la Oficina de Derechos Civiles del Departamento de Educación de EE.UU. y en la Oficina del Fiscal General de Illinois."
-      ],
-      en: [
-        "She was born in Aguascalientes, Mexico, and emigrated to Chicago as a child. Before becoming a lawyer, she had a successful career in marketing.",
-        "She worked at the U.S. Department of Education's Office for Civil Rights and the Illinois Attorney General's Office."
-      ]
-    },
-    education: [
-      "Northern Illinois University College of Law (JD)",
-      "University of Illinois - Chicago"
-    ],
-    admissions: ["Illinois"],
-    quote: {
-      es: "Pone su experiencia al servicio de las familias inmigrantes con empatía, firmeza y compromiso.",
-      en: "She puts her experience at the service of immigrant families with empathy, firmness, and commitment."
-    }
-  },
-  {
-    id: 'ashley-cruz',
-    name: 'Ashley Cruz',
-    role: { es: 'Abogada (Houston)', en: 'Attorney (Houston)' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Ashley-Cruz-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Se enfoca en casos de asilo e inmigración familiar. Antes de esto, trabajó en derecho civil y familiar.",
-        "Obtuvo su título en la Pontificia Universidad Católica de Puerto Rico. Su trato cercano y humano es apreciado por sus clientes."
-      ],
-      en: [
-        "She focuses on asylum and family immigration cases. Prior to this, she worked in civil and family law.",
-        "She obtained her degree from the Pontifical Catholic University of Puerto Rico. Her warm and humane approach is appreciated by her clients."
-      ]
-    },
-    education: [{ es: "Pontificia Universidad Católica de Puerto Rico", en: "Pontifical Catholic University of Puerto Rico" }],
-    admissions: [
-      "Puerto Rico",
-      { es: "Práctica Federal de Inmigración", en: "Federal Immigration Practice" }
-    ],
-    quote: {
-      es: "Pasión por ayudar a las personas a permanecer legalmente y con tranquilidad.",
-      en: "Passion for helping people stay legally and with peace of mind."
-    }
-  },
-  {
     id: 'edward-s-reisman',
     name: 'Edward S. Reisman',
     role: { es: 'Abogado (Los Ángeles)', en: 'Attorney (Los Angeles)' },
@@ -565,55 +464,6 @@ const attorneys = [
     quote: {
       es: "Guiando a sus clientes con conocimiento, responsabilidad y humanidad.",
       en: "Guiding his clients with knowledge, responsibility, and humanity."
-    }
-  },
-  {
-    id: 'yineyri-castillo-arias',
-    name: 'Yineyri Castillo Arias',
-    role: { es: 'Abogada (Houston)', en: 'Attorney (Houston)' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Yineyri-Castillo-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Emigró a EE.UU. y comprende los retos de sus clientes. Es Presidenta de la Comisión de Derechos de los Inmigrantes del Colegio de Abogados de Puerto Rico.",
-        "Trabajó con la Oficina de Reasentamiento de Refugiados de la ONU y fue defensora legal de víctimas de crimen."
-      ],
-      en: [
-        "She immigrated to the U.S. and understands her clients' challenges. She is President of the Immigrant Rights Commission of the Puerto Rico Bar Association.",
-        "She worked with the UN Refugee Resettlement Office and was a legal advocate for crime victims."
-      ]
-    },
-    education: [
-      { es: "Pontificia Universidad Católica de Puerto Rico (JD)", en: "Pontifical Catholic University of Puerto Rico (JD)" },
-      { es: "Universidad Interamericana de Puerto Rico", en: "Interamerican University of Puerto Rico" }
-    ],
-    admissions: ["Puerto Rico"],
-    quote: {
-      es: "Su trabajo se basa en la empatía y el compromiso genuino con el bienestar de cada persona.",
-      en: "Her work is based on empathy and genuine commitment to the well-being of each person."
-    }
-  },
-  {
-    id: 'danatayri-morales-vidal',
-    name: 'Danatayri Morales Vidal, Esq.',
-    role: { es: 'Abogada (Houston)', en: 'Attorney (Houston)' },
-    image: 'https://manuelsolis.com/wp-content/uploads/2025/07/Danatayri-Morales-Vidal-922x1024.png',
-    video: null,
-    bio: {
-      es: [
-        "Ejerce con convicción en la oficina de Houston. Su principio es defender el derecho de elegir dónde vivir, brindando representación estratégica y humana.",
-        "Su trayectoria refleja un compromiso constante con los derechos fundamentales de las comunidades migrantes."
-      ],
-      en: [
-        "She practices with conviction in the Houston office. Her principle is to defend the right to choose where to live, providing strategic and humane representation.",
-        "Her career reflects a constant commitment to the fundamental rights of migrant communities."
-      ]
-    },
-    education: [{ es: "Abogada Titulada", en: "Licensed Attorney" }],
-    admissions: [{ es: "Práctica Federal de Inmigración", en: "Federal Immigration Practice" }],
-    quote: {
-      es: "El derecho de elegir dónde vivir.",
-      en: "The right to choose where to live."
     }
   },
   {

@@ -101,14 +101,14 @@ const texts = {
       icon: Car, 
       position: "col-span-3 lg:col-span-1 h-[450px]", 
       content: {
-        intro: { es: "¿Necesita un abogado después de ser sorprendido conduciendo bajo la influencia?", in: "Need an attorney after being caught driving under the influence?" },
+        intro: { es: "¿Necesita un abogado después de ser sorprendido conduciendo bajo la influencia?", en: "Need an attorney after being caught driving under the influence?" },
         description: { es: "El límite legal de contenido de alcohol en la sangre es típicamente 0.08%, pero puede ser detenido por sospecha de consumo de drogas o alcohol, independientemente de la cantidad exacta.", en: "The legal limit for blood alcohol content is typically 0.08%, but you can be arrested for suspicion of drug or alcohol consumption, regardless of the exact amount." },
         subTitle: { es: "Graves Consecuencias Incluyen:", en: "Serious Consequences Include:" },
         subPoints: [
           { es: "Un registro de antecedentes penales.", en: "A criminal record." },
           { es: "Suspensión o revocación de su licencia de conducir.", en: "Suspension or revocation of your driver's license." },
-          { es: "Sentencia de cárcel y multas elevadas.", in: "Jail sentence and high fines." },
-          { es: "Programas de tratamiento requeridos y aumento del costo del seguro.", in: "Required treatment programs and increased insurance cost." },
+          { es: "Sentencia de cárcel y multas elevadas.", en: "Jail sentence and high fines." },
+          { es: "Programas de tratamiento requeridos y aumento del costo del seguro.", en: "Required treatment programs and increased insurance cost." },
         ],
         solution: { es: "Nuestros abogados de defensa criminal están aquí para brindarle el asesoramiento y la representación que necesita para luchar contra los cargos de DWI.", en: "Our criminal defense attorneys are here to provide you with the advice and representation you need to fight DWI charges." },
       }
@@ -127,7 +127,6 @@ const texts = {
           { es: "Robo en tiendas y Hurto menor.", en: "Shoplifting and petty theft." },
           { es: "Hurto y Malversación.", en: "Larceny and Embezzlement." },
           { es: "Robo de identidad y Fraude/Falsificación.", en: "Identity theft and Fraud/Forgery." },
-          // TRADUCCIÓN CORREGIDA
           { es: "Robo con cheque o emisión de cheques sin fondos.", en: "Theft by check or issuing bad checks." }, 
           { es: "Uso ilegal/no autorizado de un vehículo motorizado.", en: "Illegal/unauthorized use of a motor vehicle." },
         ],
@@ -152,7 +151,7 @@ const texts = {
     { id: 1, title: { es: "Detención y Contacto", en: "Arrest and Contact" }, icon: PhoneCall, desc: { es: "Llámenos inmediatamente tras un arresto para proteger sus derechos.", en: "Call us immediately after an arrest to protect your rights." } },
     { id: 2, title: { es: "Análisis de Pruebas", en: "Evidence Analysis" }, icon: FileText, desc: { es: "Revisamos informes policiales, testimonios y toda la evidencia.", en: "We review police reports, testimonies, and all evidence." } },
     { id: 3, title: { es: "Estrategia Legal", en: "Legal Strategy" }, icon: Scale, desc: { es: "Desarrollamos una defensa sólida y exploramos todas las opciones.", en: "We develop a solid defense and explore all options." } },
-    { id: 4, title: { es: "Representación en Corte", en: "Court Representation" }, icon: CheckCircle2, desc: { es: "Lo representamos en la corte para luchar por el mejor resultado posible.", in: "We represent you in court to fight for the best possible outcome." } }, 
+    { id: 4, title: { es: "Representación en Corte", en: "Court Representation" }, icon: CheckCircle2, desc: { es: "Lo representamos en la corte para luchar por el mejor resultado posible.", en: "We represent you in court to fight for the best possible outcome." } }, 
   ],
 
   interface: {
@@ -161,24 +160,21 @@ const texts = {
     heroTitle1: { es: "Expertos en", en: "Experts in" },
     heroTitle2: { es: "Defensa Penal", en: "Criminal Defense" }, 
     heroDescription: { es: "Desde DWI hasta hurto y asalto. Protegemos su libertad y su futuro. Su primera llamada debe ser a nuestro abogado defensor.", en: "From DWI to theft and assault. We protect your freedom and future. Your first call should be to our defense attorney." },
-    // Eliminado del formulario, pero lo mantengo aquí si se necesita en otro lugar:
-    // contactDescription: { es: "Complete el formulario para recibir una evaluación confidencial de su caso por parte de nuestros abogados defensores.", en: "Complete the form below to receive a confidential case evaluation from our criminal defense attorneys." }, 
     stats: { es: "Casos Defendidos", en: "Cases Defended" },
-    casesTitle: { es: "Delitos que Defendemos", in: "Offenses We Defend" },
+    casesTitle: { es: "Delitos que Defendemos", en: "Offenses We Defend" },
     ctaConsultation: { es: "Consulta Ahora", en: "Consult Now" },
     ctaCases: { es: "Ver Tipos de Casos", en: "View Case Types" },
     specialties: { es: "Nuestra Defensa", en: "Our Defense" },
     details: { es: "Ver Detalles", en: "View Details" },
     modalClosing: { es: "Abogados defensores penales listos para proteger su libertad.", en: "Criminal defense attorneys ready to protect your freedom." },
     videoSectionBadge: { es: "Conoce a Nuestro Equipo", en: "Meet Our Team" },
-    videoSectionTitle: { es: "Abogado", in: "Attorney" },
+    videoSectionTitle: { es: "Abogado", en: "Attorney" },
     videoSectionSubtitle: { es: "Escucha directamente de nuestros socios cómo protegemos tu libertad y derechos en casos criminales.", en: "Hear directly from our partners how we protect your freedom and rights in criminal cases." },
     callNow: { es: "Llámanos Ahora Mismo", en: "Call Us Right Now" },
     processMethod: { es: "Nuestro Método", en: "Our Method" },
-    // TRADUCCIÓN CORREGIDA
     processTitle: { es: "Su Ruta Hacia la Defensa", en: "Your Path to Defense" },
     requestEvaluation: { es: "Solicitar Consulta Privada", en: "Request Private Consultation" },
-    videoAlt: { es: "Video explicativo sobre la dedicación del equipo legal.", in: "Explanation video about the legal team's dedication." }
+    videoAlt: { es: "Video explicativo sobre la dedicación del equipo legal.", en: "Explanation video about the legal team's dedication." }
   }
 };
 
@@ -276,97 +272,99 @@ export default function CriminalLawPage() {
 
 
       {/* =========================================================================
-          2. HERO SECTION (SPLIT LAYOUT CON IMAGEN)
+          2. HERO SECTION (SPLIT LAYOUT CON IMAGEN) - POSICIÓN MEDIA
       ========================================================================= */}
-      <section className="relative pt-40 pb-24 px-4 z-10 min-h-[90vh] flex flex-col justify-center">
+      <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 px-4 z-10 min-h-[85vh] md:min-h-[90vh] flex flex-col justify-center">
         <div className="container mx-auto max-w-7xl">
-           <div className="grid lg:grid-cols-12 gap-12 items-center">
-             
-             {/* --- COLUMNA IZQUIERDA: IMAGEN --- */}
-             <motion.div 
-               initial={{ opacity: 0, scale: 0.9 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 1.5, ease: "easeOut" }}
-               className="lg:col-span-5 relative h-[500px] lg:h-[700px] flex items-end justify-center"
-             >
-                {/* Glow azul intenso detrás */}
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent blur-3xl rounded-full z-0 opacity-80" />
-                
-                {/* Imagen del Abogado/Hero (Placeholder Criminal) */}
-                <div className="relative z-10 w-full h-full">
-                   <Image
-                     src="/criminal-hero.png" // PLACEHOLDER TEMPORAL PARA CRIMINAL
-                     alt="Abogado de Ley Criminal"
-                     fill
-                     className="object-contain object-bottom drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]" // Glow azul en la imagen
-                     priority
-                   />
-                </div>
+           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
+              
+              {/* --- COLUMNA IZQUIERDA: IMAGEN (POSICIÓN MEDIA - CENTRADA VERTICALMENTE) --- */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="lg:col-span-5 relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center"
+              >
+                 {/* Glow azul intenso detrás */}
+                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent blur-3xl rounded-full z-0 opacity-80" />
+                 
+                 {/* Imagen del Abogado/Hero - POSICIÓN MEDIA (CENTRADA) */}
+                 <div className="relative z-10 w-full h-full flex items-center justify-center">
+                    <div className="relative w-full h-full">
+                       <Image
+                         src="/criminal-hero.png"
+                         alt="Abogado de Ley Criminal"
+                         fill
+                         className="object-contain object-center drop-shadow-[0_0_30px_rgba(56,189,248,0.6)]"
+                         priority
+                       />
+                    </div>
+                 </div>
 
-                {/* Cuadro Flotante de Estadísticas (Usamos 12K como placeholder) */}
-                <motion.div
-                   initial={{ opacity: 0, x: -20 }} 
-                   animate={{ opacity: 1, x: 0 }} 
-                   transition={{ delay: 1, duration: 1 }}
-                   className="absolute bottom-10 left-[-20px] z-20 p-6 border border-white/10 rounded-2xl backdrop-blur-xl bg-white/5 shadow-2xl"
-                >
-                   <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50">
-                      <span className="text-5xl font-bold tracking-tighter">12K</span> 
-                      <span className="text-4xl font-thin text-[#B2904D] ml-1">+</span>
-                   </div>
-                   <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
-                      {t('stats')}
-                   </p>
-                </motion.div>
-             </motion.div>
+                 {/* Cuadro Flotante de Estadísticas (12K Casos) */}
+                 <motion.div
+                    initial={{ opacity: 0, x: -20 }} 
+                    animate={{ opacity: 1, x: 0 }} 
+                    transition={{ delay: 1, duration: 1 }}
+                    className="absolute bottom-4 md:bottom-10 left-0 md:left-[-20px] z-20 p-4 md:p-6 border border-white/10 rounded-2xl backdrop-blur-xl bg-white/5 shadow-2xl"
+                 >
+                    <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50">
+                       <span className="text-4xl md:text-5xl font-bold tracking-tighter">12K</span> 
+                       <span className="text-3xl md:text-4xl font-thin text-[#B2904D] ml-1">+</span>
+                    </div>
+                    <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
+                       {t('stats')}
+                    </p>
+                 </motion.div>
+              </motion.div>
 
-             {/* --- COLUMNA DERECHA: TEXTO --- */}
-             <div className="lg:col-span-7 space-y-8 pl-0 lg:pl-12 relative z-20">
-                {/* Línea decorativa */}
-                <motion.div 
+              {/* --- COLUMNA DERECHA: TEXTO --- */}
+              <div className="lg:col-span-7 space-y-6 md:space-y-8 pl-0 lg:pl-12 relative z-20">
+                 {/* Línea decorativa */}
+                 <motion.div 
                    initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
                    className="absolute left-0 top-10 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-[#B2904D]/50 to-transparent origin-top hidden lg:block" 
-                />
+                 />
 
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#B2904D]/30 bg-[#B2904D]/10 backdrop-blur-md">
-                   <Star size={14} className="text-[#B2904D] fill-[#B2904D]" />
-                   <span className="text-[#B2904D] text-xs font-bold tracking-widest uppercase">{t('badge')}</span>
-                </div>
+                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#B2904D]/30 bg-[#B2904D]/10 backdrop-blur-md">
+                    <Star size={14} className="text-[#B2904D] fill-[#B2904D]" />
+                    <span className="text-[#B2904D] text-xs font-bold tracking-widest uppercase">{t('badge')}</span>
+                 </div>
 
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin text-white tracking-tight leading-[0.9]">
-                   <span className="block overflow-hidden pb-2 perspective-[400px]">
-                      <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90">
+                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin text-white tracking-tight leading-[0.9]">
+                    <span className="block overflow-hidden pb-2 perspective-[400px]">
+                       <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90">
                           {t('heroTitle1')}
-                      </motion.span>
-                   </span>
-                   <span className="block overflow-hidden pb-4 perspective-[400px]">
-                      <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] via-[#F3E5AB] to-[#B2904D]">
+                       </motion.span>
+                    </span>
+                    <span className="block overflow-hidden pb-4 perspective-[400px]">
+                       <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] via-[#F3E5AB] to-[#B2904D]">
                           {t('heroTitle2')}
-                      </motion.span>
-                   </span>
-                </h1>
+                       </motion.span>
+                    </span>
+                 </h1>
 
-                <motion.p 
-                   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-                   className="text-xl text-blue-100/70 font-light max-w-xl leading-relaxed border-l border-white/10 pl-6"
-                >
-                   {t('heroDescription')}
-                </motion.p>
+                 <motion.p 
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
+                    className="text-lg md:text-xl text-blue-100/70 font-light max-w-xl leading-relaxed border-l border-white/10 pl-4 md:pl-6"
+                 >
+                    {t('heroDescription')}
+                 </motion.p>
 
-                <motion.div 
-                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-                   className="flex flex-wrap gap-4 pt-4"
-                >
-                   <a href="#contacto" className="px-8 py-4 bg-[#B2904D] hover:bg-white text-[#001540] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(178,144,77,0.4)] flex items-center gap-2 group">
-                      <PhoneCall size={20} />
-                      {t('ctaConsultation')}
-                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
-                   </a>
-                   <a href="#casos" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/10 flex items-center gap-2 group">
-                      {t('ctaCases')}
-                   </a>
-                </motion.div>
-             </div>
+                 <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
+                    className="flex flex-wrap gap-4 pt-4"
+                 >
+                    <a href="#contacto" className="px-6 md:px-8 py-3 md:py-4 bg-[#B2904D] hover:bg-white text-[#001540] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(178,144,77,0.4)] flex items-center gap-2 group text-sm md:text-base">
+                       <PhoneCall size={18} className="md:w-5 md:h-5" />
+                       {t('ctaConsultation')}
+                       <ArrowRight size={16} className="md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform"/>
+                    </a>
+                    <a href="#casos" className="px-6 md:px-8 py-3 md:py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/10 flex items-center gap-2 group text-sm md:text-base">
+                       {t('ctaCases')}
+                    </a>
+                 </motion.div>
+              </div>
 
            </div>
         </div>
@@ -840,10 +838,8 @@ export default function CriminalLawPage() {
         </div>
       </section>
 
-      {/* =========================================================================
-          4. CONTACT FORM - Eliminado el texto de encabezado
-      ========================================================================= */}
-      <section id="contacto" className="relative py-32 z-10">
+      {/* --- CONTACT FORM --- */}
+      <section id="contacto" className="relative py-32 z-10 bg-transparent">
         
         <div className="max-w-4xl mx-auto px-4 relative z-10">
           
@@ -855,10 +851,11 @@ export default function CriminalLawPage() {
             className="relative z-10 p-8 md:p-12 bg-white/5 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white/10" 
           >
              <div className="text-white"> 
-               {/* Se eliminan el h2 y p que contenían el texto solicitado */}
-               <ContactForm /> 
+                <h2 className="text-3xl font-black mb-6">{t('requestEvaluation')}</h2>
+                <p className="text-white/70 mb-8">{t('heroDescription')}</p>
+                <ContactForm /> 
              </div>
-           
+            
           </motion.div>
         </div>
       </section>
