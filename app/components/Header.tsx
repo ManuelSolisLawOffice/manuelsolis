@@ -123,7 +123,10 @@ export default function HeaderProfessional() {
     },
     { 
       name: language === 'es' ? 'Clientes' : 'Clients',
-      href: `/${language}/clientes`,
+      // ¡CAMBIO AQUÍ! Ahora apunta a la URL externa
+      href: 'https://solislawfirm.com',
+      // Agregamos 'external' para saber que debemos usar <a> o <Link legacyBehavior> con target='_blank' si es necesario, aunque en este caso usamos Link sin target, que Next.js manejará correctamente.
+      type: 'external' 
     },
   ];
 
@@ -131,6 +134,44 @@ export default function HeaderProfessional() {
     setLanguage(lang);
     setIsLangMenuOpen(false);
     setIsMenuOpen(false);
+  };
+
+  const renderLink = (item: typeof menuItems[0], isMobile: boolean = false) => {
+    // Para enlaces externos, usamos <a> con target="_blank" por si acaso, aunque no es estrictamente necesario para la funcionalidad.
+    if (item.type === 'external') {
+      return (
+        <a 
+          href={item.href}
+          target="_blank" // Se recomienda para enlaces externos
+          rel="noopener noreferrer" // Mejora de seguridad
+          onClick={() => isMobile && setIsMenuOpen(false)}
+          className={`
+            ${isMobile ? 
+              'block text-white/90 group-hover:text-white text-lg font-thin uppercase tracking-[0.2em]' : 
+              'text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm'
+            }
+          `}
+        >
+          {item.name}
+        </a>
+      );
+    }
+
+    // Para enlaces internos (o que no son dropdowns), usamos Link de Next
+    return (
+      <Link 
+        href={item.href}
+        onClick={() => isMobile && setIsMenuOpen(false)}
+        className={`
+          ${isMobile ? 
+            'block text-white/90 group-hover:text-white text-lg font-thin uppercase tracking-[0.2em]' : 
+            'text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm'
+          }
+        `}
+      >
+        {item.name}
+      </Link>
+    );
   };
 
   return (
@@ -174,12 +215,18 @@ export default function HeaderProfessional() {
                 {menuItems.map((item) => (
                   <div key={item.name} className="relative group">
                     <div className="flex items-center gap-1 cursor-pointer py-3">
-                      <Link 
-                        href={item.href}
-                        className="text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm"
-                      >
-                        {item.name}
-                      </Link>
+                      {item.submenu || item.type === 'external' ? (
+                        // Renderiza el componente de enlace (Link o <a>)
+                        renderLink(item)
+                      ) : (
+                        // Para items sin submenu y tipo 'link'
+                        <Link 
+                          href={item.href}
+                          className="text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm"
+                        >
+                          {item.name}
+                        </Link>
+                      )}
                       {item.submenu && (
                         <ChevronDown className="w-2.5 h-2.5 text-white/60 group-hover:text-white transition-transform duration-500 group-hover:rotate-180" />
                       )}
@@ -250,7 +297,7 @@ export default function HeaderProfessional() {
                   href={`/${language}/join-in`}
                   className="text-[10px] font-medium uppercase tracking-[0.15em] bg-[#B2904D] text-[#001026] px-4 py-2 rounded-lg transition-all duration-300 hover:opacity-90 shadow-md transform hover:-translate-y-[1px]"
               >
-                  {joinInText}
+                {joinInText}
               </Link>
             </div>
 
@@ -322,7 +369,8 @@ export default function HeaderProfessional() {
                       {item.submenu ? (
                         <span>{item.name}</span>
                       ) : (
-                        <Link href={item.href} onClick={() => setIsMenuOpen(false)}>{item.name}</Link>
+                        // Renderiza el enlace móvil (Link o <a>)
+                        renderLink(item, true)
                       )}
                       {item.submenu && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openSubmenu === item.key ? 'rotate-180' : 'opacity-50'}`} />}
                     </div>
@@ -359,13 +407,13 @@ export default function HeaderProfessional() {
                       onClick={() => setIsMenuOpen(false)}
                       className="w-full text-center text-[14px] font-medium uppercase tracking-[0.2em] bg-[#B2904D] text-[#001026] px-4 py-3 rounded-xl transition-all duration-300 hover:opacity-90 shadow-lg"
                     >
-                        {language === 'es' ? 'INICIAR CONSULTA' : 'START CONSULTATION'}
+                      {language === 'es' ? 'INICIAR CONSULTA' : 'START CONSULTATION'}
                     </Link>
 
                     <div className="flex gap-4">
-                        <button onClick={() => toggleLang('es')} className={`text-xs tracking-widest ${language === 'es' ? 'text-white font-medium' : 'text-gray-500'}`}>ES</button>
-                        <div className="w-[1px] h-4 bg-white/20"></div>
-                        <button onClick={() => toggleLang('en')} className={`text-xs tracking-widest ${language === 'en' ? 'text-white font-medium' : 'text-gray-500'}`}>EN</button>
+                      <button onClick={() => toggleLang('es')} className={`text-xs tracking-widest ${language === 'es' ? 'text-white font-medium' : 'text-gray-500'}`}>ES</button>
+                      <div className="w-[1px] h-4 bg-white/20"></div>
+                      <button onClick={() => toggleLang('en')} className={`text-xs tracking-widest ${language === 'en' ? 'text-white font-medium' : 'text-gray-500'}`}>EN</button>
                     </div>
                 </div>
 
