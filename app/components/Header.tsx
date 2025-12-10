@@ -42,7 +42,7 @@ export default function HeaderProfessional() {
   const phoneNumber = "1-888-676-1238";
   const phoneLink = "tel:18886761238";
   const callText = language === 'es' ? 'Llámanos ahora para una consulta gratuita:' : 'Call us now for a free consultation:';
-  const joinInText = language === 'es' ? 'UNIRSE' : 'JOIN IN'; 
+  const joinInText = language === 'es' ? 'REGISTRATE' : 'REGISTER'; 
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 20);
