@@ -147,7 +147,7 @@ function FormContent({ formData, isSubmitting, submitStatus, handleSubmit, handl
                                 'Acepto los',
                                 'I accept the'
                             )}{' '}
-                            <a href={`/${lang}/terminos`} className="text-[#B2904D] hover:text-white transition-colors font-bold underline decoration-dotted">
+                            <a href={`/${lang}/sms-terminos`} className="text-[#B2904D] hover:text-white transition-colors font-bold underline decoration-dotted">
                                 {t('Términos de Servicio', 'Terms of Service')}
                             </a>{' '}
                             {t('y he leído la', 'and have read the')}{' '}
@@ -205,7 +205,7 @@ function FormContent({ formData, isSubmitting, submitStatus, handleSubmit, handl
                             ) : (
                                 <>
                                     <ShieldCheck size={22} className={!formData.acceptedTerms ? "text-slate-500" : "text-[#001026]"} />
-                                    {t('Unirse', 'Join In')}
+                                    {t('Registrarse', 'Register')}
                                 </>
                             )}
                         </span>

@@ -8,7 +8,6 @@ import { useLanguage } from '../context/LanguageContext'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Outfit } from 'next/font/google'
 
-// IMPORTANTE: Agregué pesos más gruesos (600, 700) para que el número grande se vea bien en bold.
 const font = Outfit({ 
   subsets: ['latin'], 
   weight: ['200', '300', '400', '500', '600', '700'] 
@@ -42,7 +41,7 @@ export default function HeaderProfessional() {
   const phoneNumber = "1-888-676-1238";
   const phoneLink = "tel:18886761238";
   const callText = language === 'es' ? 'Llámanos ahora para una consulta gratuita:' : 'Call us now for a free consultation:';
-  const joinInText = language === 'es' ? 'REGISTRATE' : 'REGISTER'; 
+  const joinInText = language === 'es' ? 'REGÍSTRATE' : 'REGISTER'; 
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 20);
@@ -75,10 +74,9 @@ export default function HeaderProfessional() {
       href: `/${language}/clientes-detenidos`,
       type: 'link'
     },
-    // --- OFICINAS ACTUALIZADAS ---
     { 
       name: language === 'es' ? 'Oficinas' : 'Offices',
-      href: '', 
+      href: `/${language}/oficinas`, 
       type: 'dropdown',
       key: 'offices',
       submenu: [
@@ -98,7 +96,6 @@ export default function HeaderProfessional() {
         { name: 'Memphis Airways', href: `/${language}/oficinas/airways` },
       ]
     },
-    // ------------------------------------
     {
       name: language === 'es' ? 'Testimonios' : 'Testimonials',
       href: `/${language}/Testimonios`,
@@ -123,9 +120,7 @@ export default function HeaderProfessional() {
     },
     { 
       name: language === 'es' ? 'Clientes' : 'Clients',
-      // ¡CAMBIO AQUÍ! Ahora apunta a la URL externa
       href: 'https://solislawfirm.com',
-      // Agregamos 'external' para saber que debemos usar <a> o <Link legacyBehavior> con target='_blank' si es necesario, aunque en este caso usamos Link sin target, que Next.js manejará correctamente.
       type: 'external' 
     },
   ];
@@ -137,13 +132,12 @@ export default function HeaderProfessional() {
   };
 
   const renderLink = (item: typeof menuItems[0], isMobile: boolean = false) => {
-    // Para enlaces externos, usamos <a> con target="_blank" por si acaso, aunque no es estrictamente necesario para la funcionalidad.
     if (item.type === 'external') {
       return (
         <a 
           href={item.href}
-          target="_blank" // Se recomienda para enlaces externos
-          rel="noopener noreferrer" // Mejora de seguridad
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => isMobile && setIsMenuOpen(false)}
           className={`
             ${isMobile ? 
@@ -157,7 +151,6 @@ export default function HeaderProfessional() {
       );
     }
 
-    // Para enlaces internos (o que no son dropdowns), usamos Link de Next
     return (
       <Link 
         href={item.href}
@@ -185,7 +178,6 @@ export default function HeaderProfessional() {
         }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* PARTE SUPERIOR: Logo y Menú */}
         <div 
           className="w-full transition-all duration-500"
           style={{ 
@@ -195,7 +187,6 @@ export default function HeaderProfessional() {
         >
           <div className="container mx-auto px-6 lg:px-12 flex items-center">
             
-            {/* Logo */}
             <Link href={`/${language}`} className="relative z-50 mr-12 lg:mr-16">
               <div className={`relative transition-all duration-700 ease-in-out ${isScrolled ? 'w-[140px]' : 'w-[190px]'}`}>
                 <Image
@@ -209,17 +200,21 @@ export default function HeaderProfessional() {
               </div>
             </Link>
 
-            {/* Menú Desktop - Alineado a la izquierda (junto al logo) */}
             <div className="hidden lg:flex items-center">
               <nav className="flex items-center gap-6 xl:gap-8">
                 {menuItems.map((item) => (
                   <div key={item.name} className="relative group">
                     <div className="flex items-center gap-1 cursor-pointer py-3">
-                      {item.submenu || item.type === 'external' ? (
-                        // Renderiza el componente de enlace (Link o <a>)
+                      {item.submenu ? (
+                        <Link 
+                          href={item.href}
+                          className="text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm"
+                        >
+                          {item.name}
+                        </Link>
+                      ) : item.type === 'external' ? (
                         renderLink(item)
                       ) : (
-                        // Para items sin submenu y tipo 'link'
                         <Link 
                           href={item.href}
                           className="text-[12px] font-light uppercase tracking-[0.2em] text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-sm"
@@ -232,13 +227,10 @@ export default function HeaderProfessional() {
                       )}
                     </div>
                     
-                    {/* Línea decorativa */}
                     <span className="absolute bottom-1 left-0 w-0 h-[0.5px] bg-sky-200 transition-all duration-500 ease-out group-hover:w-full box-shadow-glow" />
 
-                    {/* Submenu */}
                     {item.submenu && (
                       <div className="absolute top-full left-0 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 perspective-[1000px]">
-                        {/* Se aumentó el max-height y se añadió scroll para las oficinas */}
                         <div className="min-w-[260px] bg-[#0b1c33]/70 backdrop-blur-3xl rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] py-4 px-2 border border-white/10 transform origin-top transition-transform duration-500 max-h-[80vh] overflow-y-auto scrollbar-hide">
                           {item.submenu.map((subItem) => (
                             <Link
@@ -259,11 +251,9 @@ export default function HeaderProfessional() {
               </nav>
             </div>
 
-            {/* Separador y Acciones a la Derecha */}
             <div className="hidden lg:flex items-center gap-6 ml-auto">
               <div className="h-6 w-[0.5px] bg-white/20" />
 
-              {/* Selector Idioma */}
               <div className="relative group">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
@@ -292,7 +282,6 @@ export default function HeaderProfessional() {
                 </AnimatePresence>
               </div>
 
-              {/* BOTÓN JOIN IN (Sin Flecha) */}
               <Link 
                   href={`/${language}/join-in`}
                   className="text-[10px] font-medium uppercase tracking-[0.15em] bg-[#B2904D] text-[#001026] px-4 py-2 rounded-lg transition-all duration-300 hover:opacity-90 shadow-md transform hover:-translate-y-[1px]"
@@ -301,14 +290,14 @@ export default function HeaderProfessional() {
               </Link>
             </div>
 
-            {/* Mobile Actions: Phone Icon + Toggle (Alineado a la derecha) */}
             <div className="lg:hidden flex items-center gap-4 ml-auto">
               <a 
                 href={phoneLink}
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 border border-white/10 text-sky-300 hover:text-white hover:bg-white/10 transition-all"
+                className="flex items-center gap-2 text-sky-300 hover:text-white transition-all"
                 aria-label="Call us"
               >
                 <Phone size={16} />
+                <span className="text-xs font-medium tracking-wider">{phoneNumber}</span>
               </a>
 
               <button
@@ -321,24 +310,17 @@ export default function HeaderProfessional() {
           </div>
         </div>
 
-        {/* PARTE INFERIOR: Línea de teléfono (SOLO DESKTOP) - ARREGLADA */}
-        {/* Se mantiene el fondo sutil bg-white/[0.02] y el borde original */}
         <div className="hidden lg:block w-full border-t border-white/5 bg-white/[0.02]">
           <div className="container mx-auto px-6 lg:px-12">
             <a 
               href={phoneLink}
-              // Aumenté ligeramente el padding vertical (py-3) para darle espacio al texto más grande
-              // Aumenté el gap entre el texto y el número (gap-4)
               className="flex items-center justify-center gap-4 py-3 w-full group cursor-pointer hover:bg-white/5 transition-all duration-300"
             >
-              {/* Texto descriptivo aumentado ligeramente a text-xs */}
               <span className="text-xs uppercase tracking-[0.2em] text-white/70 group-hover:text-white transition-colors font-light">
                 {callText}
               </span>
               <div className="flex items-center gap-3">
-                  {/* Icono aumentado a w-4 h-4, manteniendo el color sky-300 original */}
                   <Phone className="w-4 h-4 text-sky-300 group-hover:text-white transition-colors" />
-                  {/* Número aumentado significativamente a text-lg y font-bold, manteniendo colores originales */}
                   <span className="text-lg font-bold tracking-widest text-white group-hover:text-sky-200 transition-colors">
                     {phoneNumber}
                   </span>
@@ -349,7 +331,6 @@ export default function HeaderProfessional() {
 
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -369,7 +350,6 @@ export default function HeaderProfessional() {
                       {item.submenu ? (
                         <span>{item.name}</span>
                       ) : (
-                        // Renderiza el enlace móvil (Link o <a>)
                         renderLink(item, true)
                       )}
                       {item.submenu && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openSubmenu === item.key ? 'rotate-180' : 'opacity-50'}`} />}
@@ -399,9 +379,7 @@ export default function HeaderProfessional() {
                   </div>
                 ))}
                 
-                {/* Mobile Language and Join In CTA */}
                 <div className="pt-4 flex flex-col gap-4">
-                    {/* BOTÓN JOIN IN (Mobile) */}
                     <Link 
                       href={`/${language}/join-in`}
                       onClick={() => setIsMenuOpen(false)}

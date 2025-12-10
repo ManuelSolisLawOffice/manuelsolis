@@ -294,7 +294,7 @@ export default function ContactForm() {
                           'Acepto los',
                           'I accept the'
                       )}{' '}
-                      <a href="/terminos" className="text-[#B2904D] hover:text-white transition-colors font-bold underline decoration-dotted">
+                      <a href="/sms-terminos" className="text-[#B2904D] hover:text-white transition-colors font-bold underline decoration-dotted">
                           {t('Términos de Servicio', 'Terms of Service')}
                       </a>{' '}
                       {t('y he leído la', 'and have read the')}{' '}
@@ -353,7 +353,7 @@ export default function ContactForm() {
                     ) : (
                       <>
                         <ShieldCheck size={22} className={!formData.acceptedTerms ? "text-slate-500" : "text-[#001026]"} />
-                        {t('Unirse', 'Join In')}
+                        {t('Registrarse', 'Register')}
                       </>
                     )}
                   </span>
