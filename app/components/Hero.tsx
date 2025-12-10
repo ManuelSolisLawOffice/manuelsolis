@@ -171,7 +171,7 @@ export default function HeroProfessional() {
                 <div className="group">
                   <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 justify-end">
                     <span className="text-5xl font-extralight tracking-tighter">35</span> 
-                    <span className="text-4xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
+                    <span className="text-xl font-thin text-[#B2904D] ml-1 group-hover:rotate-12 transition-transform">+</span>
                   </div>
                   <p className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-medium">
                     {language === 'es' ? 'Años de Experiencia' : 'Years Experience'}
@@ -238,7 +238,7 @@ export default function HeroProfessional() {
               transition={{ delay: 0.6, duration: 1 }}
               className="text-xl text-white/70 font-extralight max-w-lg leading-relaxed pl-4 border-l border-white/10"
             >
-                <span className="text-white font-normal">Manuel Solis:</span> 
+                <span className="text-white font-normal">Manuel Solís: </span> 
                 {t.hero?.description || (language === 'es' ? ' Nuestros abogados de inmigración están aquí para asistirle. Somos la opción más confiable para resolver sus desafíos legales con éxito.' : ' Expert immigration attorneys here to assist you. We are the most reliable option to successfully resolve your legal challenges.')}
             </motion.p>
 
@@ -251,7 +251,7 @@ export default function HeroProfessional() {
               <div className="group">
                 <div className="flex items-baseline text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-sky-200/50 group-hover:to-sky-400 transition-all duration-500">
                   <span className="text-7xl lg:text-9xl font-bold tracking-tighter">50,000</span>
-                  <span className="text-5xl font-thin text-[#B2904D] ml-2 group-hover:rotate-12 transition-transform">+</span>
+                  <span className="text-8xl font-thin text-[#B2904D] ml-2 group-hover:rotate-12 transition-transform">+</span>
                 </div>
                 <p className="text-sm text-white/50 uppercase tracking-[0.3em] mt-2 font-medium group-hover:text-white/80 transition-colors">
                   {language === 'es' ? 'Casos Ganados' : 'Cases Won'}
@@ -353,7 +353,7 @@ export default function HeroProfessional() {
       )}
 
       <style jsx global>{`
-        .mask-linear-fade {
+        .mask-linear-fade {   
           mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
       `}</style>

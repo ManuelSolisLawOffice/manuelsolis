@@ -159,7 +159,7 @@ const texts = {
     mainTitle: { es: "LEY CRIMINAL", en: "CRIMINAL LAW" },
     heroTitle1: { es: "Expertos en", en: "Experts in" },
     heroTitle2: { es: "Defensa Penal", en: "Criminal Defense" }, 
-    heroDescription: { es: "Desde DWI hasta hurto y asalto. Protegemos su libertad y su futuro. Su primera llamada debe ser a nuestro abogado defensor.", en: "From DWI to theft and assault. We protect your freedom and future. Your first call should be to our defense attorney." },
+    heroDescription: { es: "Desde DWI, hasta hurto y asalto. Protegemos su libertad y su futuro. Su primera llamada debe ser a nuestro abogado defensor.", en: "From DWI to theft and assault. We protect your freedom and future. Your first call should be to our defense attorney." },
     stats: { es: "Casos Defendidos", en: "Cases Defended" },
     casesTitle: { es: "Delitos que Defendemos", en: "Offenses We Defend" },
     ctaConsultation: { es: "Consulta Ahora", en: "Consult Now" },

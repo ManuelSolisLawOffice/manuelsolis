@@ -55,7 +55,7 @@ const uiText = {
   hours: { es: 'Horario', en: 'Hours' },
   viewMap: { es: 'Ver en mapa', en: 'View on map' },
   services: { es: 'Servicios en esta sede', en: 'Services at this Location' },
-  team: { es: 'Nuestro Equipo Legal', en: 'Our Legal Team' }
+  team: { es: 'Nuestro "Equipo Legal"', en: 'Our "Legal Team"' }
 };
 
 export default function OfficeAirwaysPage() {

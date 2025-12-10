@@ -71,11 +71,11 @@ const attorneys = [
     bio: {
       es: [
         "Manuel E. Solís III se ocupa principalmente de la ley de inmigración en las Oficinas Legales de Manuel Solís. Se graduó de la Universidad de Houston Downtown y completó su licenciatura en derecho en South Texas College of Law Houston.",
-        "El Sr. Solís es un apasionado de ayudar a la comunidad y a las personas necesitadas."
+        "El Abogado Manuel Solís III es un apasionado de ayudar a la comunidad y a las personas necesitadas."
       ],
       en: [
         "Manuel E. Solís III primarily handles immigration law at the Law Offices of Manuel Solís. He graduated from the University of Houston Downtown and completed his law degree at South Texas College of Law Houston.",
-        "Mr. Solís is passionate about helping the community and people in need."
+        "Manuel E. Solís III is passionate about helping the community and people in need."
       ]
     },
     education: ["Universidad de Houston Downtown", "South Texas College of Law Houston"],
@@ -600,7 +600,7 @@ export default function AttorneysPage() {
       education: { es: 'Educación', en: 'Education' },
       admissions: { es: 'Admisiones', en: 'Admissions' },
       achievements: { es: 'Logros', en: 'Achievements' },
-      button: { es: 'Solicitar Consulta Privada', en: 'Request Private Consultation' },
+      button: { es: 'Solicitar Consulta', en: 'Request Consultation' },
       defaultBio: {
         es: 'es un miembro fundamental de nuestro equipo legal. Con una trayectoria dedicada a la defensa de los derechos de nuestros clientes, aporta experiencia, integridad y un compromiso inquebrantable para lograr los mejores resultados posibles.',
         en: 'is a fundamental member of our legal team. With a career dedicated to defending our clients\' rights, they bring experience, integrity, and an unwavering commitment to achieving the best possible results.'

@@ -26,8 +26,8 @@ const interfaceTexts = {
     lastUpdated: { es: 'Última actualización: 5 de diciembre de 2025', en: 'Last updated: December 5, 2025' },
   },
   generalStatement: {
-    es: 'La Oficina Legal de Manuel Solis (“nosotros”, “nuestro” o “nos”) se compromete a proteger su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y salvaguardamos su información cuando visita nuestro sitio web, envía formularios, se comunica con nuestra oficina o participa en nuestro programa de mensajería SMS/texto. Al utilizar nuestro sitio web o optar por recibir mensajes SMS, usted acepta las prácticas descritas en esta Política de Privacidad.',
-    en: 'The Law Office of Manuel Solis (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, submit forms, communicate with our office, or participate in our SMS/text messaging program. By using our website or opting in to receive SMS messages, you consent to the practices described in this Privacy Policy.'
+    es: 'La Oficina Legal de Manuel Solís (“nosotros”, “nuestro” o “nos”) se compromete a proteger su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y salvaguardamos su información cuando visita nuestro sitio web, envía formularios, se comunica con nuestra oficina o participa en nuestro programa de mensajería SMS/texto. Al utilizar nuestro sitio web o optar por recibir mensajes SMS, usted acepta las prácticas descritas en esta Política de Privacidad.',
+    en: 'The Law Office of Manuel Solís (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, submit forms, communicate with our office, or participate in our SMS/text messaging program. By using our website or opting in to receive SMS messages, you consent to the practices described in this Privacy Policy.'
   },
   
   // 1. Información que Recopilamos

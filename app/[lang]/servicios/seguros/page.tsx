@@ -292,14 +292,14 @@ export default function InsuranceClaimsPage() {
                    <span className="text-[#B2904D] text-xs font-bold tracking-widest uppercase">{t('badge')}</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin text-white tracking-tight leading-[0.9]">
-                   <span className="block overflow-hidden pb-2 perspective-[400px]">
-                      <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-thin text-white tracking-tight leading-[1.4]">
+                   <span className="block overflow-visible pb-1 md:pb-2 perspective-[400px]">
+                      <motion.span custom={0} variants={textRevealVariant} initial="hidden" animate="visible" className="block text-white/90 whitespace-normal">
                           {t('heroTitle1')}
                       </motion.span>
                    </span>
-                   <span className="block overflow-hidden pb-4 perspective-[400px]">
-                      <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] via-[#F3E5AB] to-[#B2904D]">
+                   <span className="block overflow-visible pb-2 md:pb-4 perspective-[400px]">
+                      <motion.span custom={1} variants={textRevealVariant} initial="hidden" animate="visible" className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B2904D] via-[#F3E5AB] to-[#B2904D] whitespace-normal">
                           {t('heroTitle2')}
                       </motion.span>
                    </span>
@@ -331,9 +331,6 @@ export default function InsuranceClaimsPage() {
         </div>
       </section>
 
-      {/* Resto del código permanece igual - Grid de Casos, Modal, Video, Process, Contact */}
-      {/* ... (código completo pero omitido aquí por espacio) */}
-      
       <Footer />
     </div>
   );

@@ -24,8 +24,8 @@ const interfaceTexts = {
   },
   mission: {
     solis: {
-        es: '**Law Offices of Manuel Solis** fue fundado por el abogado **Manuel Solis**, un defensor incansable de los derechos de los inmigrantes. Con más de **35 años de experiencia** y un profundo conocimiento de las leyes de inmigración, el despacho se ha consolidado como un referente legal.',
-        en: '**Law Offices of Manuel Solis** was founded by attorney **Manuel Solis**, a tireless advocate for immigrant rights. With over **35 years of experience** and a deep knowledge of immigration laws, the firm has established itself as a legal benchmark.'
+        es: '**Law Offices of Manuel Solís** fue fundado por el abogado **Manuel Solís**, un defensor incansable de los derechos de los inmigrantes. Con más de **35 años de experiencia** y un profundo conocimiento de las leyes de inmigración, el despacho se ha consolidado como un referente legal.',
+        en: '**Law Offices of Manuel Solís** was founded by attorney **Manuel Solís**, a tireless advocate for immigrant rights. With over **35 years of experience** and a deep knowledge of immigration laws, the firm has established itself as a legal benchmark.'
     },
     commitment: {
         es: 'Nuestro compromiso es brindar **asesoría legal confiable, humana y cercana** a la comunidad, luchando incansablemente por mantener a las familias unidas y proteger sus derechos en este país.',

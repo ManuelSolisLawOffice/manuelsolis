@@ -35,7 +35,7 @@ export default function AIChatButton() {
       title: 'Manuel Solis Assistant',
       subtitle: 'Smart Legal AI',
       placeholder: 'Type your inquiry here...',
-      welcome: 'Welcome. I am the official AI for the Manuel Solis Law Firm. How can I guide you with your legal situation today?',
+      welcome: 'Welcome. I am the official AI for the Manuel Solís Law Firm. How can I guide you with your legal situation today?',
       examples: [
         'Information about Immigration',
         'I had a car accident',

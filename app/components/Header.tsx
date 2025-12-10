@@ -40,7 +40,7 @@ export default function HeaderProfessional() {
   // Configuración de contacto
   const phoneNumber = "1-888-676-1238";
   const phoneLink = "tel:18886761238";
-  const callText = language === 'es' ? 'Llámanos ahora para una consulta gratuita:' : 'Call us now for a free consultation:';
+  const callText = language === 'es' ? 'Llámanos ahora para una consulta:' : 'Call us now for a consultation:';
   const joinInText = language === 'es' ? 'REGÍSTRATE' : 'REGISTER'; 
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -119,7 +119,7 @@ export default function HeaderProfessional() {
         ]
     },
     { 
-      name: language === 'es' ? 'Clientes' : 'Clients',
+      name: language === 'es' ? 'Acceso a clientes' : 'Client access',
       href: 'https://solislawfirm.com',
       type: 'external' 
     },

@@ -123,12 +123,12 @@ const texts = {
     title: { es: 'Experiencia que hace la', en: 'Experience that makes the' },
     titleHighlight: { es: 'diferencia', en: 'difference' },
     stat1Title: { es: '50,000+', en: '50,000+' },
-    stat1Text: { es: 'Casos manejados exitosamente en 30 años.', en: 'Successful cases handled in 30 years.' },
+    stat1Text: { es: 'Casos manejados exitosamente en 35 años.', en: 'Successful cases handled in 35 years.' },
     stat2Title: { es: '24/7', en: '24/7' },
     stat2Text: { es: 'Monitoreo de su caso de detención.', en: 'Monitoring of your detention case.' },
     stat3Title: { es: 'Atención', en: 'Personalized' },
     stat3Text: { es: 'Personalizada y bilingüe.', en: 'and Bilingual Attention.' },
-    commitment: { es: 'El Despacho Legal de Manuel Solis se compromete a brindarle la defensa más vigorosa y la compasión que usted y su familia merecen durante esta difícil situación.', en: 'The Law Office of Manuel Solis is committed to providing you with the most vigorous defense and the compassion you and your family deserve during this difficult situation.' }
+    commitment: { es: 'Oficinas del Abogado Manuel Solís se compromete a brindarle la defensa más vigorosa y la compasión que usted y su familia merecen durante esta difícil situación.', en: 'The Law Office of Manuel Solís is committed to providing you with the most vigorous defense and the compassion you and your family deserve during this difficult situation.' }
   },
 
   // Sección de Recursos Gubernamentales 

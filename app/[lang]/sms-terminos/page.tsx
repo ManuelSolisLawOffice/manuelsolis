@@ -23,15 +23,15 @@ const interfaceTexts = {
   hero: {
     title: { es: 'TÉRMINOS DE SERVICIO SMS', en: 'SMS TERMS OF SERVICE' },
     subtitle: { 
-      es: 'Programa de Notificaciones: Solis Law Notifications', 
-      en: 'Program Name: Solis Law Notifications' 
+      es: 'Programa de Notificaciones: Solís Law Notifications', 
+      en: 'Program Name: Solís Law Notifications' 
     },
   },
   section1: {
     title: { es: '1. Descripción del Programa', en: '1. Program Description' },
     content: {
-      es: "La Oficina Legal de Manuel Solis ofrece un programa de mensajería de texto que proporciona actualizaciones relacionadas con su caso, recordatorios de citas, notificaciones importantes y otras comunicaciones relevantes a los servicios proporcionados por nuestra oficina legal. Al optar por participar, usted acepta recibir mensajes SMS recurrentes de la Oficina Legal de Manuel Solis.",
-      en: "The Law Office of Manuel Solis offers a text messaging program that provides updates related to your case, appointment reminders, important notifications, and other communications relevant to services provided by our law office. By opting in, you agree to receive recurring SMS messages from the Law Office of Manuel Solis."
+      es: "La Oficina Legal de Manuel Solís ofrece un programa de mensajería de texto que proporciona actualizaciones relacionadas con su caso, recordatorios de citas, notificaciones importantes y otras comunicaciones relevantes a los servicios proporcionados por nuestra oficina legal. Al optar por participar, usted acepta recibir mensajes SMS recurrentes de la Oficina Legal de Manuel Solís.",
+      en: "The Law Office of Manuel Solís offers a text messaging program that provides updates related to your case, appointment reminders, important notifications, and other communications relevant to services provided by our law office. By opting in, you agree to receive recurring SMS messages from the Law Office of Manuel Solís."
     }
   },
   section2: {
@@ -92,8 +92,8 @@ const interfaceTexts = {
   section7: {
     title: { es: '7. Elegibilidad del Usuario', en: '7. User Eligibility' },
     content: {
-      es: "Al optar por Solis Law Notifications, usted declara que:",
-      en: "By opting in to Solis Law Notifications, you represent that:"
+      es: "Al optar por Solís Law Notifications, usted declara que:",
+      en: "By opting in to Solís Law Notifications, you represent that:"
     },
     items: [
       { es: "Usted es el propietario o usuario autorizado del número de teléfono utilizado para inscribirse.", en: "You are the owner or authorized user of the phone number used to enroll," },
@@ -104,8 +104,8 @@ const interfaceTexts = {
   section8: {
     title: { es: '8. Modificaciones a los Términos', en: '8. Modifications to Terms' },
     content: {
-      es: "La Oficina Legal de Manuel Solis se reserva el derecho de actualizar o modificar estos Términos de Servicio en cualquier momento. La participación continua en el programa de mensajería constituye la aceptación de los términos actualizados.",
-      en: "The Law Office of Manuel Solis reserves the right to update or modify these Terms of Service at any time. Continued participation in the messaging program constitutes acceptance of the updated terms."
+      es: "La Oficina Legal de Manuel Solís se reserva el derecho de actualizar o modificar estos Términos de Servicio en cualquier momento. La participación continua en el programa de mensajería constituye la aceptación de los términos actualizados.",
+      en: "The Law Office of Manuel Solís reserves the right to update or modify these Terms of Service at any time. Continued participation in the messaging program constitutes acceptance of the updated terms."
     }
   },
   contactInfo: {
@@ -404,7 +404,7 @@ export default function SmsTermsPage() {
 
             <SectionTitle title={t('contactInfo.title')} />
             <div className="p-6 bg-[#001026] rounded-xl border border-white/10 space-y-4 shadow-inner">
-                <p className="text-base text-white font-medium">Law Office of Manuel Solis</p>
+                <p className="text-base text-white font-medium">Law Office of Manuel Solís</p>
                 <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-3 text-white/90">
                         <Phone size={18} className="text-sky-400" /> 

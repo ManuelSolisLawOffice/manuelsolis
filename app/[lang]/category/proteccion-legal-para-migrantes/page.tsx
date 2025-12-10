@@ -52,8 +52,8 @@ const texts = {
       date: { es: "febrero 18, 2025", en: "February 18, 2025" },
       isoDate: "2025-02-18",
       excerpt: {
-        es: "El Bufete del Abogado Manuel Solis destaca que todos los inmigrantes, sin importar su estatus migratorio, tienen derechos fundamentales protegidos en EE.UU. Es clave conocer estos derechos para defenderse ante situaciones adversas.",
-        en: "The Law Offices of Attorney Manuel Solis emphasize that all immigrants, regardless of their immigration status, have fundamental rights protected in the U.S. It is key to know these rights to defend oneself against adverse situations.",
+        es: "El Bufete del Abogado Manuel Solís destaca que todos los inmigrantes, sin importar su estatus migratorio, tienen derechos fundamentales protegidos en EE.UU. Es clave conocer estos derechos para defenderse ante situaciones adversas.",
+        en: "The Law Offices of Attorney Manuel Solís emphasize that all immigrants, regardless of their immigration status, have fundamental rights protected in the U.S. It is key to know these rights to defend oneself against adverse situations.",
       }
     },
     {
@@ -556,8 +556,8 @@ const texts = {
       date: { es: "marzo 17, 2020", en: "March 17, 2020" },
       isoDate: "2020-03-17",
       excerpt: {
-        es: "Las Oficinas Legales de Manuel Solis ahora buscan ayudar a las personas que han sido afectadas o creen que pudieron haber sido afectadas por el reciente Intercontinental Terminal Company (ITC) Incidente de una planta en Deer Park.",
-        en: "The Law Offices of Manuel Solis are now looking to help people who have been affected or believe they may have been affected by the recent Intercontinental Terminal Company (ITC) plant incident in Deer Park.",
+        es: "Las Oficinas Legales de Manuel Solís ahora buscan ayudar a las personas que han sido afectadas o creen que pudieron haber sido afectadas por el reciente Intercontinental Terminal Company (ITC) Incidente de una planta en Deer Park.",
+        en: "The Law Offices of Manuel Solís are now looking to help people who have been affected or believe they may have been affected by the recent Intercontinental Terminal Company (ITC) plant incident in Deer Park.",
       }
     },
     {
