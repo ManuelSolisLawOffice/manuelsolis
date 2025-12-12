@@ -47,6 +47,9 @@ export function middleware(request: NextRequest) {
   // Redireccionar a la ruta con locale
   const locale = getLocale(request);
   const newUrl = new URL(`/${locale}${pathname}`, request.url);
+
+  // --- CORRECCIÓN AQUÍ: Copiar los parámetros de búsqueda (UTMs) ---
+  newUrl.search = request.nextUrl.search;
   
   const response = NextResponse.redirect(newUrl);
   response.cookies.set('NEXT_LOCALE', locale, { maxAge: 31536000 }); // 1 año

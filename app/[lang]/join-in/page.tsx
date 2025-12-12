@@ -174,11 +174,11 @@ function FormContent({ formData, isSubmitting, submitStatus, handleSubmit, handl
                         </div>
                         <label htmlFor="marketingConsent" className="text-xs text-blue-200/80 leading-relaxed cursor-pointer select-none group-hover:text-blue-100 transition-colors">
                             {t(
-                                'Me gustaría recibir actualizaciones del Law Office of Manuel Solis al número de teléfono proporcionado. Pueden aplicar tarifas de mensajes y datos. Responda STOP para cancelar, HELP para ayuda.',
-                                'I would like to receive updates from the Law Office of Manuel Solis at the phone number provided. Message and data rates may apply. Reply STOP to cancel, HELP for help.'
+                                'Me gustaría recibir actualizaciones del Law Office of Manuel Solís al número de teléfono proporcionado. Pueden aplicar tarifas de mensajes y datos. Responda STOP para cancelar, HELP para ayuda.',
+                                'I would like to receive updates from the Law Office of Manuel Solís at the phone number provided. Message and data rates may apply. Reply STOP to cancel, HELP for help.'
                             )}{' '}
                             <a href={`/${lang}/sms-terminos`} className="text-[#B2904D] hover:text-white transition-colors font-bold underline decoration-dotted">
-                                {t('Términos de Servicio SMS', 'Law Office of Manuel Solis SMS Terms of Service')}
+                                {t('Términos de Servicio SMS', 'Law Office of Manuel Solís SMS Terms of Service')}
                             </a>
                         </label>
                     </motion.div>

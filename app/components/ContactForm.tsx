@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
+import { useSearchParams } from 'next/navigation' // <--- IMPORTANTE: Importamos esto
 import { motion, AnimatePresence, Variants } from 'framer-motion' 
 import { User, Phone, Mail, MessageSquare, CheckCircle2, ShieldCheck, Zap, XCircle } from 'lucide-react'
 
@@ -91,6 +92,9 @@ export default function ContactForm() {
   const { language } = useLanguage();
   const lang = language as 'es' | 'en';
   
+  // --- CAPTURA DE PARÁMETROS UTM ---
+  const searchParams = useSearchParams();
+
   // Estado actualizado con dos checkboxes separados
   const [formData, setFormData] = useState({ 
       firstName: '', 
@@ -112,6 +116,15 @@ export default function ContactForm() {
     
     setIsSubmitting(true);
     setSubmitStatus('idle');
+
+    // Recuperamos los valores UTM al momento de enviar
+    const utmData = {
+        utm_source: searchParams.get('utm_source') || '',
+        utm_medium: searchParams.get('utm_medium') || '',
+        utm_campaign: searchParams.get('utm_campaign') || '',
+        utm_content: searchParams.get('utm_content') || '',
+        utm_term: searchParams.get('utm_term') || ''
+    };
     
     try {
         const response = await fetch(API_URL, {
@@ -121,6 +134,7 @@ export default function ContactForm() {
             },
             body: JSON.stringify({
                 ...formData,
+                ...utmData, // <-- AÑADIMOS AQUÍ LOS DATOS UTM
                 // Mapeamos los campos para Zapier/Backend
                 // receiveUpdates ahora es el check de marketing (opcional)
                 receiveUpdates: formData.marketingConsent, 
