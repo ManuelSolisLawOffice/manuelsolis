@@ -2,8 +2,22 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Como Puedo Arreglar',
-  description: 'Oficinas Legales de Manuel Solis',
+  title: 'Manuel Solis Law Firm',
+  description: 'Professional legal services - Immigration, Family Law, Criminal Law, Accidents',
+  
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+    other: [
+      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#009b3a' },
+      { rel: 'manifest', url: '/site.webmanifest' },
+    ],
+  },
+  
+  themeColor: '#051120',
 };
 
 export default function RootLayout({
@@ -11,5 +25,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children; // Solo pasa los children, el html/body viene del [lang]/layout
+  return children;
 }

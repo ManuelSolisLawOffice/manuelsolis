@@ -29,6 +29,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: t.seo.home.description,
     keywords: t.seo.home.keywords,
     authors: [{ name: 'Manuel Solis Law Offices' }],
+    
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      ],
+      apple: '/apple-touch-icon.png',
+      other: [
+        { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#009b3a' },
+        { rel: 'manifest', url: '/site.webmanifest' },
+      ],
+    },
+    
+    themeColor: '#051120',
+    
     openGraph: {
       title: t.seo.home.title,
       description: t.seo.home.description,
@@ -45,12 +60,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       ],
     },
+    
     twitter: {
       card: 'summary_large_image',
       title: t.seo.home.title,
       description: t.seo.home.description,
       images: [`${baseUrl}/og-image.jpg`],
     },
+    
     robots: {
       index: true,
       follow: true,
@@ -62,6 +79,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
+    
     alternates: {
       canonical: `${baseUrl}/${currentLang}`,
       languages: {
@@ -69,6 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         'en-US': `${baseUrl}/en`,
       },
     },
+    
     other: {
       'og:site_name': 'Manuel Solis',
       'article:publisher': 'https://www.facebook.com/manuelsolis',
